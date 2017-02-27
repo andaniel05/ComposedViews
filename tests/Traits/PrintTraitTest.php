@@ -2,9 +2,10 @@
 
 namespace PlatformPHP\ComposedViews\Tests\Traits;
 
+use PHPUnit\Framework\TestCase;
 use PlatformPHP\ComposedViews\Traits\PrintTrait;
 
-class PrintTraitTest extends \PHPUnit_Framework_TestCase
+class PrintTraitTest extends TestCase
 {
     public function provider1()
     {
@@ -25,10 +26,8 @@ class PrintTraitTest extends \PHPUnit_Framework_TestCase
             ->method('render')
             ->willReturn($renderResult);
 
-        ob_start();
         $trait->print();
-        $result = ob_get_clean();
 
-        $this->assertEquals($renderResult, $result);
+        $this->expectOutputString($renderResult);
     }
 }

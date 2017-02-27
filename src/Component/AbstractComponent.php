@@ -22,7 +22,7 @@ abstract class AbstractComponent implements RenderInterface
         return $this->id;
     }
 
-    public function setParent(AbstractComponent $parent)
+    public function setParent(AbstractComponent $parent) : void
     {
         $this->parent = $parent;
     }

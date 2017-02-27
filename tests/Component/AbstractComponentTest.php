@@ -2,9 +2,10 @@
 
 namespace PlatformPHP\ComposedViews\Tests\Component;
 
+use PHPUnit\Framework\TestCase;
 use PlatformPHP\ComposedViews\Component\AbstractComponent;
 
-class AbstractComponentTest extends \PHPUnit_Framework_TestCase
+class AbstractComponentTest extends TestCase
 {
     public function setUp()
     {
@@ -70,10 +71,8 @@ class AbstractComponentTest extends \PHPUnit_Framework_TestCase
             ->method('render')
             ->willReturn($renderResult);
 
-        ob_start();
         $component->print();
-        $result = ob_get_clean();
 
-        $this->assertEquals($renderResult, $result);
+        $this->expectOutputString($renderResult);
     }
 }
