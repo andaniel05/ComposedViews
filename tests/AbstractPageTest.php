@@ -3,6 +3,7 @@
 namespace PlatformPHP\ComposedViews\Tests;
 
 use PHPUnit\Framework\TestCase;
+use PlatformPHP\ComposedViews\Asset\AssetCollection;
 use PlatformPHP\ComposedViews\AbstractPage;
 
 class AbstractPageTest extends TestCase
@@ -12,8 +13,11 @@ class AbstractPageTest extends TestCase
         $this->page = $this->getMockForAbstractClass(AbstractPage::class);
     }
 
-    public function testPageAssets_ReturnNullByDefault()
+    public function testPageAssets_AnEmptyAssetCollectionByDefault()
     {
-        $this->assertNull($this->page->getPageAssets());
+        $assets = $this->page->getPageAssets();
+
+        $this->assertInstanceOf(AssetCollection::class, $assets);
+        $this->assertEmpty($assets);
     }
 }
