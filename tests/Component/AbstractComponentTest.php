@@ -76,8 +76,8 @@ class AbstractComponentTest extends TestCase
         $this->expectOutputString($renderResult);
     }
 
-    public function testGetAssets_ReturnAnEmptyArrayByDefault()
+    public function testGetAssets_ReturnNullByDefault()
     {
-        $this->assertEmpty($this->component->getAssets());
+        $this->assertNull($this->component->getAssets());
     }
 }

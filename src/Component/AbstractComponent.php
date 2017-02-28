@@ -3,6 +3,7 @@
 namespace PlatformPHP\ComposedViews\Component;
 
 use PlatformPHP\ComposedViews\RenderInterface;
+use PlatformPHP\ComposedViews\Asset\AssetCollection;
 use PlatformPHP\ComposedViews\Traits\PrintTrait;
 
 abstract class AbstractComponent implements RenderInterface
@@ -32,8 +33,8 @@ abstract class AbstractComponent implements RenderInterface
         return $this->parent;
     }
 
-    public function getAssets() : array
+    public function getAssets() : ?AssetCollection
     {
-        return [];
+        return null;
     }
 }

@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "e11bedc835278a480e8fcee29400164a",
+    "packages": [
+        {
+            "name": "andaniel05/object-collection",
+            "version": "v1.0.4",
+            "source": {
+                "type": "git",
+                "url": "D:\\Andy\\Repositorios\\ObjectCollection",
+                "reference": "2773a6bd279426244802dd2448be5c1e49f9a1f7"
+            },
+            "dist": {
+                "type": "tar",
+                "url": "http://localhost/satis/andaniel-projects//dist/andaniel05-object-collection-v1.0.4-0dd05a.tar",
+                "reference": "2773a6bd279426244802dd2448be5c1e49f9a1f7",
+                "shasum": "88e94506965d580faa95ad6df1d9526677bca7d7"
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Andaniel05\\ObjectCollection\\": "src/",
+                    "Andaniel05\\ObjectCollection\\Tests\\": "tests/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andy D. Navarro",
+                    "email": "andaniel05@gmail.com"
+                }
+            ],
+            "time": "2017-02-01T19:57:44+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=7.1.0"
+    },
+    "platform-dev": []
+}
