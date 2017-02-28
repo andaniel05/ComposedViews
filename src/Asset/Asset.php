@@ -32,8 +32,22 @@ class Asset implements AssetInterface
         return $this->url;
     }
 
+    public function setUrl(string $url)
+    {
+        $this->url = $url;
+
+        return $this;
+    }
+
     public function getContent() : ?string
     {
         return $this->content;
+    }
+
+    public function setContent(?string $content)
+    {
+        $this->content = $content;
+
+        return $this;
     }
 }

@@ -31,4 +31,9 @@ abstract class AbstractComponent implements RenderInterface
     {
         return $this->parent;
     }
+
+    public function getAssets() : array
+    {
+        return [];
+    }
 }
