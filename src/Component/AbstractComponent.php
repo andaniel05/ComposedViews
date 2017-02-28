@@ -33,8 +33,8 @@ abstract class AbstractComponent implements RenderInterface
         return $this->parent;
     }
 
-    public function getAssets() : ?AssetCollection
+    public function getAssets() : AssetCollection
     {
-        return null;
+        return new AssetCollection();
     }
 }

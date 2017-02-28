@@ -3,6 +3,7 @@
 namespace PlatformPHP\ComposedViews\Tests\Component;
 
 use PHPUnit\Framework\TestCase;
+use PlatformPHP\ComposedViews\Asset\AssetCollection;
 use PlatformPHP\ComposedViews\Component\AbstractComponent;
 
 class AbstractComponentTest extends TestCase
@@ -76,8 +77,11 @@ class AbstractComponentTest extends TestCase
         $this->expectOutputString($renderResult);
     }
 
-    public function testGetAssets_ReturnNullByDefault()
+    public function testGetAssets_AnEmptyAssetCollectionByDefault()
     {
-        $this->assertNull($this->component->getAssets());
+        $assets = $this->component->getAssets();
+
+        $this->assertInstanceOf(AssetCollection::class, $assets);
+        $this->assertEmpty($assets);
     }
 }
