@@ -30,4 +30,24 @@ class PrintTraitTest extends TestCase
 
         $this->expectOutputString($renderResult);
     }
+
+    public function testIsPrinted_ReturnFalseByDefault()
+    {
+        $trait = $this->getMockForTrait(PrintTrait::class);
+
+        $this->assertFalse($trait->isPrinted());
+    }
+
+    public function testIsPrinted_ReturnTrueAfterPrintInvokation()
+    {
+        $trait = $this->getMockBuilder(PrintTrait::class)
+            ->setMethods(['render'])
+            ->getMockForTrait();
+        $trait->expects($this->once())
+            ->method('render')->willReturn('');
+
+        $trait->print();
+
+        $this->assertTrue($trait->isPrinted());
+    }
 }

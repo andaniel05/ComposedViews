@@ -34,7 +34,7 @@ class AbstractComponentTest extends TestCase
         $this->assertEquals($id, $component->getId());
     }
 
-    public function testGetParent_ReturnNullInDefault()
+    public function testGetParent_ReturnNullByDefault()
     {
         $this->assertNull($this->component->getParent());
     }
