@@ -7,13 +7,15 @@ class Asset implements AssetInterface
     protected $id;
     protected $type;
     protected $url;
+    protected $deps;
     protected $content;
 
-    public function __construct(string $id, string $type, string $url, ?string $content = null)
+    public function __construct(string $id, string $type, string $url, array $deps = [], ?string $content = null)
     {
         $this->id      = $id;
         $this->type    = $type;
         $this->url     = $url;
+        $this->deps    = $deps;
         $this->content = $content;
     }
 
@@ -49,5 +51,10 @@ class Asset implements AssetInterface
         $this->content = $content;
 
         return $this;
+    }
+
+    public function getDependencies() : array
+    {
+        return $this->deps;
     }
 }

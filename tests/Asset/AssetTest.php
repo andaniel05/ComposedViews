@@ -15,21 +15,22 @@ class AssetTest extends TestCase
     public function provider1()
     {
         return [
-            ['id1', 'type1', 'url1', 'content1'],
-            ['id2', 'type2', 'url1', 'content2'],
+            ['asset1', 'type1', 'url1', [], 'content1'],
+            ['asset2', 'type2', 'url2', ['asset1'], 'content2'],
         ];
     }
 
     /**
      * @dataProvider provider1
      */
-    public function testArgumentGetters($id, $type, $url, $content)
+    public function testArgumentGetters($id, $type, $url, $deps, $content)
     {
-        $asset = new Asset($id, $type, $url, $content);
+        $asset = new Asset($id, $type, $url, $deps, $content);
 
         $this->assertEquals($id, $asset->getId());
         $this->assertEquals($type, $asset->getType());
         $this->assertEquals($url, $asset->getUrl());
+        $this->assertEquals($deps, $asset->getDependencies());
         $this->assertEquals($content, $asset->getContent());
     }
 
