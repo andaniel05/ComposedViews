@@ -13,7 +13,7 @@ trait PrintTrait
         $this->printed = true;
     }
 
-    public function isPrinted()
+    public function isPrinted() : bool
     {
         return $this->printed;
     }
