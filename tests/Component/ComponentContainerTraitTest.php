@@ -43,32 +43,32 @@ class ComponentContainerTraitTest extends TestCase
         $this->assertTrue($this->trait->isInitialized());
     }
 
-    // public function getMockForInitializationChecks()
-    // {
-    //     $trait = $this->getMockBuilder(ComponentContainerTrait::class)
-    //         ->setMethods(['initialize'])
-    //         ->getMockForTrait();
-    //     $trait->expects($this->once())
-    //         ->method('initialize');
+    public function getMockForInitializationChecks()
+    {
+        $trait = $this->getMockBuilder(ComponentContainerTrait::class)
+            ->setMethods(['initialize'])
+            ->getMockForTrait();
+        $trait->expects($this->once())
+            ->method('initialize');
 
-    //     return $trait;
-    // }
+        return $trait;
+    }
 
-    // public function testGetAllComponents_InvokeTheInitialization()
-    // {
-    //     $trait = $this->getMockForInitializationChecks();
+    public function testGetAllComponents_InvokeTheInitialization()
+    {
+        $trait = $this->getMockForInitializationChecks();
 
-    //     $trait->getAllComponents();
-    // }
+        $trait->getAllComponents();
+    }
 
-    // public function testInsertComponent_InvokeTheInitialization()
-    // {
-    //     $trait = $this->getMockForInitializationChecks();
+    public function testInsertComponent_InvokeTheInitialization()
+    {
+        $trait = $this->getMockForInitializationChecks();
 
-    //     $dummy = $this->createMock(AbstractComponent::class);
+        $dummy = $this->createMock(AbstractComponent::class);
 
-    //     $trait->insertComponent('dummy', $dummy);
-    // }
+        $trait->insertComponent('dummy', $dummy);
+    }
 
     // public function testInitializationIsOnlyOnce()
     // {

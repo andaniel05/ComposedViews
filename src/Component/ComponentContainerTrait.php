@@ -13,14 +13,18 @@ trait ComponentContainerTrait
 
     public function isInitialized() : bool
     {
-        return $this->components ? true : false;
+        return $this->components instanceOf ComponentCollection;
     }
 
     public function getAllComponents() : ComponentCollection
     {
         $this->initialize();
 
-        return clone $this->components;
+        if ($this->components instanceOf ComponentCollection) {
+            return clone $this->components;
+        } else {
+            return new ComponentCollection();
+        }
     }
 
     public function getComponent() : ?AbstractComponent
