@@ -141,4 +141,26 @@ class ComponentContainerTraitTest extends TestCase
 
         $this->assertAttributeNotSame($components, 'components', $this->trait);
     }
+
+    public function testDeleteComponent_DeleteTheComponentIfExists()
+    {
+        $this->insertComponents();
+
+        $this->trait->deleteComponent('component1');
+
+        $this->assertNull($this->trait->getComponent('component1'));
+    }
+
+    public function testDeleteComponent_DoNotNothingIfComponentNotExists()
+    {
+        $this->insertComponents();
+
+        $this->trait->deleteComponent('component100');
+
+        $components = $this->trait->getAllComponents();
+
+        $this->assertInstanceOf(ComponentCollection::class, $components);
+        $this->assertSame($this->component1, $components['component1']);
+        $this->assertSame($this->component2, $components['component2']);
+    }
 }

@@ -39,4 +39,9 @@ trait ComponentContainerTrait
     {
         return isset($this->components[$id]) ? $this->components[$id] : null;
     }
+
+    public function deleteComponent(string $id) : void
+    {
+        unset($this->components[$id]);
+    }
 }
