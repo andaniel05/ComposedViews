@@ -24,4 +24,11 @@ trait ComponentContainerTrait
 
         return new ComponentCollection();
     }
+
+    public function addComponent(string $id, AbstractComponent $component) : void
+    {
+        if ( ! $this->isInitialized()) {
+            $this->initialize();
+        }
+    }
 }

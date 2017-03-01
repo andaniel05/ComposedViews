@@ -76,4 +76,22 @@ class ComponentContainerTraitTest extends TestCase
 
         $trait->getAllComponents();
     }
+
+    public function testAddComponent_InvokeToInitialize()
+    {
+        $trait = $this->getMock1();
+
+        $dummy = $this->createMock(AbstractComponent::class);
+
+        $trait->addComponent('dummy', $dummy);
+    }
+
+    public function testAddComponent_NotInvokeToInitializeWhenAlreadyIsInitialized()
+    {
+        $trait = $this->getMock2();
+
+        $dummy = $this->createMock(AbstractComponent::class);
+
+        $trait->addComponent('dummy', $dummy);
+    }
 }
