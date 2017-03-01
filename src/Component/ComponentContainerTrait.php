@@ -18,28 +18,10 @@ trait ComponentContainerTrait
 
     public function getAllComponents() : ComponentCollection
     {
-        $this->initialize();
-
-        if ($this->components instanceOf ComponentCollection) {
-            return clone $this->components;
-        } else {
-            return new ComponentCollection();
-        }
-    }
-
-    public function getComponent() : ?AbstractComponent
-    {
-        return null;
-    }
-
-    public function insertComponent(string $id, AbstractComponent $component) : void
-    {
-        $this->initialize();
-
-        if ( ! $this->components) {
-            $this->components = new ComponentCollection();
+        if ( ! $this->isInitialized()) {
+            $this->initialize();
         }
 
-        $this->components[$id] = $component;
+        return new ComponentCollection();
     }
 }
