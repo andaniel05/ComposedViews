@@ -22,7 +22,8 @@ trait ComponentContainerTrait
             $this->initialize();
         }
 
-        return new ComponentCollection();
+        return $this->components ?
+            clone $this->components : new ComponentCollection();
     }
 
     public function addComponent(string $id, AbstractComponent $component) : void
@@ -30,5 +31,12 @@ trait ComponentContainerTrait
         if ( ! $this->isInitialized()) {
             $this->initialize();
         }
+
+        $this->components[$id] = $component;
+    }
+
+    public function getComponent(string $id) : ?AbstractComponent
+    {
+        return isset($this->components[$id]) ? $this->components[$id] : null;
     }
 }

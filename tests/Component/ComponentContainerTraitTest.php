@@ -20,7 +20,10 @@ class ComponentContainerTraitTest extends TestCase
 
     public function testGetAllComponents_ReturnAnEmptyComponentCollectionByDefault()
     {
-        $this->assertEmpty($this->trait->getAllComponents());
+        $components = $this->trait->getAllComponents();
+
+        $this->assertInstanceOf(ComponentCollection::class, $components);
+        $this->assertEmpty($components);
     }
 
     public function testComponents_IsNullByDefault()
@@ -93,5 +96,49 @@ class ComponentContainerTraitTest extends TestCase
         $dummy = $this->createMock(AbstractComponent::class);
 
         $trait->addComponent('dummy', $dummy);
+    }
+
+    public function testGetComponent_ReturnNullWhenComponentNotExists()
+    {
+        $this->assertNull($this->trait->getComponent('id'));
+    }
+
+    public function insertComponents()
+    {
+        $this->component1 = $this->createMock(AbstractComponent::class);
+        $this->component1->method('getId')->willReturn('component1');
+
+        $this->component2 = $this->createMock(AbstractComponent::class);
+        $this->component2->method('getId')->willReturn('component2');
+
+        $this->trait->addComponent('component1', $this->component1);
+        $this->trait->addComponent('component2', $this->component2);
+    }
+
+    public function testGetComponent_ReturnTheComponentWhenExists()
+    {
+        $this->insertComponents();
+
+        $this->assertSame(
+            $this->component1, $this->trait->getComponent('component1')
+        );
+    }
+
+    public function testGetAllComponents_ReturnAnCollectionWithAllInsertedComponents()
+    {
+        $this->insertComponents();
+
+        $components = $this->trait->getAllComponents();
+
+        $this->assertInstanceOf(ComponentCollection::class, $components);
+        $this->assertSame($this->component1, $components['component1']);
+        $this->assertSame($this->component2, $components['component2']);
+    }
+
+    public function testGetAllComponents_ReturnCloningOfComponentsAttribute()
+    {
+        $components = $this->trait->getAllComponents();
+
+        $this->assertAttributeNotSame($components, 'components', $this->trait);
     }
 }
