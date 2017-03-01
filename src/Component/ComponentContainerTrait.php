@@ -4,11 +4,23 @@ namespace PlatformPHP\ComposedViews\Component;
 
 trait ComponentContainerTrait
 {
-    protected $components = null;
+    protected $components;
 
-    public function getAllComponents() : ?ComponentCollection
+    public function initialize() : void
     {
-        return $this->components;
+        $this->components = new ComponentCollection();
+    }
+
+    public function isInitialized() : bool
+    {
+        return $this->components ? true : false;
+    }
+
+    public function getAllComponents() : ComponentCollection
+    {
+        $this->initialize();
+
+        return clone $this->components;
     }
 
     public function getComponent() : ?AbstractComponent
@@ -18,6 +30,8 @@ trait ComponentContainerTrait
 
     public function insertComponent(string $id, AbstractComponent $component) : void
     {
+        $this->initialize();
+
         if ( ! $this->components) {
             $this->components = new ComponentCollection();
         }
