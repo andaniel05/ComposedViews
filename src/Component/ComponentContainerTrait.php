@@ -37,11 +37,19 @@ trait ComponentContainerTrait
 
     public function getComponent(string $id) : ?AbstractComponent
     {
+        if ( ! $this->isInitialized()) {
+            $this->initialize();
+        }
+
         return isset($this->components[$id]) ? $this->components[$id] : null;
     }
 
     public function deleteComponent(string $id) : void
     {
+        if ( ! $this->isInitialized()) {
+            $this->initialize();
+        }
+
         unset($this->components[$id]);
     }
 }

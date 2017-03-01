@@ -163,4 +163,32 @@ class ComponentContainerTraitTest extends TestCase
         $this->assertSame($this->component1, $components['component1']);
         $this->assertSame($this->component2, $components['component2']);
     }
+
+    public function testDeleteComponent_InvokeToInitialize()
+    {
+        $trait = $this->getMock1();
+
+        $trait->deleteComponent('component100');
+    }
+
+    public function testDeleteComponent_NotInvokeToInitializeWhenAlreadyIsInitialized()
+    {
+        $trait = $this->getMock2();
+
+        $trait->getAllComponents();
+    }
+
+    public function testGetComponent_InvokeToInitialize()
+    {
+        $trait = $this->getMock1();
+
+        $trait->deleteComponent('component100');
+    }
+
+    public function testGetComponent_NotInvokeToInitializeWhenAlreadyIsInitialized()
+    {
+        $trait = $this->getMock2();
+
+        $trait->getComponent('component100');
+    }
 }
