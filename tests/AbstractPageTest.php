@@ -14,10 +14,7 @@ class AbstractPageTest extends TestCase
 
     public function testGetVars_ReturnAnEmptyArrayByDefault()
     {
-        $vars = $this->page->getVars();
-
-        $this->assertInternalType('array', $vars);
-        $this->assertEmpty($vars);
+        $this->assertEquals([], $this->page->getVars());
     }
 
     public function provider1() : array
@@ -163,5 +160,17 @@ class AbstractPageTest extends TestCase
         $page->printVar($var);
 
         $this->expectOutputString($value);
+    }
+
+    public function testAssetsInitializationOnConstructor()
+    {
+        $page = $this->getMockBuilder(AbstractPage::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['initializeAssets'])
+            ->getMockForAbstractClass();
+        $page->expects($this->once())
+            ->method('initializeAssets');
+
+        $page->__construct();
     }
 }

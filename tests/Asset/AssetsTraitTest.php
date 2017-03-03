@@ -25,7 +25,11 @@ class AssetsTraitTest extends TestCase
         $trait->expects($this->once())
             ->method('assets')->willReturn($assets);
 
-        $trait->initializeAssets();
+        $initializeAssetsMethod = new \ReflectionMethod(
+            get_class($trait), 'initializeAssets'
+        );
+        $initializeAssetsMethod->setAccessible(TRUE);
+        $initializeAssetsMethod->invoke($trait);
 
         return $trait;
     }

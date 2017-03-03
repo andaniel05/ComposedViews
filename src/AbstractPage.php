@@ -2,13 +2,19 @@
 
 namespace PlatformPHP\ComposedViews;
 
+use PlatformPHP\ComposedViews\Asset\AssetsTrait;
+
 abstract class AbstractPage
 {
+    use AssetsTrait;
+
     protected $vars;
 
     public function __construct()
     {
         $this->vars = $this->vars();
+
+        $this->initializeAssets();
     }
 
     protected function vars() : array

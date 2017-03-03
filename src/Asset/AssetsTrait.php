@@ -16,7 +16,7 @@ trait AssetsTrait
         return $this->assets;
     }
 
-    public function initializeAssets() : void
+    protected function initializeAssets() : void
     {
         foreach ($this->assets() as $group => $defs) {
             foreach ($defs as $def) {
