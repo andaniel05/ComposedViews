@@ -5,15 +5,15 @@ namespace PlatformPHP\ComposedViews\Asset;
 class Asset implements AssetInterface
 {
     protected $id;
-    protected $type;
+    protected $group;
     protected $url;
     protected $deps;
     protected $content;
 
-    public function __construct(string $id, string $type, string $url, array $deps = [], ?string $content = null)
+    public function __construct(string $id, string $group, string $url, array $deps = [], ?string $content = null)
     {
         $this->id      = $id;
-        $this->type    = $type;
+        $this->group   = $group;
         $this->url     = $url;
         $this->deps    = $deps;
         $this->content = $content;
@@ -24,9 +24,9 @@ class Asset implements AssetInterface
         return $this->id;
     }
 
-    public function getType() : string
+    public function getGroup() : string
     {
-        return $this->type;
+        return $this->group;
     }
 
     public function getUrl() : string

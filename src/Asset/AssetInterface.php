@@ -6,7 +6,7 @@ interface AssetInterface
 {
     public function getId() : string;
 
-    public function getType() : string;
+    public function getGroup() : string;
 
     public function getUrl() : string;
 
