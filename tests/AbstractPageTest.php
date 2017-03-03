@@ -135,4 +135,33 @@ class AbstractPageTest extends TestCase
             $page->getVars()
         );
     }
+
+    public function testPrintVar_DoNotPrintNoneIfVarNotExists()
+    {
+        $page = $this->getMock1();
+
+        $page->printVar('var100');
+
+        $this->expectOutputString('');
+    }
+
+    public function provider4()
+    {
+        return [
+            ['var1', 'value1'],
+            ['var2', 'value2'],
+        ];
+    }
+
+    /**
+     * @dataProvider provider4
+     */
+    public function testPrintVar_PrintValueOfVarIfExists($var, $value)
+    {
+        $page = $this->getMock1();
+
+        $page->printVar($var);
+
+        $this->expectOutputString($value);
+    }
 }

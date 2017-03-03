@@ -32,4 +32,11 @@ abstract class AbstractPage
             $this->vars[$var] = $value;
         }
     }
+
+    public function printVar(string $var)
+    {
+        if (isset($this->vars[$var])) {
+            echo $this->vars[$var];
+        }
+    }
 }
