@@ -2,12 +2,34 @@
 
 namespace PlatformPHP\ComposedViews;
 
-use PlatformPHP\ComposedViews\Asset\AssetCollection;
-
-class AbstractPage
+abstract class AbstractPage
 {
-    public function getPageAssets() : AssetCollection
+    protected $vars;
+
+    public function __construct()
     {
-        return new AssetCollection();
+        $this->vars = $this->vars();
+    }
+
+    protected function vars() : array
+    {
+        return [];
+    }
+
+    public function getVars() : array
+    {
+        return $this->vars;
+    }
+
+    public function getVar(string $var)
+    {
+        return $this->vars[$var] ?? null;
+    }
+
+    public function setVar(string $var, $value)
+    {
+        if (isset($this->vars[$var])) {
+            $this->vars[$var] = $value;
+        }
     }
 }

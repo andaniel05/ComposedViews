@@ -4,7 +4,8 @@ namespace PlatformPHP\ComposedViews\Tests\Component;
 
 use PHPUnit\Framework\TestCase;
 use PlatformPHP\ComposedViews\Asset\AssetCollection;
-use PlatformPHP\ComposedViews\Component\AbstractComponent;
+use PlatformPHP\ComposedViews\Component\{AbstractComponent,
+    ComponentContainerInterface};
 
 class AbstractComponentTest extends TestCase
 {
@@ -42,11 +43,12 @@ class AbstractComponentTest extends TestCase
 
     public function testGetParent_ReturnInsertedValueBySetParent()
     {
-        $parent = $this->getMockBuilder(AbstractComponent::class)
+        $parent = $this->createMock(ComponentContainerInterface::class);
+
+        $child = $this->getMockBuilder(AbstractComponent::class)
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
 
-        $child = clone $parent;
         $child->setParent($parent);
 
         $this->assertSame($parent, $child->getParent());
