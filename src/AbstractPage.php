@@ -5,7 +5,7 @@ namespace PlatformPHP\ComposedViews;
 use PlatformPHP\ComposedViews\Asset\AssetsTrait;
 use PlatformPHP\ComposedViews\Traits\PrintTrait;
 
-abstract class AbstractPage
+abstract class AbstractPage implements RenderInterface
 {
     use AssetsTrait, PrintTrait;
 

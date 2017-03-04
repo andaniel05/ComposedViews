@@ -46,7 +46,7 @@ class AbstractPageTest extends TestCase
         $page->__construct();
     }
 
-    public function testGetVars_ReturnAnEmptyArrayByDefault()
+    public function testGetVarsReturnAnEmptyArrayByDefault()
     {
         $this->assertEquals([], $this->page->getVars());
     }
@@ -62,7 +62,7 @@ class AbstractPageTest extends TestCase
     /**
      * @dataProvider provider1
      */
-    public function testGetVars_ReturnSameResultThatVarsAfterInitialization($vars)
+    public function testGetVarsReturnSameResultThatVarsAfterInitialization($vars)
     {
         $page = $this->getMockBuilder(AbstractPage::class)
             ->disableOriginalConstructor()
@@ -95,7 +95,7 @@ class AbstractPageTest extends TestCase
         return $page;
     }
 
-    public function testGetVar_ReturnTheValueOfTheVar()
+    public function testGetVarReturnTheValueOfTheVar()
     {
         $page = $this->getMock1();
 
@@ -104,14 +104,14 @@ class AbstractPageTest extends TestCase
         $this->assertEquals('value3', $page->getVar('var3'));
     }
 
-    public function testGetVar_ReturnNullIfVarNotExists()
+    public function testGetVarReturnNullIfVarNotExists()
     {
         $page = $this->getMock1();
 
         $this->assertNull($page->getVar('var100'));
     }
 
-    public function testSetVar_ChangeTheValueOfTheVar()
+    public function testSetVarChangeTheValueOfTheVar()
     {
         $page = $this->getMock1();
 
@@ -122,7 +122,7 @@ class AbstractPageTest extends TestCase
         $this->assertEquals('new value2', $page->getVar(0));
     }
 
-    public function testSetVar_DoNotInsertNewVars()
+    public function testSetVarDoNotInsertNewVars()
     {
         $page = $this->getMock1();
 
@@ -137,7 +137,7 @@ class AbstractPageTest extends TestCase
         $this->assertEquals($expectedVars, $page->getVars());
     }
 
-    public function testGetVars_ReturnAnArrayWithAllChangedVars()
+    public function testGetVarsReturnAnArrayWithAllChangedVars()
     {
         $page = $this->getMock1();
 
@@ -154,7 +154,7 @@ class AbstractPageTest extends TestCase
         $this->assertEquals($expectedVars, $page->getVars());
     }
 
-    public function testPrintVar_DoNotPrintNothingIfVarNotExists()
+    public function testPrintVarDoNotPrintNothingIfVarNotExists()
     {
         $page = $this->getMock1();
 
@@ -163,7 +163,7 @@ class AbstractPageTest extends TestCase
         $this->expectOutputString(null);
     }
 
-    public function testPrintVar_PrintInTheOutputTheValueOfVar()
+    public function testPrintVarPrintInTheOutputTheValueOfVar()
     {
         $page = $this->getMock1();
 

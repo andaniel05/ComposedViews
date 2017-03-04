@@ -3,10 +3,23 @@
 namespace PlatformPHP\ComposedViews\Tests\Traits;
 
 use PlatformPHP\ComposedViews\Traits\PrintTrait;
+use PlatformPHP\ComposedViews\RenderInterface;
 
 trait PrintTraitTests
 {
-    public function printTraitTests_Provider1()
+    public function testIsInstanceOfRenderInterface()
+    {
+        if (PrintTrait::class == $this->getTestClass()) {
+            $this->markTestSkipped();
+        }
+
+        $trait = $this->getMockBuilder($this->getTestClass());
+        $trait = $this->assumeMock($this->getTestClass(), $trait);
+
+        $this->assertInstanceOf(RenderInterface::class, $trait);
+    }
+
+    public function printTraitTestsProvider1()
     {
         return [
             ['result1'], ['result2'],
@@ -14,9 +27,9 @@ trait PrintTraitTests
     }
 
     /**
-     * @dataProvider printTraitTests_Provider1
+     * @dataProvider printTraitTestsProvider1
      */
-    public function testPrint_PrintResultOfRenderMethod($renderResult)
+    public function testPrintPrintResultOfRenderMethod($renderResult)
     {
         $trait = $this->getMockBuilder($this->getTestClass())
             ->setMethods(['render']);
@@ -30,7 +43,7 @@ trait PrintTraitTests
         $this->expectOutputString($renderResult);
     }
 
-    public function testIsPrinted_ReturnFalseByDefault()
+    public function testIsPrintedReturnFalseByDefault()
     {
         $trait = $this->getMockBuilder($this->getTestClass());
         $trait = $this->assumeMock($this->getTestClass(), $trait);
@@ -38,7 +51,7 @@ trait PrintTraitTests
         $this->assertFalse($trait->isPrinted());
     }
 
-    public function testIsPrinted_ReturnTrueAfterPrintInvokation()
+    public function testIsPrintedReturnTrueAfterPrintInvokation()
     {
         $trait = $this->getMockBuilder($this->getTestClass())
             ->setMethods(['render']);
