@@ -18,11 +18,9 @@ trait PrintTraitTests
      */
     public function testPrint_PrintResultOfRenderMethod($renderResult)
     {
-        $builder = $this->getMockBuilder($this->getTestClass())
+        $trait = $this->getMockBuilder($this->getTestClass())
             ->setMethods(['render']);
-
-        $trait = $this->assumeMock($this->getTestClass(), $builder);
-
+        $trait = $this->assumeMock($this->getTestClass(), $trait);
         $trait->expects($this->once())
             ->method('render')
             ->willReturn($renderResult);
