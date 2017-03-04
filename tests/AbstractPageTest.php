@@ -4,9 +4,12 @@ namespace PlatformPHP\ComposedViews\Tests;
 
 use PHPUnit\Framework\TestCase;
 use PlatformPHP\ComposedViews\AbstractPage;
+use PlatformPHP\ComposedViews\Tests\Traits\PrintTraitTests;
 
 class AbstractPageTest extends TestCase
 {
+    use PrintTraitTests;
+
     public function setUp()
     {
         $this->page = $this->getMockForAbstractClass(AbstractPage::class);
