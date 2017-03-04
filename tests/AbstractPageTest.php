@@ -12,23 +12,47 @@ class AbstractPageTest extends TestCase
         $this->page = $this->getMockForAbstractClass(AbstractPage::class);
     }
 
+    public function testAssetsInitializationOnConstructor()
+    {
+        $page = $this->getMockBuilder(AbstractPage::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['initializeAssets'])
+            ->getMockForAbstractClass();
+        $page->expects($this->once())
+            ->method('initializeAssets');
+
+        $page->__construct();
+    }
+
+    public function testVarsInitializationOnConstructor()
+    {
+        $page = $this->getMockBuilder(AbstractPage::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['initializeVars'])
+            ->getMockForAbstractClass();
+        $page->expects($this->once())
+            ->method('initializeVars');
+
+        $page->__construct();
+    }
+
     public function testGetVars_ReturnAnEmptyArrayByDefault()
     {
         $this->assertEquals([], $this->page->getVars());
     }
 
-    public function provider1() : array
+    public function provider1()
     {
         return [
-            [array('key1' => 'value1', 'key2' => 'value2')],
-            [array('key3' => 'value3', 'key4' => 'value4')],
+            [array()],
+            [array('var1' => 'value1')],
         ];
     }
 
     /**
      * @dataProvider provider1
      */
-    public function testGetVars_ReturnAnArrayWithEqualsKeysToVarsResult(array $vars)
+    public function testGetVars_ReturnSameResultThatVarsAfterInitialization($vars)
     {
         $page = $this->getMockBuilder(AbstractPage::class)
             ->disableOriginalConstructor()
@@ -39,22 +63,15 @@ class AbstractPageTest extends TestCase
 
         $page->__construct();
 
-        $keys1 = array_keys($vars);
-        $keys2 = array_keys($page->getVars());
-
-        $this->assertEquals($keys1, $keys2);
-    }
-
-    public function testGetVar_ReturnNullWhenKeyNotExists()
-    {
-        $this->assertNull($this->page->getVar('var'));
+        $this->assertEquals($vars, $page->getVars());
     }
 
     public function getMock1()
     {
         $vars = [
             'var1' => 'value1',
-            'var2' => 'value2',
+            'value2',
+            'var3' => 'value3',
         ];
 
         $page = $this->getMockBuilder(AbstractPage::class)
@@ -68,56 +85,31 @@ class AbstractPageTest extends TestCase
         return $page;
     }
 
-    public function testGetVar_ReturnValueOfTheVarIfExists()
+    public function testGetVar_ReturnTheValueOfTheVar()
     {
         $page = $this->getMock1();
 
         $this->assertEquals('value1', $page->getVar('var1'));
-        $this->assertEquals('value2', $page->getVar('var2'));
+        $this->assertEquals('value2', $page->getVar(0));
+        $this->assertEquals('value3', $page->getVar('var3'));
     }
 
-    public function provider2()
-    {
-        return [
-            ['var1', 'new value1'],
-            ['var2', 'new value2'],
-        ];
-    }
-
-    /**
-     * @dataProvider provider2
-     */
-    public function testSetVar_ChangeTheValueOfTheVar($var, $value)
+    public function testGetVar_ReturnNullIfVarNotExists()
     {
         $page = $this->getMock1();
 
-        $page->setVar($var, $value);
-
-        $this->assertEquals($value, $page->getVar($var));
+        $this->assertNull($page->getVar('var100'));
     }
 
-    public function provider3()
-    {
-        return [
-            ['value4', 'value5'],
-            ['value6', 'value7'],
-        ];
-    }
-
-    /**
-     * @dataProvider provider3
-     */
-    public function testGetVars_ReturnArrayWithAllChangesDoingsForSetVar($var1, $var2)
+    public function testSetVar_ChangeTheValueOfTheVar()
     {
         $page = $this->getMock1();
 
-        $page->setVar('var1', $var1);
-        $page->setVar('var2', $var2);
+        $page->setVar('var1', 'new value1');
+        $page->setVar(0, 'new value2');
 
-        $this->assertEquals(
-            ['var1' => $var1, 'var2' => $var2],
-            $page->getVars()
-        );
+        $this->assertEquals('new value1', $page->getVar('var1'));
+        $this->assertEquals('new value2', $page->getVar(0));
     }
 
     public function testSetVar_DoNotInsertNewVars()
@@ -125,52 +117,48 @@ class AbstractPageTest extends TestCase
         $page = $this->getMock1();
 
         $page->setVar('var100', 'value100');
-        $page->setVar('var101', 'value101');
 
-        $this->assertEquals(
-            ['var1' => 'value1', 'var2' => 'value2'],
-            $page->getVars()
-        );
+        $expectedVars = [
+            'var1' => 'value1',
+            'value2',
+            'var3' => 'value3',
+        ];
+
+        $this->assertEquals($expectedVars, $page->getVars());
     }
 
-    public function testPrintVar_DoNotPrintNoneIfVarNotExists()
+    public function testGetVars_ReturnAnArrayWithAllChangedVars()
+    {
+        $page = $this->getMock1();
+
+        $page->setVar('var1', 'new value1');
+        $page->setVar(0, 'new value2');
+        $page->setVar('var3', 'new value3');
+
+        $expectedVars = [
+            'var1' => 'new value1',
+            'new value2',
+            'var3' => 'new value3',
+        ];
+
+        $this->assertEquals($expectedVars, $page->getVars());
+    }
+
+    public function testPrintVar_DoNotPrintNothingIfVarNotExists()
     {
         $page = $this->getMock1();
 
         $page->printVar('var100');
 
-        $this->expectOutputString('');
+        $this->expectOutputString(null);
     }
 
-    public function provider4()
-    {
-        return [
-            ['var1', 'value1'],
-            ['var2', 'value2'],
-        ];
-    }
-
-    /**
-     * @dataProvider provider4
-     */
-    public function testPrintVar_PrintValueOfVarIfExists($var, $value)
+    public function testPrintVar_PrintInTheOutputTheValueOfVar()
     {
         $page = $this->getMock1();
 
-        $page->printVar($var);
+        $page->printVar('var1');
 
-        $this->expectOutputString($value);
-    }
-
-    public function testAssetsInitializationOnConstructor()
-    {
-        $page = $this->getMockBuilder(AbstractPage::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['initializeAssets'])
-            ->getMockForAbstractClass();
-        $page->expects($this->once())
-            ->method('initializeAssets');
-
-        $page->__construct();
+        $this->expectOutputString('value1');
     }
 }

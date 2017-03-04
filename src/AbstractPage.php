@@ -8,13 +8,17 @@ abstract class AbstractPage
 {
     use AssetsTrait;
 
-    protected $vars;
+    protected $vars = [];
 
     public function __construct()
     {
-        $this->vars = $this->vars();
-
+        $this->initializeVars();
         $this->initializeAssets();
+    }
+
+    protected function initializeVars() : void
+    {
+        $this->vars = $this->vars();
     }
 
     protected function vars() : array
@@ -27,22 +31,20 @@ abstract class AbstractPage
         return $this->vars;
     }
 
-    public function getVar(string $var)
+    public function getVar($var)
     {
         return $this->vars[$var] ?? null;
     }
 
-    public function setVar(string $var, $value)
+    public function setVar($var, $value)
     {
         if (isset($this->vars[$var])) {
             $this->vars[$var] = $value;
         }
     }
 
-    public function printVar(string $var)
+    public function printVar($var) : void
     {
-        if (isset($this->vars[$var])) {
-            echo $this->vars[$var];
-        }
+        echo $this->vars[$var] ?? null;
     }
 }
