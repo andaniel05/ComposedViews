@@ -2,7 +2,7 @@
 
 namespace PlatformPHP\ComposedViews\Tests;
 
-use PHPUnit\Framework\TestCase;
+use PlatformPHP\ComposedViews\Tests\TestCase;
 use PlatformPHP\ComposedViews\AbstractPage;
 use PlatformPHP\ComposedViews\Tests\Traits\PrintTraitTests;
 
@@ -13,6 +13,11 @@ class AbstractPageTest extends TestCase
     public function setUp()
     {
         $this->page = $this->getMockForAbstractClass(AbstractPage::class);
+    }
+
+    public function getTestClass()
+    {
+        return AbstractPage::class;
     }
 
     public function testAssetsInitializationOnConstructor()

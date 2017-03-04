@@ -3,10 +3,11 @@
 namespace PlatformPHP\ComposedViews;
 
 use PlatformPHP\ComposedViews\Asset\AssetsTrait;
+use PlatformPHP\ComposedViews\Traits\PrintTrait;
 
 abstract class AbstractPage
 {
-    use AssetsTrait;
+    use AssetsTrait, PrintTrait;
 
     protected $vars = [];
 
