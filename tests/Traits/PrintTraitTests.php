@@ -30,23 +30,24 @@ trait PrintTraitTests
         $this->expectOutputString($renderResult);
     }
 
-    // public function testIsPrinted_ReturnFalseByDefault()
-    // {
-    //     $trait = $this->getMockForTrait($this->getTestClass());
+    public function testIsPrinted_ReturnFalseByDefault()
+    {
+        $trait = $this->getMockBuilder($this->getTestClass());
+        $trait = $this->assumeMock($this->getTestClass(), $trait);
 
-    //     $this->assertFalse($trait->isPrinted());
-    // }
+        $this->assertFalse($trait->isPrinted());
+    }
 
-    // public function testIsPrinted_ReturnTrueAfterPrintInvokation()
-    // {
-    //     $trait = $this->getMockBuilder($this->getTestClass())
-    //         ->setMethods(['render'])
-    //         ->getMockForTrait();
-    //     $trait->expects($this->once())
-    //         ->method('render')->willReturn('');
+    public function testIsPrinted_ReturnTrueAfterPrintInvokation()
+    {
+        $trait = $this->getMockBuilder($this->getTestClass())
+            ->setMethods(['render']);
+        $trait = $this->assumeMock($this->getTestClass(), $trait);
+        $trait->expects($this->once())
+            ->method('render')->willReturn('');
 
-    //     $trait->print();
+        $trait->print();
 
-    //     $this->assertTrue($trait->isPrinted());
-    // }
+        $this->assertTrue($trait->isPrinted());
+    }
 }
