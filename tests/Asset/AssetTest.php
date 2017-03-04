@@ -34,7 +34,7 @@ class AssetTest extends TestCase
         $this->assertEquals($content, $asset->getContent());
     }
 
-    public function testSetUrl_ReturnToOneSelf()
+    public function testSetUrlReturnToOneSelf()
     {
         $this->assertSame($this->asset, $this->asset->setUrl('url'));
     }
@@ -50,14 +50,14 @@ class AssetTest extends TestCase
     /**
      * @dataProvider provider2
      */
-    public function testGetUrl_ReturnInsertedValueBySetUrl($url)
+    public function testGetUrlReturnInsertedValueBySetUrl($url)
     {
         $this->asset->setUrl($url);
 
         $this->assertSame($url, $this->asset->getUrl());
     }
 
-    public function testSetContent_ReturnToOneSelf()
+    public function testSetContentReturnToOneSelf()
     {
         $this->assertSame($this->asset, $this->asset->setContent('content'));
     }
@@ -73,7 +73,7 @@ class AssetTest extends TestCase
     /**
      * @dataProvider provider3
      */
-    public function testGetContent_ReturnInsertedValueBySetContent($content)
+    public function testGetContentReturnInsertedValueBySetContent($content)
     {
         $this->asset->setContent($content);
 
