@@ -7,19 +7,6 @@ use PlatformPHP\ComposedViews\RenderInterface;
 
 trait PrintTraitTests
 {
-    public function testIsInstanceOfRenderInterface()
-    {
-        if (PrintTrait::class == $this->getTestClass()) {
-            $this->markTestSkipped();
-        }
-
-        $trait = $this->getMockBuilder($this->getTestClass())
-            ->disableOriginalConstructor();
-        $trait = $this->assumeMock($this->getTestClass(), $trait);
-
-        $this->assertInstanceOf(RenderInterface::class, $trait);
-    }
-
     public function printTraitTestsProvider1()
     {
         return [
