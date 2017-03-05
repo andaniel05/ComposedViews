@@ -11,9 +11,22 @@ trait ComponentContainerTrait
         return $this->components;
     }
 
+    protected function find(array $components, string $id) : ?AbstractComponent
+    {
+        foreach ($components as $component) {
+            if ($id == $component->getId()) {
+                return $component;
+            } elseif ($component instanceOf AbstractComposedComponent) {
+                return $this->find($component->getAllComponents(), $id);
+            }
+        }
+
+        return null;
+    }
+
     public function getComponent(string $id) : ?AbstractComponent
     {
-        return $this->components[$id] ?? null;
+        return $this->find($this->getAllComponents(), $id);
     }
 
     public function addComponent(AbstractComponent $component)

@@ -2,7 +2,8 @@
 
 namespace PlatformPHP\ComposedViews\Tests\Component;
 
-use PlatformPHP\ComposedViews\Component\AbstractComponent;
+use PlatformPHP\ComposedViews\Component\{AbstractComponent,
+    AbstractComposedComponent};
 
 trait ComponentContainerTraitTests
 {
@@ -92,5 +93,54 @@ trait ComponentContainerTraitTests
 
     public function initializeNestedComponents()
     {
+        $container = $this->getComponentContainerMock();
+
+        $component1 = $this->getMockBuilder(AbstractComposedComponent::class)
+            ->setConstructorArgs(['component1'])
+            ->getMockForAbstractClass();
+
+        $component2 = $this->getMockBuilder(AbstractComposedComponent::class)
+            ->setConstructorArgs(['component2'])
+            ->getMockForAbstractClass();
+
+        $component3 = $this->getMockBuilder(AbstractComposedComponent::class)
+            ->setConstructorArgs(['component3'])
+            ->getMockForAbstractClass();
+
+        $component4 = $this->getMockBuilder(AbstractComposedComponent::class)
+            ->setConstructorArgs(['component4'])
+            ->getMockForAbstractClass();
+
+        $component5 = $this->getMockBuilder(AbstractComposedComponent::class)
+            ->setConstructorArgs(['component5'])
+            ->getMockForAbstractClass();
+
+        $component1->addComponent($component2);
+        $component2->addComponent($component3);
+        $component4->addComponent($component5);
+
+        $container->addComponent($component1);
+        $container->addComponent($component4);
+
+        $this->container  = $container;
+        $this->component1 = $component1;
+        $this->component2 = $component2;
+        $this->component3 = $component3;
+        $this->component4 = $component4;
+        $this->component5 = $component5;
+    }
+
+    public function testGetComponentSearchTheComponentInAllTheTree()
+    {
+        $this->initializeNestedComponents();
+
+        $this->assertSame(
+            $this->component2,
+            $this->container->getComponent('component2')
+        );
+        $this->assertSame(
+            $this->component3,
+            $this->container->getComponent('component3')
+        );
     }
 }
