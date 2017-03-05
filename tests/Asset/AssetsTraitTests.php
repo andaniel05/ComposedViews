@@ -6,7 +6,8 @@ trait AssetsTraitTests
 {
     public function assetsTraitTestsSetUp()
     {
-        $builder = $this->getMockBuilder($this->getTestClass());
+        $builder = $this->getMockBuilder($this->getTestClass())
+            ->disableOriginalConstructor();
 
         $this->trait = $this->assumeMock($this->getTestClass(), $builder);
     }
@@ -21,6 +22,7 @@ trait AssetsTraitTests
     public function assetsTraitTestsGetMock(array $assets = [])
     {
         $trait = $this->getMockBuilder($this->getTestClass())
+            ->disableOriginalConstructor()
             ->setMethods(['assets']);
         $trait = $this->assumeMock($this->getTestClass(), $trait);
         $trait->expects($this->once())

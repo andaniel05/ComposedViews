@@ -15,4 +15,21 @@ class AbstractComponentTest extends TestCase
     {
         return AbstractComponent::class;
     }
+
+    public function provider1()
+    {
+        return [ ['component1'], ['component2'] ];
+    }
+
+    /**
+     * @dataProvider provider1
+     */
+    public function testArgumentGetters($id)
+    {
+        $component = $this->getMockBuilder(AbstractComponent::class)
+            ->setConstructorArgs([$id])
+            ->getMockForAbstractClass();
+
+        $this->assertEquals($id, $component->getId());
+    }
 }
