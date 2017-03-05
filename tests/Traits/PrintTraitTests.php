@@ -13,7 +13,8 @@ trait PrintTraitTests
             $this->markTestSkipped();
         }
 
-        $trait = $this->getMockBuilder($this->getTestClass());
+        $trait = $this->getMockBuilder($this->getTestClass())
+            ->disableOriginalConstructor();
         $trait = $this->assumeMock($this->getTestClass(), $trait);
 
         $this->assertInstanceOf(RenderInterface::class, $trait);
@@ -32,6 +33,7 @@ trait PrintTraitTests
     public function testPrintPrintResultOfRenderMethod($renderResult)
     {
         $trait = $this->getMockBuilder($this->getTestClass())
+            ->disableOriginalConstructor()
             ->setMethods(['render']);
         $trait = $this->assumeMock($this->getTestClass(), $trait);
         $trait->expects($this->once())
@@ -45,7 +47,8 @@ trait PrintTraitTests
 
     public function testIsPrintedReturnFalseByDefault()
     {
-        $trait = $this->getMockBuilder($this->getTestClass());
+        $trait = $this->getMockBuilder($this->getTestClass())
+            ->disableOriginalConstructor();
         $trait = $this->assumeMock($this->getTestClass(), $trait);
 
         $this->assertFalse($trait->isPrinted());
@@ -54,6 +57,7 @@ trait PrintTraitTests
     public function testIsPrintedReturnTrueAfterPrintInvokation()
     {
         $trait = $this->getMockBuilder($this->getTestClass())
+            ->disableOriginalConstructor()
             ->setMethods(['render']);
         $trait = $this->assumeMock($this->getTestClass(), $trait);
         $trait->expects($this->once())

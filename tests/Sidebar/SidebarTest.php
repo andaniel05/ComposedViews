@@ -14,4 +14,19 @@ class SidebarTest extends TestCase
     {
         return Sidebar::class;
     }
+
+    public function provider1()
+    {
+        return [ ['sidebar1'], ['sidebar2'] ];
+    }
+
+    /**
+     * @dataProvider provider1
+     */
+    public function testGetIdReturnIdArgument($sidebarId)
+    {
+        $sidebar = new Sidebar($sidebarId);
+
+        $this->assertEquals($sidebarId, $sidebar->getId());
+    }
 }

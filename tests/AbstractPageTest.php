@@ -3,6 +3,8 @@
 namespace PlatformPHP\ComposedViews\Tests;
 
 use PlatformPHP\ComposedViews\AbstractPage;
+use PlatformPHP\ComposedViews\Component\AbstractComponent;
+use PlatformPHP\ComposedViews\Sidebar\Sidebar;
 use PlatformPHP\ComposedViews\Tests\TestCase;
 use PlatformPHP\ComposedViews\Tests\Traits\PrintTraitTests;
 use PlatformPHP\ComposedViews\Tests\Asset\AssetsTraitTests;
@@ -170,5 +172,111 @@ class AbstractPageTest extends TestCase
         $page->printVar('var1');
 
         $this->expectOutputString('value1');
+    }
+
+    public function testSidebarInitializationOnConstructor()
+    {
+        $page = $this->getMockBuilder(AbstractPage::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['initializeSidebars'])
+            ->getMockForAbstractClass();
+        $page->expects($this->once())
+            ->method('initializeSidebars');
+
+        $page->__construct();
+    }
+
+    public function testSidebarsReturnAnEmptyArrayByDefault()
+    {
+        $page = $this->getMockBuilder(AbstractPage::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+
+        $this->assertEquals([], $page->getSidebars());
+    }
+
+    public function getMock2(array $sidebars)
+    {
+        $page = $this->getMockBuilder(AbstractPage::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['sidebars'])
+            ->getMockForAbstractClass();
+        $page->expects($this->once())
+            ->method('sidebars')->willReturn($sidebars);
+        $page->__construct();
+
+        return $page;
+    }
+
+    public function testGetSidebarsReturnAnEmptyArrayWhenSidebarsReturnAnEmptyArrayToo()
+    {
+        $page = $this->getMock2([]);
+
+        $this->assertEquals([], $page->getSidebars());
+    }
+
+    public function provider2()
+    {
+        return [
+            [ [], 0 ],
+            [ ['sidebar1'], 1 ],
+            [ ['sidebar1', 'sidebar2'], 2 ],
+            [ ['sidebar1', 1, 123.45, true, null, 'sidebar2'], 2 ],
+        ];
+    }
+
+    /**
+     * @dataProvider provider2
+     */
+    public function testNumberOfSidebarsPerResultsOfSidebars($def, $total)
+    {
+        $page = $this->getMock2($def);
+
+        $sidebars = $page->getSidebars();
+
+        $this->assertCount($total, $sidebars);
+        $this->assertContainsOnlyInstancesOf(Sidebar::class, $sidebars);
+    }
+
+    public function testGetSidebarReturnNullIfSidebarNotExists()
+    {
+        $page = $this->getMock2(['sidebar1', 'sidebar2']);
+
+        $this->assertNull($page->getSidebar('sidebar3'));
+    }
+
+    public function testGetSidebarReturnTheSidebarIfExists()
+    {
+        $page = $this->getMock2(['sidebar1', 'sidebar2']);
+
+        $sidebar1 = $page->getSidebar('sidebar1');
+
+        $this->assertInstanceOf(Sidebar::class, $sidebar1);
+        $this->assertEquals('sidebar1', $sidebar1->getId());
+    }
+
+    public function testInsertionOfComponentsInSidebarDefinition()
+    {
+        $component1 = $this->createMock(AbstractComponent::class);
+        $component1->method('getId')->willReturn('component1');
+
+        $component2 = $this->createMock(AbstractComponent::class);
+        $component2->method('getId')->willReturn('component2');
+
+        $page = $this->getMock2([
+            'sidebar1' => [
+                $component1, 'string', true, null, 123,
+                123.45, $component2,
+            ],
+        ]);
+
+        $sidebar1 = $page->getSidebar('sidebar1');
+
+        $expected = [
+            'component1' => $component1,
+            'component2' => $component2,
+        ];
+
+        $this->assertEquals($expected, $sidebar1->getComponents());
     }
 }

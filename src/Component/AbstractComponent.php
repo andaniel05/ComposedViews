@@ -9,4 +9,8 @@ use PlatformPHP\ComposedViews\Traits\PrintTrait;
 Abstract class AbstractComponent implements RenderInterface
 {
     use AssetsTrait, PrintTrait;
+
+    public function getId() : string
+    {
+    }
 }

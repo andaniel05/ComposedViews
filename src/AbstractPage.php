@@ -4,17 +4,20 @@ namespace PlatformPHP\ComposedViews;
 
 use PlatformPHP\ComposedViews\Asset\AssetsTrait;
 use PlatformPHP\ComposedViews\Traits\PrintTrait;
+use PlatformPHP\ComposedViews\Sidebar\Sidebar;
 
 abstract class AbstractPage implements RenderInterface
 {
     use AssetsTrait, PrintTrait;
 
     protected $vars = [];
+    protected $sidebars = [];
 
     public function __construct()
     {
         $this->initializeVars();
         $this->initializeAssets();
+        $this->initializeSidebars();
     }
 
     protected function initializeVars() : void
@@ -47,5 +50,41 @@ abstract class AbstractPage implements RenderInterface
     public function printVar($var) : void
     {
         echo $this->vars[$var] ?? null;
+    }
+
+    protected function initializeSidebars() : void
+    {
+        foreach ($this->sidebars() as $key => $value) {
+
+            if (is_int($key) && is_string($value)) {
+                $sidebar = new Sidebar($value);
+            } elseif (is_string($key) && is_array($value)) {
+
+                $sidebar = new Sidebar($key);
+                foreach ($value as $component) {
+                    if ($component instanceOf AbstractComponent) {
+                        $sidebar->addComponent($component);
+                    }
+                }
+
+            }
+
+            $this->sidebars[$sidebar->getId()] = $sidebar;
+        }
+    }
+
+    protected function sidebars() : array
+    {
+        return [];
+    }
+
+    public function getSidebars() : array
+    {
+        return $this->sidebars;
+    }
+
+    public function getSidebar(string $id) : ?Sidebar
+    {
+        return $this->sidebars[$id] ?? null;
     }
 }
