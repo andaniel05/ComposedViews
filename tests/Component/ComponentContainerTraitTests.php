@@ -143,4 +143,53 @@ trait ComponentContainerTraitTests
             $this->container->getComponent('component3')
         );
     }
+
+    public function testGetComponentWhenIdIsComplex1()
+    {
+        $this->initializeNestedComponents();
+
+        $this->assertSame(
+            $this->component5,
+            $this->container->getComponent('component4 component5')
+        );
+    }
+
+    // public function testGetComponentWhenIdIsComplex1()
+    // {
+    //     $this->initializeNestedComponents();
+
+    //     $this->assertSame(
+    //         $this->component3,
+    //         $this->container->getComponent('component1 component3')
+    //     );
+    // }
+
+    // public function testGetComponentWhenIdIsComplex1()
+    // {
+    //     $this->initializeNestedComponents();
+
+    //     $this->assertSame(
+    //         $this->component3,
+    //         $this->container->getComponent('component1 component2 component3')
+    //     );
+    // }
+
+    // public function testGetComponentWhenIdIsComplex1()
+    // {
+    //     $this->initializeNestedComponents();
+
+    //     $this->assertSame(
+    //         $this->component3,
+    //         $this->container->getComponent('component2 component3')
+    //     );
+    // }
+
+    // public function testGetComponentWhenIdIsComplex1()
+    // {
+    //     $this->initializeNestedComponents();
+
+    //     $this->assertNull(
+    //         $this->container->getComponent('component1 component5')
+    //     );
+    // }
 }

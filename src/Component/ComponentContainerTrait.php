@@ -26,7 +26,29 @@ trait ComponentContainerTrait
 
     public function getComponent(string $id) : ?AbstractComponent
     {
-        return $this->findOne($this->getAllComponents(), $id);
+        $idList = preg_split('/\s+/', $id);
+
+        if (1 == count($idList)) {
+            return $this->findOne($this->getAllComponents(), $id);
+        }
+
+        $hash = array_fill_keys($idList, null);
+
+        $container = $this;
+        for ($i = 0; $i < count($idList); $i++) {
+
+            $componentId = $idList[$i];
+            $component = $container->getComponent($componentId);
+
+            if ($component) {
+                $hash[$componentId] = $component;
+                $container = $component;
+            } else {
+                break;
+            }
+        }
+
+        return array_pop($hash);
     }
 
     public function addComponent(AbstractComponent $component)
