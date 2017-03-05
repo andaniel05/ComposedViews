@@ -255,28 +255,49 @@ class AbstractPageTest extends TestCase
         $this->assertEquals('sidebar1', $sidebar1->getId());
     }
 
-    public function testInsertionOfComponentsInSidebarDefinition()
+    // public function testInsertionOfComponentsInSidebarDefinition()
+    // {
+    //     $component1 = $this->createMock(AbstractComponent::class);
+    //     $component1->method('getId')->willReturn('component1');
+
+    //     $component2 = $this->createMock(AbstractComponent::class);
+    //     $component2->method('getId')->willReturn('component2');
+
+    //     $page = $this->getMock2([
+    //         'sidebar1' => [
+    //             $component1, 'string', true, null, 123,
+    //             123.45, $component2,
+    //         ],
+    //     ]);
+
+    //     $sidebar1 = $page->getSidebar('sidebar1');
+
+    //     $expected = [
+    //         'component1' => $component1,
+    //         'component2' => $component2,
+    //     ];
+
+    //     $this->assertEquals($expected, $sidebar1->getComponents());
+    // }
+
+    public function testPrintSidebarInvokePrintMethodInTheSidebar()
     {
-        $component1 = $this->createMock(AbstractComponent::class);
-        $component1->method('getId')->willReturn('component1');
+        $sidebar1 = $this->getMockBuilder(Sidebar::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['print'])
+            ->getMock();
+        $sidebar1->expects($this->once())
+            ->method('print');
 
-        $component2 = $this->createMock(AbstractComponent::class);
-        $component2->method('getId')->willReturn('component2');
+        $page = $this->getMockBuilder(AbstractPage::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getSidebar'])
+            ->getMockForAbstractClass();
+        $page->expects($this->once())
+            ->method('getSidebar')
+            ->with($this->equalTo('sidebar1'))
+            ->willReturn($sidebar1);
 
-        $page = $this->getMock2([
-            'sidebar1' => [
-                $component1, 'string', true, null, 123,
-                123.45, $component2,
-            ],
-        ]);
-
-        $sidebar1 = $page->getSidebar('sidebar1');
-
-        $expected = [
-            'component1' => $component1,
-            'component2' => $component2,
-        ];
-
-        $this->assertEquals($expected, $sidebar1->getComponents());
+        $page->printSidebar('sidebar1');
     }
 }

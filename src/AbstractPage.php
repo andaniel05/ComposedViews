@@ -87,4 +87,12 @@ abstract class AbstractPage implements RenderInterface
     {
         return $this->sidebars[$id] ?? null;
     }
+
+    public function printSidebar(string $id) : void
+    {
+        $sidebar = $this->getSidebar($id);
+        if ($sidebar) {
+            $sidebar->print();
+        }
+    }
 }
