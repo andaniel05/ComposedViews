@@ -21,8 +21,19 @@ class Sidebar implements RenderInterface
         return $this->id;
     }
 
+    public function getComponents() : array
+    {
+        return [];
+    }
+
     public function render() : string
     {
-        return '';
+        $result = '';
+
+        foreach ($this->getComponents() as $component) {
+            $result .= $component->render();
+        }
+
+        return $result;
     }
 }
