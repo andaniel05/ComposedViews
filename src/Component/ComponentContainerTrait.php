@@ -11,13 +11,13 @@ trait ComponentContainerTrait
         return $this->components;
     }
 
-    protected function find(array $components, string $id) : ?AbstractComponent
+    protected function findOne(array $components, string $id) : ?AbstractComponent
     {
         foreach ($components as $component) {
             if ($id == $component->getId()) {
                 return $component;
             } elseif ($component instanceOf AbstractComposedComponent) {
-                return $this->find($component->getAllComponents(), $id);
+                return $this->findOne($component->getAllComponents(), $id);
             }
         }
 
@@ -26,7 +26,7 @@ trait ComponentContainerTrait
 
     public function getComponent(string $id) : ?AbstractComponent
     {
-        return $this->find($this->getAllComponents(), $id);
+        return $this->findOne($this->getAllComponents(), $id);
     }
 
     public function addComponent(AbstractComponent $component)
