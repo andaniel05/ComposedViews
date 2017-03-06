@@ -17,7 +17,10 @@ trait ComponentContainerTrait
             if ($id == $component->getId()) {
                 return $component;
             } elseif ($component instanceOf AbstractComposedComponent) {
-                return $this->findOne($component->getAllComponents(), $id);
+                $component = $this->findOne($component->getAllComponents(), $id);
+                if ($component) {
+                    return $component;
+                }
             }
         }
 
