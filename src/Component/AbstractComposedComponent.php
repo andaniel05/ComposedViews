@@ -2,7 +2,7 @@
 
 namespace PlatformPHP\ComposedViews\Component;
 
-Abstract class AbstractComposedComponent extends AbstractComponent
+abstract class AbstractComposedComponent extends AbstractComponent implements ComponentContainerInterface
 {
     use ComponentContainerTrait;
 }
