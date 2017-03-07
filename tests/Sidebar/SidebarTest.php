@@ -17,6 +17,16 @@ class SidebarTest extends TestCase
         return Sidebar::class;
     }
 
+    public function getComponentContainerMock()
+    {
+        $container = $this->getMockBuilder($this->getTestClass())
+            ->disableOriginalConstructor()
+            ->setMethods();
+        $container = $this->assumeMock($this->getTestClass(), $container);
+
+        return $container;
+    }
+
     public function provider1()
     {
         return [ ['sidebar1'], ['sidebar2'] ];
