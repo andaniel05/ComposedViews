@@ -4,10 +4,12 @@ namespace PlatformPHP\ComposedViews\Sidebar;
 
 use PlatformPHP\ComposedViews\RenderInterface;
 use PlatformPHP\ComposedViews\Traits\PrintTrait;
+use PlatformPHP\ComposedViews\Component\{ComponentContainerTrait,
+    ComponentContainerInterface};
 
-class Sidebar implements RenderInterface
+class Sidebar implements RenderInterface, ComponentContainerInterface
 {
-    use PrintTrait;
+    use PrintTrait, ComponentContainerTrait;
 
     protected $id;
 
