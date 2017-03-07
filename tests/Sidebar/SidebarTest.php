@@ -68,10 +68,10 @@ class SidebarTest extends TestCase
 
         $sidebar = $this->getMockBuilder(Sidebar::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getComponents'])
+            ->setMethods(['getAllComponents'])
             ->getMock();
         $sidebar->expects($this->once())
-            ->method('getComponents')
+            ->method('getAllComponents')
             ->willReturn($components);
 
         $this->assertEquals($expected, $sidebar->render());

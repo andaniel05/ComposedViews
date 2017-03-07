@@ -255,30 +255,30 @@ class AbstractPageTest extends TestCase
         $this->assertEquals('sidebar1', $sidebar1->getId());
     }
 
-    // public function testInsertionOfComponentsInSidebarDefinition()
-    // {
-    //     $component1 = $this->createMock(AbstractComponent::class);
-    //     $component1->method('getId')->willReturn('component1');
+    public function testInsertionOfComponentsInSidebarOnDefinition()
+    {
+        $component1 = $this->createMock(AbstractComponent::class);
+        $component1->method('getId')->willReturn('component1');
 
-    //     $component2 = $this->createMock(AbstractComponent::class);
-    //     $component2->method('getId')->willReturn('component2');
+        $component2 = $this->createMock(AbstractComponent::class);
+        $component2->method('getId')->willReturn('component2');
 
-    //     $page = $this->getMock2([
-    //         'sidebar1' => [
-    //             $component1, 'string', true, null, 123,
-    //             123.45, $component2,
-    //         ],
-    //     ]);
+        $page = $this->getMock2([
+            'sidebar1' => [
+                $component1, 'string', true, null, 123,
+                123.45, $component2,
+            ],
+        ]);
 
-    //     $sidebar1 = $page->getSidebar('sidebar1');
+        $sidebar1 = $page->getSidebar('sidebar1');
 
-    //     $expected = [
-    //         'component1' => $component1,
-    //         'component2' => $component2,
-    //     ];
+        $expected = [
+            'component1' => $component1,
+            'component2' => $component2,
+        ];
 
-    //     $this->assertEquals($expected, $sidebar1->getComponents());
-    // }
+        $this->assertEquals($expected, $sidebar1->getAllComponents());
+    }
 
     public function testPrintSidebarInvokePrintMethodInTheSidebar()
     {

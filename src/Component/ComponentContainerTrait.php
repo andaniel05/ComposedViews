@@ -11,7 +11,7 @@ trait ComponentContainerTrait
         return $this->components;
     }
 
-    protected function findOne(array $components, string $id) : ?AbstractComponent
+    private function findOne(array $components, string $id) : ?AbstractComponent
     {
         foreach ($components as $component) {
             if ($id == $component->getId()) {

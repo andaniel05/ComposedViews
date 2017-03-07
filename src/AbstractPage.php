@@ -5,6 +5,7 @@ namespace PlatformPHP\ComposedViews;
 use PlatformPHP\ComposedViews\Asset\AssetsTrait;
 use PlatformPHP\ComposedViews\Traits\PrintTrait;
 use PlatformPHP\ComposedViews\Sidebar\Sidebar;
+use PlatformPHP\ComposedViews\Component\AbstractComponent;
 
 abstract class AbstractPage implements RenderInterface
 {
@@ -56,6 +57,8 @@ abstract class AbstractPage implements RenderInterface
     {
         foreach ($this->sidebars() as $key => $value) {
 
+            $sidebar = null;
+
             if (is_int($key) && is_string($value)) {
                 $sidebar = new Sidebar($value);
             } elseif (is_string($key) && is_array($value)) {
@@ -69,7 +72,9 @@ abstract class AbstractPage implements RenderInterface
 
             }
 
-            $this->sidebars[$sidebar->getId()] = $sidebar;
+            if ($sidebar) {
+                $this->sidebars[$sidebar->getId()] = $sidebar;
+            }
         }
     }
 
