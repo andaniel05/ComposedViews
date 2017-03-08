@@ -11,8 +11,7 @@ use PlatformPHP\ComposedViews\Tests\Asset\AssetsTraitTests;
 
 class AbstractPageTest extends TestCase
 {
-    use PrintTraitTests;
-    use AssetsTraitTests;
+    use PrintTraitTests, AssetsTraitTests;
 
     public function setUp()
     {

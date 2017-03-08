@@ -11,6 +11,7 @@ Abstract class AbstractComponent implements RenderInterface
     use AssetsTrait, PrintTrait;
 
     protected $id;
+    protected $parent;
 
     public function __construct(string $id)
     {
@@ -20,5 +21,15 @@ Abstract class AbstractComponent implements RenderInterface
     public function getId() : string
     {
         return $this->id;
+    }
+
+    public function getParent() : ?AbstractComposedComponent
+    {
+        return $this->parent;
+    }
+
+    public function setParent(?AbstractComposedComponent $parent)
+    {
+        $this->parent = $parent;
     }
 }
