@@ -226,4 +226,36 @@ trait ComponentContainerTraitTests
 
         $this->assertNull($this->child->getParent());
     }
+
+    public function initialization1()
+    {
+        $this->child = $this->getMockBuilder(AbstractComponent::class)
+            ->setConstructorArgs(['child'])
+            ->setMethods(['setParent'])
+            ->getMockForAbstractClass();
+
+        $this->container = $this->getComponentContainerMock();
+        $this->container->addComponent($this->child);
+    }
+
+    public function testDropComponentInvokeSetParentWithNullInTheChild()
+    {
+        $this->initialization1();
+
+        $this->child->expects($this->once())
+            ->method('setParent')
+            ->with($this->equalTo(null));
+
+        $this->container->dropComponent('child');
+    }
+
+    public function testDropComponentNotInvokeToSetParentWithNullInTheChildWhenNotifyChildArgumentIsFalse()
+    {
+        $this->initialization1();
+
+        $this->child->expects($this->exactly(0))
+            ->method('setParent');
+
+        $this->container->dropComponent('child', false);
+    }
 }

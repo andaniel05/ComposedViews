@@ -63,11 +63,15 @@ trait ComponentContainerTrait
         }
     }
 
-    public function dropComponent(string $id)
+    public function dropComponent(string $id, bool $notifyChild = true)
     {
         $component = $this->components[$id] ?? null;
         if ($component) {
-            $component->setParent(null);
+
+            if ($notifyChild) {
+                $component->setParent(null);
+            }
+
             unset($this->components[$id]);
         }
     }
