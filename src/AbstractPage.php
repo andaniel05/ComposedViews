@@ -83,7 +83,7 @@ abstract class AbstractPage implements RenderInterface
         return [];
     }
 
-    public function getSidebars() : array
+    public function getAllSidebars() : array
     {
         return $this->sidebars;
     }
@@ -99,5 +99,40 @@ abstract class AbstractPage implements RenderInterface
         if ($sidebar) {
             $sidebar->print();
         }
+    }
+
+    public function getComponent(string $id) : ?AbstractComponent
+    {
+        $component = null;
+
+        $idList = preg_split('/\s+/', $id);
+
+        if (1 == count($idList)) {
+            $component = $this->getComponentInAllSidebars($id);
+        } else {
+            $sidebar = $this->getSidebar($idList[0]);
+            if ($sidebar) {
+                $componentId = preg_split("/{$idList[0]}\s+/", $id)[1];
+                $component = $sidebar->getComponent($componentId);
+            } else {
+                $component = $this->getComponentInAllSidebars($id);
+            }
+        }
+
+        return $component;
+    }
+
+    protected function getComponentInAllSidebars(string $id) : ?AbstractComponent
+    {
+        $component = null;
+
+        foreach ($this->getAllSidebars() as $sidebar) {
+            $component = $sidebar->getComponent($id);
+            if ($component) {
+                break;
+            }
+        }
+
+        return $component;
     }
 }

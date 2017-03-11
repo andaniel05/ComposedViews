@@ -191,7 +191,7 @@ class AbstractPageTest extends TestCase
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
 
-        $this->assertEquals([], $page->getSidebars());
+        $this->assertEquals([], $page->getAllSidebars());
     }
 
     public function getMock2(array $sidebars)
@@ -211,7 +211,7 @@ class AbstractPageTest extends TestCase
     {
         $page = $this->getMock2([]);
 
-        $this->assertEquals([], $page->getSidebars());
+        $this->assertEquals([], $page->getAllSidebars());
     }
 
     public function provider2()
@@ -231,7 +231,7 @@ class AbstractPageTest extends TestCase
     {
         $page = $this->getMock2($def);
 
-        $sidebars = $page->getSidebars();
+        $sidebars = $page->getAllSidebars();
 
         $this->assertCount($total, $sidebars);
         $this->assertContainsOnlyInstancesOf(Sidebar::class, $sidebars);
@@ -298,5 +298,50 @@ class AbstractPageTest extends TestCase
             ->willReturn($sidebar1);
 
         $page->printSidebar('sidebar1');
+    }
+
+    public function initializeSidebarsWithEqualsComponents()
+    {
+        $this->component1 = $this->createMock(AbstractComponent::class);
+        $this->component1->method('getId')->willReturn('component1');
+
+        $this->component2 = $this->createMock(AbstractComponent::class);
+        $this->component2->method('getId')->willReturn('component1');
+
+        $this->sidebar1 = new Sidebar('sidebar1');
+        $this->sidebar1->addComponent($this->component1);
+
+        $this->sidebar2 = new Sidebar('sidebar2');
+        $this->sidebar2->addComponent($this->component2);
+
+        $this->page = $this->getMockBuilder(AbstractPage::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getAllSidebars'])
+            ->getMockForAbstractClass();
+        $this->page->method('getAllSidebars')
+            ->willReturn([
+                'sidebar1' => $this->sidebar1,
+                'sidebar2' => $this->sidebar2,
+            ]);
+    }
+
+    public function testGetComponentReturnTheFirstComponentWhereIdMatch()
+    {
+        $this->initializeSidebarsWithEqualsComponents();
+
+        $this->assertSame(
+            $this->component1,
+            $this->page->getComponent('component1')
+        );
+    }
+
+    public function testGetComponentSearchTheComponentInsideTheSidebar()
+    {
+        $this->initializeSidebarsWithEqualsComponents();
+
+        $this->assertSame(
+            $this->component2,
+            $this->page->getComponent('sidebar2 component1')
+        );
     }
 }
