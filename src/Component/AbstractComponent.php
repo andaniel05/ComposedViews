@@ -32,4 +32,11 @@ Abstract class AbstractComponent implements RenderInterface
     {
         $this->parent = $parent;
     }
+
+    public function detach() : void
+    {
+        if ($this->parent) {
+            $this->parent->dropComponent($this->id);
+        }
+    }
 }

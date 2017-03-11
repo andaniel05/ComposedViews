@@ -61,4 +61,44 @@ class AbstractComponentTest extends TestCase
 
         $this->assertSame($this->parent, $this->component->getParent());
     }
+
+    public function provider2()
+    {
+        return [
+            ['child1', 'child2']
+        ];
+    }
+
+    /**
+     * @dataProvider provider2
+     */
+    public function testDetachInvokeDropComponentInTheParent($childId)
+    {
+        // Arrange
+        //
+
+        $parent = $this->getMockBuilder(AbstractComposedComponent::class)
+            ->setConstructorArgs(['parent'])
+            ->setMethods(['dropComponent'])
+            ->getMockForAbstractClass();
+        $parent->expects($this->once())
+            ->method('dropComponent')
+            ->with($this->equalTo($childId));
+
+        $child = $this->getMockBuilder(AbstractComponent::class)
+            ->setConstructorArgs([$childId])
+            ->getMockForAbstractClass();
+
+        $parent->addComponent($child);
+
+        // Act
+        $child->detach();
+    }
+
+    public function testDetachDoNotNothingWhenParentIsNull()
+    {
+        $this->component->detach();
+
+        $this->assertTrue(true);
+    }
 }
