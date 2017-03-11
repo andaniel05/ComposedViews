@@ -57,6 +57,10 @@ trait ComponentContainerTrait
     public function addComponent(AbstractComponent $component)
     {
         $this->components[$component->getId()] = $component;
+
+        if ($this instanceOf ComponentContainerInterface) {
+            $component->setParent($this);
+        }
     }
 
     public function dropComponent(string $id)

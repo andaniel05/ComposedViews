@@ -23,12 +23,12 @@ Abstract class AbstractComponent implements RenderInterface
         return $this->id;
     }
 
-    public function getParent() : ?AbstractComposedComponent
+    public function getParent() : ?ComponentContainerInterface
     {
         return $this->parent;
     }
 
-    public function setParent(?AbstractComposedComponent $parent)
+    public function setParent(?ComponentContainerInterface $parent)
     {
         $this->parent = $parent;
     }

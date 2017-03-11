@@ -3,7 +3,7 @@
 namespace PlatformPHP\ComposedViews\Tests\Component;
 
 use PlatformPHP\ComposedViews\Component\{AbstractComponent,
-    AbstractComposedComponent};
+    AbstractComposedComponent, ComponentContainerTrait};
 
 trait ComponentContainerTraitTests
 {
@@ -195,5 +195,21 @@ trait ComponentContainerTraitTests
         $this->assertNull(
             $this->container->getComponent('component1 component5')
         );
+    }
+
+    public function testAddComponentRegisterToItSelfAsParentInTheChild()
+    {
+        if ($this->getTestClass() == ComponentContainerTrait::class) {
+            $this->markTestSkipped();
+        }
+
+        $container = $this->getComponentContainerMock();
+        $child = $this->getMockBuilder(AbstractComponent::class)
+            ->setConstructorArgs(['child'])
+            ->getMockForAbstractClass();
+
+        $container->addComponent($child);
+
+        $this->assertSame($container, $child->getParent());
     }
 }
