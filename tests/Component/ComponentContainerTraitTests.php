@@ -197,19 +197,33 @@ trait ComponentContainerTraitTests
         );
     }
 
+    public function insertChildComponent()
+    {
+        $this->container = $this->getComponentContainerMock();
+        $this->child = $this->getMockBuilder(AbstractComponent::class)
+            ->setConstructorArgs(['child'])
+            ->getMockForAbstractClass();
+
+        $this->container->addComponent($this->child);
+    }
+
     public function testAddComponentRegisterToItSelfAsParentInTheChild()
     {
         if ($this->getTestClass() == ComponentContainerTrait::class) {
             $this->markTestSkipped();
         }
 
-        $container = $this->getComponentContainerMock();
-        $child = $this->getMockBuilder(AbstractComponent::class)
-            ->setConstructorArgs(['child'])
-            ->getMockForAbstractClass();
+        $this->insertChildComponent();
 
-        $container->addComponent($child);
+        $this->assertSame($this->container, $this->child->getParent());
+    }
 
-        $this->assertSame($container, $child->getParent());
+    public function testDropComponentSetNullAsParentInTheChild()
+    {
+        $this->insertChildComponent();
+
+        $this->container->dropComponent('child');
+
+        $this->assertNull($this->child->getParent());
     }
 }

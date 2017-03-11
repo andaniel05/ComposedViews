@@ -65,7 +65,11 @@ trait ComponentContainerTrait
 
     public function dropComponent(string $id)
     {
-        unset($this->components[$id]);
+        $component = $this->components[$id] ?? null;
+        if ($component) {
+            $component->setParent(null);
+            unset($this->components[$id]);
+        }
     }
 
     public function existsComponent(string $id) : bool
