@@ -6,12 +6,12 @@ use PlatformPHP\ComposedViews\AbstractPage;
 use PlatformPHP\ComposedViews\Component\AbstractComponent;
 use PlatformPHP\ComposedViews\Sidebar\Sidebar;
 use PlatformPHP\ComposedViews\Tests\TestCase;
-use PlatformPHP\ComposedViews\Tests\Traits\PrintTraitTests;
+use PlatformPHP\ComposedViews\Tests\Traits\{PrintTraitTests, CloningTraitTests};
 use PlatformPHP\ComposedViews\Tests\Asset\AssetsTraitTests;
 
 class AbstractPageTest extends TestCase
 {
-    use PrintTraitTests, AssetsTraitTests;
+    use PrintTraitTests, AssetsTraitTests, CloningTraitTests;
 
     public function setUp()
     {
