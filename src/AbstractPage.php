@@ -9,7 +9,10 @@ use PlatformPHP\ComposedViews\Component\AbstractComponent;
 
 abstract class AbstractPage implements RenderInterface
 {
-    use AssetsTrait, PrintTrait, CloningTrait;
+    use PrintTrait, CloningTrait;
+    use AssetsTrait {
+        getAssets as getPageAssets;
+    }
 
     protected $vars = [];
     protected $sidebars = [];

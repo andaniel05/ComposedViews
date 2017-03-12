@@ -365,4 +365,31 @@ class AbstractPageTest extends TestCase
 
         $page->getComponent($componentId);
     }
+
+    public function testGetPageAssetsReturnAnEmptyArrayByDefault()
+    {
+        $this->assertEquals([], $this->page->getPageAssets());
+    }
+
+    public function testGetPageAssetsIsAliasOfAssetsTraitGetAssets()
+    {
+        $def = [
+            'styles' => [
+                ['bootstrap', '/css/bootstrap.css', [], ],
+                ['custom', '/css/custom.css', ['bootstrap'], '* {color: black}'],
+            ],
+            'scripts' => [
+                ['jquery', '/js/jquery.js'],
+            ],
+        ];
+
+        $page = $this->getMockBuilder(AbstractPage::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['assets'])
+            ->getMockForAbstractClass();
+        $page->method('assets')->willReturn($def);
+        $page->__construct();
+
+        $this->assertCount(3, $page->getPageAssets());
+    }
 }
