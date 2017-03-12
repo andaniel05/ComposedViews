@@ -7,21 +7,13 @@
         }
     ],
     "require": {
-        "php": ">=7.1.0"
+        "php": ">=7.1.0",
+        "myclabs/deep-copy": "^1.5"
     },
     "autoload": {
         "psr-4": {
             "PlatformPHP\\ComposedViews\\": "src/",
             "PlatformPHP\\ComposedViews\\Tests\\": "tests/"
         }
-    },
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "http://localhost/satis/andaniel-projects/"
-        }
-    ],
-    "config": {
-        "secure-http": false
     }
 }
