@@ -49,7 +49,7 @@ class AbstractPageTest extends TestCase
 
     public function testGetVarsReturnAnEmptyArrayByDefault()
     {
-        $this->assertEquals([], $this->page->getVars());
+        $this->assertEquals([], $this->page->getAllVars());
     }
 
     public function provider1()
@@ -74,7 +74,7 @@ class AbstractPageTest extends TestCase
 
         $page->__construct();
 
-        $this->assertEquals($vars, $page->getVars());
+        $this->assertEquals($vars, $page->getAllVars());
     }
 
     public function getMock1()
@@ -135,7 +135,7 @@ class AbstractPageTest extends TestCase
             'var3' => 'value3',
         ];
 
-        $this->assertEquals($expectedVars, $page->getVars());
+        $this->assertEquals($expectedVars, $page->getAllVars());
     }
 
     public function testGetVarsReturnAnArrayWithAllChangedVars()
@@ -152,7 +152,7 @@ class AbstractPageTest extends TestCase
             'var3' => 'new value3',
         ];
 
-        $this->assertEquals($expectedVars, $page->getVars());
+        $this->assertEquals($expectedVars, $page->getAllVars());
     }
 
     public function testPrintVarDoNotPrintNothingIfVarNotExists()

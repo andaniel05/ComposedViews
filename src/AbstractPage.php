@@ -31,7 +31,7 @@ abstract class AbstractPage implements RenderInterface
         return [];
     }
 
-    public function getVars() : array
+    public function getAllVars() : array
     {
         return $this->vars;
     }
@@ -134,5 +134,10 @@ abstract class AbstractPage implements RenderInterface
         }
 
         return $component;
+    }
+
+    public function __clone()
+    {
+        trigger_error('Para clonar una página se debe hacer usando su método clone(). Esto garantiza que se clonan también todos los objetos pertenecientes a la página.');
     }
 }
