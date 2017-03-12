@@ -308,21 +308,17 @@ class AbstractPageTest extends TestCase
         $this->component2 = $this->createMock(AbstractComponent::class);
         $this->component2->method('getId')->willReturn('component1');
 
-        $this->sidebar1 = new Sidebar('sidebar1');
-        $this->sidebar1->addComponent($this->component1);
-
-        $this->sidebar2 = new Sidebar('sidebar2');
-        $this->sidebar2->addComponent($this->component2);
-
         $this->page = $this->getMockBuilder(AbstractPage::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getAllSidebars'])
+            ->setMethods(['sidebars'])
             ->getMockForAbstractClass();
-        $this->page->method('getAllSidebars')
+        $this->page->method('sidebars')
             ->willReturn([
-                'sidebar1' => $this->sidebar1,
-                'sidebar2' => $this->sidebar2,
+                'sidebar1' => [$this->component1],
+                'sidebar2' => [$this->component2],
             ]);
+
+        $this->page->__construct();
     }
 
     public function testGetComponentReturnTheFirstComponentWhereIdMatch()
