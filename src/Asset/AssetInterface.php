@@ -17,4 +17,8 @@ interface AssetInterface
     public function setContent(?string $content);
 
     public function getDependencies() : array;
+
+    public function isUsed() : bool;
+
+    public function setUsed(bool $used);
 }

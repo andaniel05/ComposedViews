@@ -79,4 +79,16 @@ class AssetTest extends TestCase
 
         $this->assertSame($content, $this->asset->getContent());
     }
+
+    public function testIsUsedReturnFalseByDefault()
+    {
+        $this->assertFalse($this->asset->isUsed());
+    }
+
+    public function testIsUsedReturnInsertedBySetUsed()
+    {
+        $this->asset->setUsed(true);
+
+        $this->assertTrue($this->asset->isUsed());
+    }
 }

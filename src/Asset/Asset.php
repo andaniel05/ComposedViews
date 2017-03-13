@@ -9,6 +9,7 @@ class Asset implements AssetInterface
     protected $url;
     protected $deps;
     protected $content;
+    protected $used = false;
 
     public function __construct(string $id, string $group, string $url, array $deps = [], ?string $content = null)
     {
@@ -56,5 +57,15 @@ class Asset implements AssetInterface
     public function getDependencies() : array
     {
         return $this->deps;
+    }
+
+    public function isUsed() : bool
+    {
+        return $this->used;
+    }
+
+    public function setUsed(bool $used)
+    {
+        $this->used = $used;
     }
 }
