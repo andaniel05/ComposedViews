@@ -2,7 +2,7 @@
 
 namespace PlatformPHP\ComposedViews;
 
-use PlatformPHP\ComposedViews\Asset\AssetsTrait;
+use PlatformPHP\ComposedViews\Asset\{AssetsTrait, AssetInterface};
 use PlatformPHP\ComposedViews\Traits\{PrintTrait, CloningTrait};
 use PlatformPHP\ComposedViews\Sidebar\Sidebar;
 use PlatformPHP\ComposedViews\Component\{AbstractComponent,
@@ -171,5 +171,10 @@ abstract class AbstractPage implements RenderInterface
         }
 
         return $assets;
+    }
+
+    public function getAsset(string $id) : ?AssetInterface
+    {
+        return $this->getAllAssets()[$id] ?? null;
     }
 }

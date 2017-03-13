@@ -459,7 +459,19 @@ class AbstractPageTest extends TestCase
         $this->sidebar2 = $this->page->getSidebar('sidebar2');
     }
 
-    public function actForAssetsTest1()
+    public function assertsForAssetsTest()
+    {
+        $assets = $this->page->getAllAssets();
+
+        $this->assertCount(5, $assets);
+        $this->assertSame($this->bootstrapCss, $assets['bootstrap-css']);
+        $this->assertSame($this->styles, $assets['styles']);
+        $this->assertSame($this->jquery, $assets['jquery']);
+        $this->assertSame($this->bootstrapJs, $assets['bootstrap-js']);
+        $this->assertSame($this->scripts, $assets['scripts']);
+    }
+
+    public function testGetAllAssetsCase1()
     {
         $this->initialization1();
 
@@ -469,19 +481,43 @@ class AbstractPageTest extends TestCase
         $this->component4->addComponent($this->component5);
 
         $this->sidebar1->addComponent($this->component1);
+
+        $this->assertsForAssetsTest();
     }
 
-    public function test1()
+    public function testGetAllAssetsCase2()
     {
-        $this->actForAssetsTest1();
+        $this->initialization1();
 
-        $assets = $this->page->getAllAssets();
+        $this->component1->addComponent($this->component2);
+        $this->component2->addComponent($this->component3);
 
-        $this->assertCount(5, $assets);
-        $this->assertSame($this->bootstrapCss, $assets['bootstrap-css']);
-        $this->assertSame($this->styles, $assets['styles']);
-        $this->assertSame($this->jquery, $assets['jquery']);
-        $this->assertSame($this->bootstrapJs, $assets['bootstrap-js']);
-        $this->assertSame($this->scripts, $assets['scripts']);
+        $this->component4->addComponent($this->component5);
+
+        $this->sidebar1->addComponent($this->component1);
+        $this->sidebar2->addComponent($this->component4);
+
+        $this->assertsForAssetsTest();
+    }
+
+    public function testGetAssetReturnNullWhenAssetNotExists()
+    {
+        $this->initialization1();
+
+        $this->assertNull($this->page->getAsset('custom-css'));
+    }
+
+    public function testGetAssetReturnTheAssetWhenExists()
+    {
+        $this->initialization1();
+
+        $this->component1->addComponent($this->component2);
+        $this->component2->addComponent($this->component3);
+        $this->component3->addComponent($this->component4);
+        $this->component4->addComponent($this->component5);
+
+        $this->sidebar1->addComponent($this->component1);
+
+        $this->assertSame($this->jquery, $this->page->getAsset('jquery'));
     }
 }
