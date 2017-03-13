@@ -63,7 +63,7 @@ abstract class AbstractPage implements RenderInterface
 
             $sidebar = null;
 
-            if (is_int($key) && is_string($value)) {
+            if (is_integer($key) && is_string($value)) {
                 $sidebar = new Sidebar($value);
             } elseif (is_string($key) && is_array($value)) {
 
@@ -176,5 +176,23 @@ abstract class AbstractPage implements RenderInterface
     public function getAsset(string $id) : ?AssetInterface
     {
         return $this->getAllAssets()[$id] ?? null;
+    }
+
+    public function getAssets(?string $group = null) : array
+    {
+        $result = [];
+        $assets = $this->getAllAssets();
+
+        if ( ! $group) {
+            return $assets;
+        }
+
+        foreach ($assets as $id => $asset) {
+            if ($group == $asset->getGroup()) {
+                $result[$id] = $asset;
+            }
+        }
+
+        return $result;
     }
 }

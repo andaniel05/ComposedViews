@@ -2,6 +2,8 @@
 
 namespace PlatformPHP\ComposedViews\Tests\Asset;
 
+use PlatformPHP\ComposedViews\AbstractPage;
+
 trait AssetsTraitTests
 {
     public function assetsTraitTestsSetUp()
@@ -46,6 +48,10 @@ trait AssetsTraitTests
 
     public function testInitializeAssets()
     {
+        if (AbstractPage::class == $this->getTestClass()) {
+            $this->markTestSkipped();
+        }
+
         $def = [
             'styles' => [
                 ['bootstrap', '/css/bootstrap.css', [], ],

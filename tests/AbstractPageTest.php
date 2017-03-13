@@ -395,13 +395,26 @@ class AbstractPageTest extends TestCase
         $this->assertCount(3, $page->getPageAssets());
     }
 
-    public function initialization1()
+    public function initializeAssetDummies()
     {
         $this->bootstrapCss = new Asset('bootstrap-css', 'styles', 'http://localhost/css/bootstrap.css');
         $this->styles       = new Asset('styles', 'styles', 'http://localhost/css/styles.css');
         $this->jquery       = new Asset('jquery', 'scripts', 'http://localhost/js/jquery.js');
         $this->bootstrapJs  = new Asset('bootstrap-js', 'scripts', 'http://localhost/js/bootstrap.js');
         $this->scripts      = new Asset('scripts', 'scripts', 'http://localhost/js/scripts.js');
+
+        $this->assets = [
+            'bootstrap-css' => $this->bootstrapCss,
+            'styles'        => $this->styles,
+            'jquery'        => $this->jquery,
+            'bootstrap-js'  => $this->bootstrapJs,
+            'scripts'       => $this->scripts
+        ];
+    }
+
+    public function initialization1()
+    {
+        $this->initializeAssetDummies();
 
         $this->component1 = $this->getMockBuilder(AbstractComposedComponent::class)
             ->setConstructorArgs(['component1'])
@@ -519,5 +532,65 @@ class AbstractPageTest extends TestCase
         $this->sidebar1->addComponent($this->component1);
 
         $this->assertSame($this->jquery, $this->page->getAsset('jquery'));
+    }
+
+    public function provider4()
+    {
+        return [
+            [ ['asset1' => new Asset('asset1', 'group1', 'url1')] ],
+            [ ['asset2' => new Asset('asset2', 'group2', 'url2')] ],
+        ];
+    }
+
+    /**
+     * @dataProvider provider4
+     */
+    public function testGetAssetsReturnResultOfGetAllAssetsWhenGroupIsNull($assets)
+    {
+        $page = $this->getMockBuilder(AbstractPage::class)
+            ->setMethods(['getAllAssets'])
+            ->getMockForAbstractClass();
+        $page->expects($this->once())
+            ->method('getAllAssets')
+            ->willReturn($assets);
+
+        $this->assertEquals($assets, $page->getAssets());
+    }
+
+    public function initialization2()
+    {
+        $this->initializeAssetDummies();
+
+        $this->page = $this->getMockBuilder(AbstractPage::class)
+            ->setMethods(['getAllAssets'])
+            ->getMockForAbstractClass();
+        $this->page->expects($this->once())
+            ->method('getAllAssets')
+            ->willReturn($this->assets);
+    }
+
+    public function testGetAssetsFilterAssetsByGroup1()
+    {
+        $this->initialization2();
+
+        $expected = [
+            'bootstrap-css' => $this->bootstrapCss,
+            'styles' => $this->styles,
+        ];
+
+        $this->assertEquals($expected, $this->page->getAssets('styles'));
+    }
+
+    public function testGetAssetsFilterAssetsByGroup2()
+    {
+        $this->initialization2();
+
+        $expected = [
+            'jquery' => $this->jquery,
+            'bootstrap-js' => $this->bootstrapJs,
+            'scripts' => $this->scripts,
+        ];
+
+        $this->assertEquals($expected, $this->page->getAssets('scripts'));
     }
 }
