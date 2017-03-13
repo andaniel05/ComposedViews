@@ -352,14 +352,14 @@ class AbstractPageTest extends TestCase
     /**
      * @dataProvider provider3
      */
-    public function testGetComponentDelegateInGetComponentInAllSidebarsWhenPatternNotStartBySidebarId($componentId)
+    public function testGetComponentDelegateInGetComponentForAllSidebarsWhenPatternNotStartBySidebarId($componentId)
     {
         $page = $this->getMockBuilder(AbstractPage::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getComponentInAllSidebars'])
+            ->setMethods(['getComponentForAllSidebars'])
             ->getMockForAbstractClass();
         $page->expects($this->once())
-            ->method('getComponentInAllSidebars')
+            ->method('getComponentForAllSidebars')
             ->with($this->equalTo($componentId));
         $page->__construct();
 

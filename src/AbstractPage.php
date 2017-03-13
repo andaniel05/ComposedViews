@@ -111,21 +111,21 @@ abstract class AbstractPage implements RenderInterface
         $idList = preg_split('/\s+/', $id);
 
         if (1 == count($idList)) {
-            $component = $this->getComponentInAllSidebars($id);
+            $component = $this->getComponentForAllSidebars($id);
         } else {
             $sidebar = $this->getSidebar($idList[0]);
             if ($sidebar) {
                 $componentId = preg_split("/{$idList[0]}\s+/", $id)[1];
                 $component = $sidebar->getComponent($componentId);
             } else {
-                $component = $this->getComponentInAllSidebars($id);
+                $component = $this->getComponentForAllSidebars($id);
             }
         }
 
         return $component;
     }
 
-    protected function getComponentInAllSidebars(string $id) : ?AbstractComponent
+    protected function getComponentForAllSidebars(string $id) : ?AbstractComponent
     {
         $component = null;
 
