@@ -5,7 +5,8 @@ namespace PlatformPHP\ComposedViews;
 use PlatformPHP\ComposedViews\Asset\AssetsTrait;
 use PlatformPHP\ComposedViews\Traits\{PrintTrait, CloningTrait};
 use PlatformPHP\ComposedViews\Sidebar\Sidebar;
-use PlatformPHP\ComposedViews\Component\AbstractComponent;
+use PlatformPHP\ComposedViews\Component\{AbstractComponent,
+    ComponentContainerInterface};
 
 abstract class AbstractPage implements RenderInterface
 {
@@ -111,21 +112,21 @@ abstract class AbstractPage implements RenderInterface
         $idList = preg_split('/\s+/', $id);
 
         if (1 == count($idList)) {
-            $component = $this->getComponentForAllSidebars($id);
+            $component = $this->getComponentFromAllSidebars($id);
         } else {
             $sidebar = $this->getSidebar($idList[0]);
             if ($sidebar) {
                 $componentId = preg_split("/{$idList[0]}\s+/", $id)[1];
                 $component = $sidebar->getComponent($componentId);
             } else {
-                $component = $this->getComponentForAllSidebars($id);
+                $component = $this->getComponentFromAllSidebars($id);
             }
         }
 
         return $component;
     }
 
-    protected function getComponentForAllSidebars(string $id) : ?AbstractComponent
+    protected function getComponentFromAllSidebars(string $id) : ?AbstractComponent
     {
         $component = null;
 
@@ -137,5 +138,38 @@ abstract class AbstractPage implements RenderInterface
         }
 
         return $component;
+    }
+
+    protected function getAssetsFromComponents(array $components) : array
+    {
+        $assets = [];
+
+        foreach ($components as $component) {
+
+            if ($component instanceOf ComponentContainerInterface) {
+                $assets = array_merge(
+                    $assets,
+                    $this->getAssetsFromComponents($component->getAllComponents())
+                );
+            }
+
+            $assets = array_merge($assets, $component->getAssets());
+        }
+
+        return $assets;
+    }
+
+    public function getAllAssets() : array
+    {
+        $assets = [];
+
+        foreach ($this->sidebars as $sidebar) {
+            $assets = array_merge(
+                $assets,
+                $this->getAssetsFromComponents($sidebar->getAllComponents())
+            );
+        }
+
+        return $assets;
     }
 }

@@ -3,8 +3,10 @@
 namespace PlatformPHP\ComposedViews\Tests;
 
 use PlatformPHP\ComposedViews\AbstractPage;
-use PlatformPHP\ComposedViews\Component\AbstractComponent;
+use PlatformPHP\ComposedViews\Component\{AbstractComponent,
+    AbstractComposedComponent};
 use PlatformPHP\ComposedViews\Sidebar\Sidebar;
+use PlatformPHP\ComposedViews\Asset\Asset;
 use PlatformPHP\ComposedViews\Tests\TestCase;
 use PlatformPHP\ComposedViews\Tests\Traits\{PrintTraitTests, CloningTraitTests};
 use PlatformPHP\ComposedViews\Tests\Asset\AssetsTraitTests;
@@ -352,14 +354,14 @@ class AbstractPageTest extends TestCase
     /**
      * @dataProvider provider3
      */
-    public function testGetComponentDelegateInGetComponentForAllSidebarsWhenPatternNotStartBySidebarId($componentId)
+    public function testGetComponentDelegateIngetComponentFromAllSidebarsWhenPatternNotStartBySidebarId($componentId)
     {
         $page = $this->getMockBuilder(AbstractPage::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getComponentForAllSidebars'])
+            ->setMethods(['getComponentFromAllSidebars'])
             ->getMockForAbstractClass();
         $page->expects($this->once())
-            ->method('getComponentForAllSidebars')
+            ->method('getComponentFromAllSidebars')
             ->with($this->equalTo($componentId));
         $page->__construct();
 
@@ -391,5 +393,95 @@ class AbstractPageTest extends TestCase
         $page->__construct();
 
         $this->assertCount(3, $page->getPageAssets());
+    }
+
+    public function initialization1()
+    {
+        $this->bootstrapCss = new Asset('bootstrap-css', 'styles', 'http://localhost/css/bootstrap.css');
+        $this->styles       = new Asset('styles', 'styles', 'http://localhost/css/styles.css');
+        $this->jquery       = new Asset('jquery', 'scripts', 'http://localhost/js/jquery.js');
+        $this->bootstrapJs  = new Asset('bootstrap-js', 'scripts', 'http://localhost/js/bootstrap.js');
+        $this->scripts      = new Asset('scripts', 'scripts', 'http://localhost/js/scripts.js');
+
+        $this->component1 = $this->getMockBuilder(AbstractComposedComponent::class)
+            ->setConstructorArgs(['component1'])
+            ->setMethods(['getAssets'])
+            ->getMockForAbstractClass();
+        $this->component1->method('getAssets')
+            ->willReturn([
+                $this->bootstrapCss->getId() => $this->bootstrapCss,
+            ]);
+
+        $this->component2 = $this->getMockBuilder(AbstractComposedComponent::class)
+            ->setConstructorArgs(['component2'])
+            ->setMethods(['getAssets'])
+            ->getMockForAbstractClass();
+        $this->component2->method('getAssets')
+            ->willReturn([
+                $this->styles->getId() => $this->styles,
+            ]);
+
+        $this->component3 = $this->getMockBuilder(AbstractComposedComponent::class)
+            ->setConstructorArgs(['component3'])
+            ->setMethods(['getAssets'])
+            ->getMockForAbstractClass();
+        $this->component3->method('getAssets')
+            ->willReturn([
+                $this->jquery->getId() => $this->jquery,
+            ]);
+
+        $this->component4 = $this->getMockBuilder(AbstractComposedComponent::class)
+            ->setConstructorArgs(['component4'])
+            ->setMethods(['getAssets'])
+            ->getMockForAbstractClass();
+        $this->component4->method('getAssets')
+            ->willReturn([
+                $this->bootstrapJs->getId() => $this->bootstrapJs,
+            ]);
+
+        $this->component5 = $this->getMockBuilder(AbstractComposedComponent::class)
+            ->setConstructorArgs(['component5'])
+            ->setMethods(['getAssets'])
+            ->getMockForAbstractClass();
+        $this->component5->method('getAssets')
+            ->willReturn([
+                $this->scripts->getId() => $this->scripts,
+            ]);
+
+        $this->page = $this->getMockBuilder(AbstractPage::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['sidebars'])
+            ->getMockForAbstractClass();
+        $this->page->method('sidebars')->willReturn(['sidebar1', 'sidebar2']);
+        $this->page->__construct();
+
+        $this->sidebar1 = $this->page->getSidebar('sidebar1');
+        $this->sidebar2 = $this->page->getSidebar('sidebar2');
+    }
+
+    public function actForAssetsTest1()
+    {
+        $this->initialization1();
+
+        $this->component1->addComponent($this->component2);
+        $this->component2->addComponent($this->component3);
+        $this->component3->addComponent($this->component4);
+        $this->component4->addComponent($this->component5);
+
+        $this->sidebar1->addComponent($this->component1);
+    }
+
+    public function test1()
+    {
+        $this->actForAssetsTest1();
+
+        $assets = $this->page->getAllAssets();
+
+        $this->assertCount(5, $assets);
+        $this->assertSame($this->bootstrapCss, $assets['bootstrap-css']);
+        $this->assertSame($this->styles, $assets['styles']);
+        $this->assertSame($this->jquery, $assets['jquery']);
+        $this->assertSame($this->bootstrapJs, $assets['bootstrap-js']);
+        $this->assertSame($this->scripts, $assets['scripts']);
     }
 }
