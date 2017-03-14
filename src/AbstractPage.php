@@ -181,7 +181,7 @@ abstract class AbstractPage implements RenderInterface
     public function getAssets(?string $group = null) : array
     {
         $result = [];
-        $assets = $this->getAllAssets();
+        $assets = $this->getOrderedAssets();
 
         if ( ! $group) {
             return $assets;
@@ -191,6 +191,30 @@ abstract class AbstractPage implements RenderInterface
             if ($group == $asset->getGroup()) {
                 $result[$id] = $asset;
             }
+        }
+
+        return $result;
+    }
+
+    public function getOrderedAssets() : array
+    {
+        $result = [];
+        $assets = $this->getAllAssets();
+
+        $putAssetInOrder = function ($asset) use (&$result, &$assets, &$putAssetInOrder)
+        {
+            foreach ($asset->getDependencies() as $depId) {
+                $dep = $assets[$depId] ?? null;
+                if ($dep && ! isset($result[$depId])) {
+                    $putAssetInOrder($dep);
+                }
+            }
+
+            $result[$asset->getId()] = $asset;
+        };
+
+        foreach ($assets as $asset) {
+            $putAssetInOrder($asset);
         }
 
         return $result;

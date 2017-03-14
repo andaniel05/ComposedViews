@@ -593,4 +593,64 @@ class AbstractPageTest extends TestCase
 
         $this->assertEquals($expected, $this->page->getAssets('scripts'));
     }
+
+    public function initializeAssetsForOrderingTest()
+    {
+        $this->asset1 = new Asset('asset1', 'group', 'url');
+        $this->asset2 = new Asset('asset2', 'group', 'url', ['asset1']);
+        $this->asset3 = new Asset('asset3', 'group', 'url', ['asset2']);
+        $this->asset4 = new Asset('asset4', 'group', 'url', ['asset3']);
+        $this->asset5 = new Asset('asset5', 'group', 'url', ['asset4']);
+    }
+
+    public function provider5()
+    {
+        $this->initializeAssetsForOrderingTest();
+
+        return [
+            [[
+                'asset1' => $this->asset1,
+                'asset2' => $this->asset2,
+                'asset3' => $this->asset3,
+                'asset4' => $this->asset4,
+                'asset5' => $this->asset5,
+            ]],
+            [[
+                'asset3' => $this->asset3,
+                'asset1' => $this->asset1,
+                'asset5' => $this->asset5,
+                'asset4' => $this->asset4,
+                'asset2' => $this->asset2,
+            ]],
+            [[
+                'asset5' => $this->asset5,
+                'asset4' => $this->asset4,
+                'asset3' => $this->asset3,
+                'asset2' => $this->asset2,
+                'asset1' => $this->asset1,
+            ]],
+        ];
+    }
+
+    /**
+     * @dataProvider provider5
+     */
+    public function testGetOrderedAssetsReturnAnArrayWithAssetsInOrder($assets)
+    {
+        $this->initializeAssetsForOrderingTest();
+
+        $page = $this->getMockBuilder(AbstractPage::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getAllAssets'])
+            ->getMockForAbstractClass();
+        $page->method('getAllAssets')->willReturn($assets);
+
+        $keys = array_keys($page->getOrderedAssets());
+
+        $this->assertEquals('asset1', $keys[0]);
+        $this->assertEquals('asset2', $keys[1]);
+        $this->assertEquals('asset3', $keys[2]);
+        $this->assertEquals('asset4', $keys[3]);
+        $this->assertEquals('asset5', $keys[4]);
+    }
 }
