@@ -178,7 +178,7 @@ abstract class AbstractPage implements RenderInterface
         return $this->getAllAssets()[$id] ?? null;
     }
 
-    public function getAssets(?string $group = null, bool $filterUnused = true) : array
+    public function getAssets(?string $group = null, bool $filterUnused = true, bool $markUsage = true) : array
     {
         $result = [];
         $assets = $this->getOrderedAssets();
@@ -189,6 +189,12 @@ abstract class AbstractPage implements RenderInterface
                     unset($assets[$id]);
                 }
             });
+        }
+
+        if ($markUsage) {
+            foreach ($assets as $id => $asset) {
+                $asset->setUsed(true);
+            }
         }
 
         if ( ! $group) {

@@ -703,4 +703,26 @@ class AbstractPageTest extends TestCase
 
         $this->assertEquals($expected, $this->page->getAssets(null, false));
     }
+
+    public function testGetAssetsMarkTheAssetsAsUsedByDefault()
+    {
+        $this->initialization3();
+
+        $this->page->getAssets();
+
+        $this->assertTrue($this->asset1->isUsed());
+        $this->assertTrue($this->asset4->isUsed());
+        $this->assertTrue($this->asset5->isUsed());
+    }
+
+    public function testGetAssetsDoNotMarkTheAssetsAsUsedWhenMarkUsedIsFalse()
+    {
+        $this->initialization3();
+
+        $this->page->getAssets(null, true, false);
+
+        $this->assertFalse($this->asset1->isUsed());
+        $this->assertFalse($this->asset4->isUsed());
+        $this->assertFalse($this->asset5->isUsed());
+    }
 }
