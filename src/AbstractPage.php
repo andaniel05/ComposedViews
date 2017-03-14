@@ -178,10 +178,18 @@ abstract class AbstractPage implements RenderInterface
         return $this->getAllAssets()[$id] ?? null;
     }
 
-    public function getAssets(?string $group = null) : array
+    public function getAssets(?string $group = null, bool $filterUnused = true) : array
     {
         $result = [];
         $assets = $this->getOrderedAssets();
+
+        if ($filterUnused) {
+            array_walk($assets, function ($asset, $id) use (&$assets) {
+                if ($asset->isUsed()) {
+                    unset($assets[$id]);
+                }
+            });
+        }
 
         if ( ! $group) {
             return $assets;

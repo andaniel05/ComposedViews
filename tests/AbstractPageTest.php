@@ -601,6 +601,14 @@ class AbstractPageTest extends TestCase
         $this->asset3 = new Asset('asset3', 'group', 'url', ['asset2']);
         $this->asset4 = new Asset('asset4', 'group', 'url', ['asset3']);
         $this->asset5 = new Asset('asset5', 'group', 'url', ['asset4']);
+
+        $this->assets = [
+            'asset1' => $this->asset1,
+            'asset2' => $this->asset2,
+            'asset3' => $this->asset3,
+            'asset4' => $this->asset4,
+            'asset5' => $this->asset5,
+        ];
     }
 
     public function provider5()
@@ -652,5 +660,47 @@ class AbstractPageTest extends TestCase
         $this->assertEquals('asset3', $keys[2]);
         $this->assertEquals('asset4', $keys[3]);
         $this->assertEquals('asset5', $keys[4]);
+    }
+
+    public function initialization3()
+    {
+        $this->initializeAssetsForOrderingTest();
+
+        $this->asset2->setUsed(true);
+        $this->asset3->setUsed(true);
+
+        $this->page = $this->getMockBuilder(AbstractPage::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getOrderedAssets'])
+            ->getMockForAbstractClass();
+        $this->page->method('getOrderedAssets')->willReturn($this->assets);
+    }
+
+    public function testGetAssetsExcludeTheUsed()
+    {
+        $this->initialization3();
+
+        $expected = [
+            'asset1' => $this->asset1,
+            'asset4' => $this->asset4,
+            'asset5' => $this->asset5,
+        ];
+
+        $this->assertEquals($expected, $this->page->getAssets());
+    }
+
+    public function testGetAssetsNotExcludeTheUsedIfFilterUnUsedIsFalse()
+    {
+        $this->initialization3();
+
+        $expected = [
+            'asset1' => $this->asset1,
+            'asset2' => $this->asset2,
+            'asset3' => $this->asset3,
+            'asset4' => $this->asset4,
+            'asset5' => $this->asset5,
+        ];
+
+        $this->assertEquals($expected, $this->page->getAssets(null, false));
     }
 }
