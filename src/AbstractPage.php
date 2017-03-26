@@ -54,7 +54,9 @@ abstract class AbstractPage implements RenderInterface
 
     public function printVar($var) : void
     {
-        echo $this->vars[$var] ?? null;
+        if (isset($this->vars[$var])) {
+            echo $this->vars[$var];
+        }
     }
 
     protected function initializeSidebars() : void
@@ -232,5 +234,10 @@ abstract class AbstractPage implements RenderInterface
         }
 
         return $result;
+    }
+
+    public function __get(string $name) : ?AbstractComponent
+    {
+        return $this->getComponent($name);
     }
 }

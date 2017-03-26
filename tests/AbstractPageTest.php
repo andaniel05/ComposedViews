@@ -725,4 +725,21 @@ class AbstractPageTest extends TestCase
         $this->assertFalse($this->asset4->isUsed());
         $this->assertFalse($this->asset5->isUsed());
     }
+
+    public function testMagicGetterReturnNullIfComponentIdNotExists()
+    {
+        $this->assertNull($this->page->component100);
+    }
+
+    public function testMagicGetterReturnTheComponentIfExists()
+    {
+        $this->initialization1();
+
+        $this->sidebar1->addComponent($this->component1);
+
+        $this->assertSame(
+            $this->component1,
+            $this->page->component1
+        );
+    }
 }
