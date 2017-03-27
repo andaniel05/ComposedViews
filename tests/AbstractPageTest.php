@@ -742,4 +742,107 @@ class AbstractPageTest extends TestCase
             $this->page->component1
         );
     }
+
+    public function initializeEntities()
+    {
+        $this->component1 = $this->getMockBuilder(AbstractComposedComponent::class)
+            ->setConstructorArgs(['component1'])
+            ->getMockForAbstractClass();
+
+        $this->component2 = $this->getMockBuilder(AbstractComposedComponent::class)
+            ->setConstructorArgs(['component2'])
+            ->getMockForAbstractClass();
+
+        $this->component3 = $this->getMockBuilder(AbstractComposedComponent::class)
+            ->setConstructorArgs(['component3'])
+            ->getMockForAbstractClass();
+
+        $this->component4 = $this->getMockBuilder(AbstractComposedComponent::class)
+            ->setConstructorArgs(['component4'])
+            ->getMockForAbstractClass();
+
+        $this->component5 = $this->getMockBuilder(AbstractComposedComponent::class)
+            ->setConstructorArgs(['component5'])
+            ->getMockForAbstractClass();
+
+        $this->page = $this->getMockBuilder(AbstractPage::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['sidebars'])
+            ->getMockForAbstractClass();
+        $this->page->method('sidebars')->willReturn(['sidebar1', 'sidebar2']);
+        $this->page->__construct();
+
+        $this->sidebar1 = $this->page->getSidebar('sidebar1');
+        $this->sidebar2 = $this->page->getSidebar('sidebar2');
+    }
+
+    public function testComponentsReturnAnGeneratorForTraverseTheComponentTree1()
+    {
+        // Arrange
+        $this->initializeEntities();
+
+        // Act
+        //
+
+        $this->sidebar1->addComponent($this->component1);
+        $this->component1->addComponent($this->component2);
+        $this->component2->addComponent($this->component3);
+        $this->component3->addComponent($this->component4);
+        $this->component4->addComponent($this->component5);
+
+        $components = $this->page->components();
+
+        // Asserts
+        //
+
+        $this->assertSame($this->component1, $components->current());
+
+        $components->next();
+        $this->assertSame($this->component2, $components->current());
+
+        $components->next();
+        $this->assertSame($this->component3, $components->current());
+
+        $components->next();
+        $this->assertSame($this->component4, $components->current());
+
+        $components->next();
+        $this->assertSame($this->component5, $components->current());
+    }
+
+    public function testComponentsReturnAnGeneratorForTraverseTheComponentTree2()
+    {
+        // Arrange
+        $this->initializeEntities();
+
+        // Act
+        //
+
+        $this->sidebar1->addComponent($this->component1);
+
+        $this->component1->addComponent($this->component2);
+        $this->component1->addComponent($this->component3);
+
+        $this->component2->addComponent($this->component4);
+        $this->component4->addComponent($this->component5);
+
+        $components = $this->page->components();
+
+        // Asserts
+        //
+
+        $this->assertSame($this->component1, $components->current());
+
+        $components->next();
+        $this->assertSame($this->component2, $components->current());
+
+        $components->next();
+        $this->assertSame($this->component4, $components->current());
+
+        $components->next();
+        $this->assertSame($this->component5, $components->current());
+
+        $components->next();
+        $this->assertSame($this->component3, $components->current());
+    }
 }

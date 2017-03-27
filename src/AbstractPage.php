@@ -240,4 +240,26 @@ abstract class AbstractPage implements RenderInterface
     {
         return $this->getComponent($name);
     }
+
+    public function components() : iterable
+    {
+        $generator = function (array $sidebars)
+        {
+            $gen = function (array $components) use (&$gen)
+            {
+                foreach ($components as $component) {
+                    yield $component;
+                    if ($component instanceOf ComponentContainerInterface) {
+                        yield from $gen($component->getAllComponents());
+                    }
+                }
+            };
+
+            foreach ($sidebars as $sidebar) {
+                yield from $gen($sidebar->getAllComponents());
+            }
+        };
+
+        return $generator($this->sidebars);
+    }
 }
