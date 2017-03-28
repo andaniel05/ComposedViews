@@ -18,6 +18,7 @@ abstract class AbstractPage implements RenderInterface
     protected $vars = [];
     protected $sidebars = [];
     protected $baseUrl = '';
+    protected $pageAssets = [];
 
     public function __construct(string $baseUrl = '')
     {
@@ -175,6 +176,8 @@ abstract class AbstractPage implements RenderInterface
             );
         }
 
+        $assets = array_merge($assets, $this->pageAssets);
+
         return $assets;
     }
 
@@ -269,5 +272,10 @@ abstract class AbstractPage implements RenderInterface
     public function baseUrl(string $assetUrl = '') : string
     {
         return $this->baseUrl . $assetUrl;
+    }
+
+    public function addAsset(AssetInterface $asset) : void
+    {
+        $this->pageAssets[$asset->getId()] = $asset;
     }
 }

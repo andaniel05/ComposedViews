@@ -881,4 +881,17 @@ class AbstractPageTest extends TestCase
 
         $this->assertEquals($expected, $page->baseUrl($assetUrl));
     }
+
+    public function testGetAllAssetsIncludeInTheResultArrayInsertionsByAddAsset()
+    {
+        $this->initialization1();
+        $this->component1->addComponent($this->component2);
+        $this->sidebar1->addComponent($this->component1);
+
+        $newAsset = new Asset('new-asset', '', '');
+        $this->page->addAsset($newAsset);
+
+        $assets = $this->page->getAllAssets();
+        $this->assertSame($newAsset, $assets['new-asset']);
+    }
 }
