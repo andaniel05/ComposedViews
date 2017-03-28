@@ -17,12 +17,15 @@ abstract class AbstractPage implements RenderInterface
 
     protected $vars = [];
     protected $sidebars = [];
+    protected $baseUrl = '';
 
-    public function __construct()
+    public function __construct(string $baseUrl = '')
     {
         $this->initializeVars();
         $this->initializeAssets();
         $this->initializeSidebars();
+
+        $this->baseUrl = $baseUrl;
     }
 
     protected function initializeVars() : void
@@ -261,5 +264,10 @@ abstract class AbstractPage implements RenderInterface
         };
 
         return $generator($this->sidebars);
+    }
+
+    public function baseUrl(string $assetUrl = '') : string
+    {
+        return $this->baseUrl . $assetUrl;
     }
 }

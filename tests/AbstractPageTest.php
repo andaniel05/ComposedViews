@@ -845,4 +845,40 @@ class AbstractPageTest extends TestCase
         $components->next();
         $this->assertSame($this->component3, $components->current());
     }
+
+    public function testBaseUrlReturnAnEmptyStringByDefault()
+    {
+        $page = $this->getMockForAbstractClass(AbstractPage::class);
+
+        $this->assertEquals('', $page->baseUrl());
+    }
+
+    public function testBaseUrlReturnTheBaseUrlArgument()
+    {
+        $page = $this->getMockBuilder(AbstractPage::class)
+            ->setConstructorArgs(['http://localhost/'])
+            ->getMockForAbstractClass();
+
+        $this->assertEquals('http://localhost/', $page->baseUrl());
+    }
+
+    public function provider6()
+    {
+        return [
+            ['', 'http://localhost/jquery.js', 'http://localhost/jquery.js'],
+            ['http://localhost/', 'jquery.js', 'http://localhost/jquery.js'],
+        ];
+    }
+
+    /**
+     * @dataProvider provider6
+     */
+    public function testBaseUrlReturnMixOfBaseUrlAndAssetUrl($baseUrl, $assetUrl, $expected)
+    {
+        $page = $this->getMockBuilder(AbstractPage::class)
+            ->setConstructorArgs([$baseUrl])
+            ->getMockForAbstractClass();
+
+        $this->assertEquals($expected, $page->baseUrl($assetUrl));
+    }
 }
