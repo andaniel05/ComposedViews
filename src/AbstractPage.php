@@ -5,6 +5,7 @@ namespace PlatformPHP\ComposedViews;
 use PlatformPHP\ComposedViews\Asset\{AssetsTrait, AssetInterface};
 use PlatformPHP\ComposedViews\Traits\{PrintTrait, CloningTrait};
 use PlatformPHP\ComposedViews\Sidebar\Sidebar;
+use PlatformPHP\ComposedViews\Exception\AssetNotFoundException;
 use PlatformPHP\ComposedViews\Component\{AbstractComponent,
     ComponentContainerInterface};
 
@@ -227,6 +228,11 @@ abstract class AbstractPage implements RenderInterface
         {
             foreach ($asset->getDependencies() as $depId) {
                 $dep = $assets[$depId] ?? null;
+
+                if ( ! $dep) {
+                    throw new AssetNotFoundException($asset->getId(), $depId);
+                }
+
                 if ($dep && ! isset($result[$depId])) {
                     $putAssetInOrder($dep);
                 }

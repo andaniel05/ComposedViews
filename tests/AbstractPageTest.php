@@ -894,4 +894,23 @@ class AbstractPageTest extends TestCase
         $assets = $this->page->getAllAssets();
         $this->assertSame($newAsset, $assets['new-asset']);
     }
+
+    /**
+     * @expectedException PlatformPHP\ComposedViews\Exception\AssetNotFoundException
+     */
+    public function testGetAssetsThrowAssetNotFoundExceptionWhenADependencyDoesNotFind()
+    {
+        $assets = [
+            'bootstrap-js' => new Asset('bootstrap-js', 'scripts', 'http://localhost/bootstrap.js', ['jquery'])
+        ];
+
+        $page = $this->getMockBuilder(AbstractPage::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getAllAssets'])
+            ->getMockForAbstractClass();
+        $page->method('getAllAssets')
+            ->willReturn($assets);
+
+        $page->getAssets();
+    }
 }
