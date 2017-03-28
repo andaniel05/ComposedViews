@@ -8,6 +8,7 @@ use PlatformPHP\ComposedViews\Sidebar\Sidebar;
 use PlatformPHP\ComposedViews\Exception\AssetNotFoundException;
 use PlatformPHP\ComposedViews\Component\{AbstractComponent,
     ComponentContainerInterface};
+use Symfony\Component\EventDispatcher\{EventDispatcherInterface, EventDispatcher};
 
 abstract class AbstractPage implements RenderInterface
 {
@@ -20,14 +21,16 @@ abstract class AbstractPage implements RenderInterface
     protected $sidebars = [];
     protected $baseUrl = '';
     protected $pageAssets = [];
+    protected $dispatcher;
 
-    public function __construct(string $baseUrl = '')
+    public function __construct(string $baseUrl = '', EventDispatcherInterface $dispatcher = null)
     {
         $this->initializeVars();
         $this->initializeAssets();
         $this->initializeSidebars();
 
         $this->baseUrl = $baseUrl;
+        $this->dispatcher = $dispatcher ?? new EventDispatcher();
     }
 
     protected function initializeVars() : void
@@ -283,5 +286,10 @@ abstract class AbstractPage implements RenderInterface
     public function addAsset(AssetInterface $asset) : void
     {
         $this->pageAssets[$asset->getId()] = $asset;
+    }
+
+    public function getDispatcher() : EventDispatcherInterface
+    {
+        return $this->dispatcher;
     }
 }

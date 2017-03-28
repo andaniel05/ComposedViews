@@ -10,6 +10,8 @@ use PlatformPHP\ComposedViews\Asset\Asset;
 use PlatformPHP\ComposedViews\Tests\TestCase;
 use PlatformPHP\ComposedViews\Tests\Traits\{PrintTraitTests, CloningTraitTests};
 use PlatformPHP\ComposedViews\Tests\Asset\AssetsTraitTests;
+use Symfony\Component\EventDispatcher\{EventDispatcherInterface,
+    EventDispatcher};
 
 class AbstractPageTest extends TestCase
 {
@@ -912,5 +914,25 @@ class AbstractPageTest extends TestCase
             ->willReturn($assets);
 
         $page->getAssets();
+    }
+
+    public function testGetDispatcherReturnAnInstanceOfSymfonyEventDispatcherClass()
+    {
+        $page = $this->getMockForAbstractClass(AbstractPage::class);
+
+        $this->assertInstanceOf(
+            EventDispatcherInterface::class, $page->getDispatcher()
+        );
+    }
+
+    public function testGetDispatcherReturnTheDispatcherArgument()
+    {
+        $dispatcher = new EventDispatcher();
+
+        $page = $this->getMockBuilder(AbstractPage::class)
+            ->setConstructorArgs(['http://localhost/', $dispatcher])
+            ->getMockForAbstractClass();
+
+        $this->assertSame($dispatcher, $page->getDispatcher());
     }
 }
