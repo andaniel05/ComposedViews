@@ -2,6 +2,7 @@
 
 namespace PlatformPHP\ComposedViews;
 
+use PlatformPHP\ComposedViews\Event\FilterAssetsEvent;
 use PlatformPHP\ComposedViews\Asset\{AssetsTrait, AssetInterface};
 use PlatformPHP\ComposedViews\Traits\{PrintTrait, CloningTrait};
 use PlatformPHP\ComposedViews\Sidebar\Sidebar;
@@ -246,6 +247,13 @@ abstract class AbstractPage implements RenderInterface
 
         foreach ($assets as $asset) {
             $putAssetInOrder($asset);
+        }
+
+        if ($this->dispatcher) {
+            $event = new FilterAssetsEvent($result);
+            $this->dispatcher
+                ->dispatch(PageEvents::FILTER_ASSETS, $event);
+            $result = $event->getAssets();
         }
 
         return $result;

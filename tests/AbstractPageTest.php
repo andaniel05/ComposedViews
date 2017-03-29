@@ -2,7 +2,8 @@
 
 namespace PlatformPHP\ComposedViews\Tests;
 
-use PlatformPHP\ComposedViews\AbstractPage;
+use PlatformPHP\ComposedViews\{AbstractPage, PageEvents};
+use PlatformPHP\ComposedViews\Event\FilterAssetsEvent;
 use PlatformPHP\ComposedViews\Component\{AbstractComponent,
     AbstractComposedComponent};
 use PlatformPHP\ComposedViews\Sidebar\Sidebar;
@@ -934,5 +935,29 @@ class AbstractPageTest extends TestCase
             ->getMockForAbstractClass();
 
         $this->assertSame($dispatcher, $page->getDispatcher());
+    }
+
+    public function testPageFilterAssetsEvent()
+    {
+        $assets = [
+            'jquery' => new Asset('jquery', 'script', 'http://localhost/jquery.js'),
+        ];
+
+        $dispatcher = new EventDispatcher();
+        $dispatcher->addListener(PageEvents::FILTER_ASSETS, function (FilterAssetsEvent $event) {
+            $assets = $event->getAssets();
+            unset($assets['jquery']);
+            $event->setAssets($assets);
+        });
+
+        $page = $this->getMockBuilder(AbstractPage::class)
+            ->setConstructorArgs(['', $dispatcher])
+            ->setMethods(['getAllAssets'])
+            ->getMockForAbstractClass();
+        $page->method('getAllAssets')->willReturn($assets);
+
+        $filteredAssets = $page->getAssets();
+
+        $this->assertEmpty($filteredAssets);
     }
 }
