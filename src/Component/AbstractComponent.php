@@ -4,15 +4,14 @@ namespace PlatformPHP\ComposedViews\Component;
 
 use PlatformPHP\ComposedViews\{AbstractPage, RenderInterface};
 use PlatformPHP\ComposedViews\Asset\AssetsTrait;
-use PlatformPHP\ComposedViews\Traits\PrintTrait;
+use PlatformPHP\ComposedViews\Traits\{PrintTrait, PageTrait};
 
-Abstract class AbstractComponent implements RenderInterface
+abstract class AbstractComponent implements RenderInterface
 {
-    use AssetsTrait, PrintTrait;
+    use AssetsTrait, PrintTrait, PageTrait;
 
     protected $id;
     protected $parent;
-    protected $page;
 
     public function __construct(string $id)
     {
@@ -39,15 +38,5 @@ Abstract class AbstractComponent implements RenderInterface
         if ($this->parent) {
             $this->parent->dropComponent($this->id);
         }
-    }
-
-    public function getPage() : ?AbstractPage
-    {
-        return $this->page;
-    }
-
-    public function setPage(?AbstractPage $page)
-    {
-        $this->page = $page;
     }
 }
