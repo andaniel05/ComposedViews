@@ -102,4 +102,9 @@ class AbstractComponentTest extends TestCase
 
         $this->assertTrue(true);
     }
+
+    public function testGetPage_ReturnNullByDefault()
+    {
+        $this->assertNull($this->component->getPage());
+    }
 }
