@@ -11,7 +11,7 @@ class Asset implements AssetInterface
     protected $content;
     protected $used = false;
 
-    public function __construct(string $id, string $group, string $url, array $deps = [], ?string $content = null)
+    public function __construct(string $id, string $group, ?string $url, array $deps = [], ?string $content = null)
     {
         $this->id      = $id;
         $this->group   = $group;
@@ -30,12 +30,12 @@ class Asset implements AssetInterface
         return $this->group;
     }
 
-    public function getUrl() : string
+    public function getUrl() : ?string
     {
         return $this->url;
     }
 
-    public function setUrl(string $url)
+    public function setUrl(?string $url)
     {
         $this->url = $url;
 

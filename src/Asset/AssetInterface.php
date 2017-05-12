@@ -8,9 +8,9 @@ interface AssetInterface
 
     public function getGroup() : string;
 
-    public function getUrl() : string;
+    public function getUrl() : ?string;
 
-    public function setUrl(string $url);
+    public function setUrl(?string $url);
 
     public function getContent() : ?string;
 
