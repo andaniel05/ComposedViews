@@ -405,13 +405,15 @@ class AbstractPageTest extends TestCase
         $this->jquery       = new Asset('jquery', 'scripts', 'http://localhost/js/jquery.js');
         $this->bootstrapJs  = new Asset('bootstrap-js', 'scripts', 'http://localhost/js/bootstrap.js');
         $this->scripts      = new Asset('scripts', 'scripts', 'http://localhost/js/scripts.js');
+        $this->customJs      = new Asset('custom-js', 'scripts', 'http://localhost/js/custom-js.js');
 
         $this->assets = [
             'bootstrap-css' => $this->bootstrapCss,
             'styles'        => $this->styles,
             'jquery'        => $this->jquery,
             'bootstrap-js'  => $this->bootstrapJs,
-            'scripts'       => $this->scripts
+            'scripts'       => $this->scripts,
+            'custom-js'     => $this->customJs,
         ];
     }
 
@@ -466,9 +468,10 @@ class AbstractPageTest extends TestCase
 
         $this->page = $this->getMockBuilder(AbstractPage::class)
             ->disableOriginalConstructor()
-            ->setMethods(['sidebars'])
+            ->setMethods(['sidebars', 'assets'])
             ->getMockForAbstractClass();
         $this->page->method('sidebars')->willReturn(['sidebar1', 'sidebar2']);
+        $this->page->method('assets')->willReturn([$this->customJs]);
         $this->page->__construct();
 
         $this->sidebar1 = $this->page->getSidebar('sidebar1');
@@ -479,12 +482,13 @@ class AbstractPageTest extends TestCase
     {
         $assets = $this->page->getAllAssets();
 
-        $this->assertCount(5, $assets);
+        $this->assertCount(6, $assets);
         $this->assertSame($this->bootstrapCss, $assets['bootstrap-css']);
         $this->assertSame($this->styles, $assets['styles']);
         $this->assertSame($this->jquery, $assets['jquery']);
         $this->assertSame($this->bootstrapJs, $assets['bootstrap-js']);
         $this->assertSame($this->scripts, $assets['scripts']);
+        $this->assertSame($this->customJs, $assets['custom-js']);
     }
 
     public function testGetAllAssetsCase1()
@@ -535,6 +539,7 @@ class AbstractPageTest extends TestCase
         $this->sidebar1->addComponent($this->component1);
 
         $this->assertSame($this->jquery, $this->page->getAsset('jquery'));
+        $this->assertSame($this->customJs, $this->page->getAsset('custom-js'));
     }
 
     public function provider4()
@@ -589,9 +594,10 @@ class AbstractPageTest extends TestCase
         $this->initialization2();
 
         $expected = [
-            'jquery' => $this->jquery,
+            'jquery'       => $this->jquery,
             'bootstrap-js' => $this->bootstrapJs,
-            'scripts' => $this->scripts,
+            'scripts'      => $this->scripts,
+            'custom-js'    => $this->customJs,
         ];
 
         $this->assertEquals($expected, $this->page->getAssets('scripts'));
