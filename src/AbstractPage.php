@@ -172,7 +172,7 @@ abstract class AbstractPage implements RenderInterface
 
     public function getAllAssets() : array
     {
-        $assets = [];
+        $assets = $this->getPageAssets();
 
         foreach ($this->sidebars as $sidebar) {
             $assets = array_merge(
