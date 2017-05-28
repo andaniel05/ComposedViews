@@ -8,7 +8,7 @@ trait PrintTrait
 
     public function print() : void
     {
-        echo $this->render();
+        echo $this->html();
 
         $this->printed = true;
     }

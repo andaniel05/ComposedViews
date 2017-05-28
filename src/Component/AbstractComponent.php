@@ -2,11 +2,11 @@
 
 namespace PlatformPHP\ComposedViews\Component;
 
-use PlatformPHP\ComposedViews\{AbstractPage, RenderInterface};
+use PlatformPHP\ComposedViews\{AbstractPage, HtmlInterface};
 use PlatformPHP\ComposedViews\Asset\AssetsTrait;
 use PlatformPHP\ComposedViews\Traits\{PrintTrait, PageTrait};
 
-abstract class AbstractComponent implements RenderInterface
+abstract class AbstractComponent implements HtmlInterface
 {
     use AssetsTrait, PrintTrait, PageTrait;
 

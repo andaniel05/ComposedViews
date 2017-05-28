@@ -11,7 +11,7 @@ use PlatformPHP\ComposedViews\Component\{AbstractComponent,
     ComponentContainerInterface};
 use Symfony\Component\EventDispatcher\{EventDispatcherInterface, EventDispatcher};
 
-abstract class AbstractPage implements RenderInterface
+abstract class AbstractPage implements HtmlInterface
 {
     use PrintTrait, CloningTrait;
     use AssetsTrait {

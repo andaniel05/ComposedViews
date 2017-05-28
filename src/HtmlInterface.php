@@ -2,9 +2,9 @@
 
 namespace PlatformPHP\ComposedViews;
 
-interface RenderInterface
+interface HtmlInterface
 {
-    public function render() : ?string;
+    public function html() : ?string;
 
     public function print() : void;
 }

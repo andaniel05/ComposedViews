@@ -2,12 +2,12 @@
 
 namespace PlatformPHP\ComposedViews\Sidebar;
 
-use PlatformPHP\ComposedViews\RenderInterface;
+use PlatformPHP\ComposedViews\HtmlInterface;
 use PlatformPHP\ComposedViews\Traits\PrintTrait;
 use PlatformPHP\ComposedViews\Component\{ComponentContainerTrait,
     ComponentContainerInterface};
 
-class Sidebar implements RenderInterface, ComponentContainerInterface
+class Sidebar implements HtmlInterface, ComponentContainerInterface
 {
     use PrintTrait, ComponentContainerTrait;
 
@@ -23,12 +23,12 @@ class Sidebar implements RenderInterface, ComponentContainerInterface
         return $this->id;
     }
 
-    public function render() : string
+    public function html() : string
     {
         $result = '';
 
         foreach ($this->getAllComponents() as $component) {
-            $result .= $component->render();
+            $result .= $component->html();
         }
 
         return $result;

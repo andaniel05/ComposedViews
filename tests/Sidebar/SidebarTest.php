@@ -53,13 +53,13 @@ class SidebarTest extends TestCase
     /**
      * @dataProvider provider2
      */
-    public function testRenderReturnAnStringWithRenderResultOfAllComponents($result1, $result2, $expected)
+    public function testHtmlReturnAnStringWithHtmlResultOfAllComponents($result1, $result2, $expected)
     {
         $component1 = $this->createMock(AbstractComponent::class);
-        $component1->method('render')->willReturn($result1);
+        $component1->method('html')->willReturn($result1);
 
         $component2 = $this->createMock(AbstractComponent::class);
-        $component2->method('render')->willReturn($result2);
+        $component2->method('html')->willReturn($result2);
 
         $components = [
             'component1' => $component1,
@@ -74,6 +74,6 @@ class SidebarTest extends TestCase
             ->method('getAllComponents')
             ->willReturn($components);
 
-        $this->assertEquals($expected, $sidebar->render());
+        $this->assertEquals($expected, $sidebar->html());
     }
 }

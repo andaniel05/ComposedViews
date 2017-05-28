@@ -3,7 +3,7 @@
 namespace PlatformPHP\ComposedViews\Tests\Traits;
 
 use PlatformPHP\ComposedViews\Traits\PrintTrait;
-use PlatformPHP\ComposedViews\RenderInterface;
+use PlatformPHP\ComposedViews\HtmlInterface;
 
 trait PrintTraitTests
 {
@@ -17,19 +17,19 @@ trait PrintTraitTests
     /**
      * @dataProvider printTraitTestsProvider1
      */
-    public function testPrintPrintResultOfRenderMethod($renderResult)
+    public function testPrintPrintResultOfHtmlMethod($htmlResult)
     {
         $trait = $this->getMockBuilder($this->getTestClass())
             ->disableOriginalConstructor()
-            ->setMethods(['render']);
+            ->setMethods(['html']);
         $trait = $this->assumeMock($this->getTestClass(), $trait);
         $trait->expects($this->once())
-            ->method('render')
-            ->willReturn($renderResult);
+            ->method('html')
+            ->willReturn($htmlResult);
 
         $trait->print();
 
-        $this->expectOutputString($renderResult);
+        $this->expectOutputString($htmlResult);
     }
 
     public function testIsPrintedReturnFalseByDefault()
@@ -45,10 +45,10 @@ trait PrintTraitTests
     {
         $trait = $this->getMockBuilder($this->getTestClass())
             ->disableOriginalConstructor()
-            ->setMethods(['render']);
+            ->setMethods(['html']);
         $trait = $this->assumeMock($this->getTestClass(), $trait);
         $trait->expects($this->once())
-            ->method('render')->willReturn('');
+            ->method('html')->willReturn('');
 
         $trait->print();
 
