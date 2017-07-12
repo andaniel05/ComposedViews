@@ -4,7 +4,7 @@ namespace PlatformPHP\ComposedViews\Tests;
 
 use PlatformPHP\ComposedViews\AbstractPage;
 use PlatformPHP\ComposedViews\Component\{AbstractComponent,
-    AbstractComposedComponent};
+    AbstractSuperComponent};
 use PlatformPHP\ComposedViews\Tests\TestCase;
 use PlatformPHP\ComposedViews\Tests\Traits\PrintTraitTests;
 use PlatformPHP\ComposedViews\Tests\Asset\AssetsTraitTests;
@@ -49,7 +49,7 @@ class AbstractComponentTest extends TestCase
 
     public function setParentInComponent()
     {
-        $this->parent = $this->getMockBuilder(AbstractComposedComponent::class)
+        $this->parent = $this->getMockBuilder(AbstractSuperComponent::class)
             ->setConstructorArgs(['parent'])
             ->getMockForAbstractClass();
 
@@ -78,7 +78,7 @@ class AbstractComponentTest extends TestCase
         // Arrange
         //
 
-        $parent = $this->getMockBuilder(AbstractComposedComponent::class)
+        $parent = $this->getMockBuilder(AbstractSuperComponent::class)
             ->setConstructorArgs(['parent'])
             ->setMethods(['dropComponent'])
             ->getMockForAbstractClass();

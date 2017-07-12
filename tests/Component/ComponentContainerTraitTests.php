@@ -3,7 +3,7 @@
 namespace PlatformPHP\ComposedViews\Tests\Component;
 
 use PlatformPHP\ComposedViews\Component\{AbstractComponent,
-    AbstractComposedComponent, ComponentContainerTrait};
+    AbstractSuperComponent, ComponentContainerTrait};
 
 trait ComponentContainerTraitTests
 {
@@ -95,23 +95,23 @@ trait ComponentContainerTraitTests
     {
         $container = $this->getComponentContainerMock();
 
-        $component1 = $this->getMockBuilder(AbstractComposedComponent::class)
+        $component1 = $this->getMockBuilder(AbstractSuperComponent::class)
             ->setConstructorArgs(['component1'])
             ->getMockForAbstractClass();
 
-        $component2 = $this->getMockBuilder(AbstractComposedComponent::class)
+        $component2 = $this->getMockBuilder(AbstractSuperComponent::class)
             ->setConstructorArgs(['component2'])
             ->getMockForAbstractClass();
 
-        $component3 = $this->getMockBuilder(AbstractComposedComponent::class)
+        $component3 = $this->getMockBuilder(AbstractSuperComponent::class)
             ->setConstructorArgs(['component3'])
             ->getMockForAbstractClass();
 
-        $component4 = $this->getMockBuilder(AbstractComposedComponent::class)
+        $component4 = $this->getMockBuilder(AbstractSuperComponent::class)
             ->setConstructorArgs(['component4'])
             ->getMockForAbstractClass();
 
-        $component5 = $this->getMockBuilder(AbstractComposedComponent::class)
+        $component5 = $this->getMockBuilder(AbstractSuperComponent::class)
             ->setConstructorArgs(['component5'])
             ->getMockForAbstractClass();
 

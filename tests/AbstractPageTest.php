@@ -5,7 +5,7 @@ namespace PlatformPHP\ComposedViews\Tests;
 use PlatformPHP\ComposedViews\{AbstractPage, PageEvents};
 use PlatformPHP\ComposedViews\Event\FilterAssetsEvent;
 use PlatformPHP\ComposedViews\Component\{AbstractComponent,
-    AbstractComposedComponent};
+    AbstractSuperComponent};
 use PlatformPHP\ComposedViews\Sidebar\Sidebar;
 use PlatformPHP\ComposedViews\Asset\Asset;
 use PlatformPHP\ComposedViews\Tests\TestCase;
@@ -421,7 +421,7 @@ class AbstractPageTest extends TestCase
     {
         $this->initializeAssetDummies();
 
-        $this->component1 = $this->getMockBuilder(AbstractComposedComponent::class)
+        $this->component1 = $this->getMockBuilder(AbstractSuperComponent::class)
             ->setConstructorArgs(['component1'])
             ->setMethods(['getAssets'])
             ->getMockForAbstractClass();
@@ -430,7 +430,7 @@ class AbstractPageTest extends TestCase
                 $this->bootstrapCss->getId() => $this->bootstrapCss,
             ]);
 
-        $this->component2 = $this->getMockBuilder(AbstractComposedComponent::class)
+        $this->component2 = $this->getMockBuilder(AbstractSuperComponent::class)
             ->setConstructorArgs(['component2'])
             ->setMethods(['getAssets'])
             ->getMockForAbstractClass();
@@ -439,7 +439,7 @@ class AbstractPageTest extends TestCase
                 $this->styles->getId() => $this->styles,
             ]);
 
-        $this->component3 = $this->getMockBuilder(AbstractComposedComponent::class)
+        $this->component3 = $this->getMockBuilder(AbstractSuperComponent::class)
             ->setConstructorArgs(['component3'])
             ->setMethods(['getAssets'])
             ->getMockForAbstractClass();
@@ -448,7 +448,7 @@ class AbstractPageTest extends TestCase
                 $this->jquery->getId() => $this->jquery,
             ]);
 
-        $this->component4 = $this->getMockBuilder(AbstractComposedComponent::class)
+        $this->component4 = $this->getMockBuilder(AbstractSuperComponent::class)
             ->setConstructorArgs(['component4'])
             ->setMethods(['getAssets'])
             ->getMockForAbstractClass();
@@ -457,7 +457,7 @@ class AbstractPageTest extends TestCase
                 $this->bootstrapJs->getId() => $this->bootstrapJs,
             ]);
 
-        $this->component5 = $this->getMockBuilder(AbstractComposedComponent::class)
+        $this->component5 = $this->getMockBuilder(AbstractSuperComponent::class)
             ->setConstructorArgs(['component5'])
             ->setMethods(['getAssets'])
             ->getMockForAbstractClass();
@@ -754,23 +754,23 @@ class AbstractPageTest extends TestCase
 
     public function initializeEntities()
     {
-        $this->component1 = $this->getMockBuilder(AbstractComposedComponent::class)
+        $this->component1 = $this->getMockBuilder(AbstractSuperComponent::class)
             ->setConstructorArgs(['component1'])
             ->getMockForAbstractClass();
 
-        $this->component2 = $this->getMockBuilder(AbstractComposedComponent::class)
+        $this->component2 = $this->getMockBuilder(AbstractSuperComponent::class)
             ->setConstructorArgs(['component2'])
             ->getMockForAbstractClass();
 
-        $this->component3 = $this->getMockBuilder(AbstractComposedComponent::class)
+        $this->component3 = $this->getMockBuilder(AbstractSuperComponent::class)
             ->setConstructorArgs(['component3'])
             ->getMockForAbstractClass();
 
-        $this->component4 = $this->getMockBuilder(AbstractComposedComponent::class)
+        $this->component4 = $this->getMockBuilder(AbstractSuperComponent::class)
             ->setConstructorArgs(['component4'])
             ->getMockForAbstractClass();
 
-        $this->component5 = $this->getMockBuilder(AbstractComposedComponent::class)
+        $this->component5 = $this->getMockBuilder(AbstractSuperComponent::class)
             ->setConstructorArgs(['component5'])
             ->getMockForAbstractClass();
 

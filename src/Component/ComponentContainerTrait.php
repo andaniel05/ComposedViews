@@ -16,7 +16,7 @@ trait ComponentContainerTrait
         foreach ($components as $component) {
             if ($id == $component->getId()) {
                 return $component;
-            } elseif ($component instanceOf AbstractComposedComponent) {
+            } elseif ($component instanceOf AbstractSuperComponent) {
                 $component = $this->findOne($component->getAllComponents(), $id);
                 if ($component) {
                     return $component;
