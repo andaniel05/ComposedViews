@@ -9,7 +9,7 @@ class ComponentContainerTraitTest extends TestCase
 {
     use ComponentContainerTraitTests;
 
-    public function getTestClass() : string
+    public function getTestClass(): string
     {
         return ComponentContainerTrait::class;
     }

@@ -6,14 +6,14 @@ trait PrintTrait
 {
     protected $printed = false;
 
-    public function print() : void
+    public function print(): void
     {
         echo $this->html();
 
         $this->printed = true;
     }
 
-    public function isPrinted() : bool
+    public function isPrinted(): bool
     {
         return $this->printed;
     }

@@ -18,12 +18,12 @@ class Sidebar implements HtmlInterface, ComponentContainerInterface
         $this->id = $id;
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return $this->id;
     }
 
-    public function html() : string
+    public function html(): string
     {
         $result = '';
 

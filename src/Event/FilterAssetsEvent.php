@@ -13,7 +13,7 @@ class FilterAssetsEvent extends Event
         $this->assets = $assets;
     }
 
-    public function getAssets() : array
+    public function getAssets(): array
     {
         return $this->assets;
     }

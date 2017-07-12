@@ -18,12 +18,12 @@ abstract class AbstractComponent implements HtmlInterface
         $this->id = $id;
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return $this->id;
     }
 
-    public function getParent() : ?ComponentContainerInterface
+    public function getParent(): ?ComponentContainerInterface
     {
         return $this->parent;
     }
@@ -33,7 +33,7 @@ abstract class AbstractComponent implements HtmlInterface
         $this->parent = $parent;
     }
 
-    public function detach() : void
+    public function detach(): void
     {
         if ($this->parent) {
             $this->parent->dropComponent($this->id);

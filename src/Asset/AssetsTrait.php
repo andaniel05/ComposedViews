@@ -6,17 +6,17 @@ trait AssetsTrait
 {
     protected $assets = [];
 
-    protected function assets() : array
+    protected function assets(): array
     {
         return [];
     }
 
-    public function getAssets() : array
+    public function getAssets(): array
     {
         return $this->assets;
     }
 
-    protected function initializeAssets() : void
+    protected function initializeAssets(): void
     {
         foreach ($this->assets() as $key => $value) {
             if (is_string($key) && is_array($value)) {

@@ -20,7 +20,7 @@ class AbstractComponentTest extends TestCase
             ->getMockForAbstractClass();
     }
 
-    public function getTestClass() : string
+    public function getTestClass(): string
     {
         return AbstractComponent::class;
     }

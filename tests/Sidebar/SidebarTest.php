@@ -12,7 +12,7 @@ class SidebarTest extends TestCase
 {
     use PrintTraitTests, ComponentContainerTraitTests;
 
-    public function getTestClass() : string
+    public function getTestClass(): string
     {
         return Sidebar::class;
     }

@@ -34,17 +34,17 @@ abstract class AbstractPage implements HtmlInterface
         $this->dispatcher = $dispatcher ?? new EventDispatcher();
     }
 
-    protected function initializeVars() : void
+    protected function initializeVars(): void
     {
         $this->vars = $this->vars();
     }
 
-    protected function vars() : array
+    protected function vars(): array
     {
         return [];
     }
 
-    public function getAllVars() : array
+    public function getAllVars(): array
     {
         return $this->vars;
     }
@@ -61,14 +61,14 @@ abstract class AbstractPage implements HtmlInterface
         }
     }
 
-    public function printVar($var) : void
+    public function printVar($var): void
     {
         if (isset($this->vars[$var])) {
             echo $this->vars[$var];
         }
     }
 
-    protected function initializeSidebars() : void
+    protected function initializeSidebars(): void
     {
         foreach ($this->sidebars() as $key => $value) {
 
@@ -93,22 +93,22 @@ abstract class AbstractPage implements HtmlInterface
         }
     }
 
-    protected function sidebars() : array
+    protected function sidebars(): array
     {
         return [];
     }
 
-    public function getAllSidebars() : array
+    public function getAllSidebars(): array
     {
         return $this->sidebars;
     }
 
-    public function getSidebar(string $id) : ?Sidebar
+    public function getSidebar(string $id): ?Sidebar
     {
         return $this->sidebars[$id] ?? null;
     }
 
-    public function printSidebar(string $id) : void
+    public function printSidebar(string $id): void
     {
         $sidebar = $this->getSidebar($id);
         if ($sidebar) {
@@ -116,7 +116,7 @@ abstract class AbstractPage implements HtmlInterface
         }
     }
 
-    public function getComponent(string $id) : ?AbstractComponent
+    public function getComponent(string $id): ?AbstractComponent
     {
         $component = null;
 
@@ -137,7 +137,7 @@ abstract class AbstractPage implements HtmlInterface
         return $component;
     }
 
-    protected function getComponentFromAllSidebars(string $id) : ?AbstractComponent
+    protected function getComponentFromAllSidebars(string $id): ?AbstractComponent
     {
         $component = null;
 
@@ -151,7 +151,7 @@ abstract class AbstractPage implements HtmlInterface
         return $component;
     }
 
-    protected function getAssetsFromComponents(array $components) : array
+    protected function getAssetsFromComponents(array $components): array
     {
         $assets = [];
 
@@ -170,7 +170,7 @@ abstract class AbstractPage implements HtmlInterface
         return $assets;
     }
 
-    public function getAllAssets() : array
+    public function getAllAssets(): array
     {
         $assets = $this->getPageAssets();
 
@@ -186,12 +186,12 @@ abstract class AbstractPage implements HtmlInterface
         return $assets;
     }
 
-    public function getAsset(string $id) : ?AssetInterface
+    public function getAsset(string $id): ?AssetInterface
     {
         return $this->getAllAssets()[$id] ?? null;
     }
 
-    public function getAssets(?string $group = null, bool $filterUnused = true, bool $markUsage = true) : array
+    public function getAssets(?string $group = null, bool $filterUnused = true, bool $markUsage = true): array
     {
         $result = [];
         $assets = $this->getOrderedAssets();
@@ -223,7 +223,7 @@ abstract class AbstractPage implements HtmlInterface
         return $result;
     }
 
-    public function getOrderedAssets() : array
+    public function getOrderedAssets(): array
     {
         $result = [];
         $assets = $this->getAllAssets();
@@ -259,12 +259,12 @@ abstract class AbstractPage implements HtmlInterface
         return $result;
     }
 
-    public function __get(string $name) : ?AbstractComponent
+    public function __get(string $name): ?AbstractComponent
     {
         return $this->getComponent($name);
     }
 
-    public function components() : iterable
+    public function components(): iterable
     {
         $generator = function (array $sidebars)
         {
@@ -286,17 +286,17 @@ abstract class AbstractPage implements HtmlInterface
         return $generator($this->sidebars);
     }
 
-    public function baseUrl(string $assetUrl = '') : string
+    public function baseUrl(string $assetUrl = ''): string
     {
         return $this->baseUrl . $assetUrl;
     }
 
-    public function addAsset(AssetInterface $asset) : void
+    public function addAsset(AssetInterface $asset): void
     {
         $this->pageAssets[$asset->getId()] = $asset;
     }
 
-    public function getDispatcher() : EventDispatcherInterface
+    public function getDispatcher(): EventDispatcherInterface
     {
         return $this->dispatcher;
     }

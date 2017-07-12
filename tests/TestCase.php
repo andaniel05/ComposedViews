@@ -8,7 +8,7 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 class TestCase extends PHPUnitTestCase
 {
-    public function assumeMock(string $mockClass, MockBuilder $builder) : MockObject
+    public function assumeMock(string $mockClass, MockBuilder $builder): MockObject
     {
         $reflectionClass = new \ReflectionClass($mockClass);
         if ($reflectionClass->isTrait()) {

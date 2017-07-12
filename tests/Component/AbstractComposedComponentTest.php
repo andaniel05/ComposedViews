@@ -11,7 +11,7 @@ class AbstractComposedComponentTest extends TestCase
 {
     use ComponentContainerTraitTests, CloningTraitTests;
 
-    public function getTestClass() : string
+    public function getTestClass(): string
     {
         return AbstractComposedComponent::class;
     }

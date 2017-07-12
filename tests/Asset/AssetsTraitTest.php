@@ -9,7 +9,7 @@ class AssetsTraitTest extends TestCase
 {
     use AssetsTraitTests;
 
-    public function getTestClass() : string
+    public function getTestClass(): string
     {
         return AssetsTrait::class;
     }

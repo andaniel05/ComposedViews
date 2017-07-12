@@ -6,12 +6,12 @@ trait ComponentContainerTrait
 {
     protected $components = [];
 
-    public function getAllComponents() : array
+    public function getAllComponents(): array
     {
         return $this->components;
     }
 
-    private function findOne(array $components, string $id) : ?AbstractComponent
+    private function findOne(array $components, string $id): ?AbstractComponent
     {
         foreach ($components as $component) {
             if ($id == $component->getId()) {
@@ -27,7 +27,7 @@ trait ComponentContainerTrait
         return null;
     }
 
-    public function getComponent(string $id) : ?AbstractComponent
+    public function getComponent(string $id): ?AbstractComponent
     {
         $idList = preg_split('/\s+/', $id);
 
@@ -76,7 +76,7 @@ trait ComponentContainerTrait
         }
     }
 
-    public function existsComponent(string $id) : bool
+    public function existsComponent(string $id): bool
     {
         return isset($this->components[$id]);
     }

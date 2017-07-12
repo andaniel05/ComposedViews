@@ -8,7 +8,7 @@ trait PageTrait
 {
     protected $page;
 
-    public function getPage() : ?AbstractPage
+    public function getPage(): ?AbstractPage
     {
         return $this->page;
     }

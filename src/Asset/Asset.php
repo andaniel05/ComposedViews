@@ -20,17 +20,17 @@ class Asset implements AssetInterface
         $this->content = $content;
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return $this->id;
     }
 
-    public function getGroup() : string
+    public function getGroup(): string
     {
         return $this->group;
     }
 
-    public function getUrl() : ?string
+    public function getUrl(): ?string
     {
         return $this->url;
     }
@@ -42,7 +42,7 @@ class Asset implements AssetInterface
         return $this;
     }
 
-    public function getContent() : ?string
+    public function getContent(): ?string
     {
         return $this->content;
     }
@@ -54,12 +54,12 @@ class Asset implements AssetInterface
         return $this;
     }
 
-    public function getDependencies() : array
+    public function getDependencies(): array
     {
         return $this->deps;
     }
 
-    public function isUsed() : bool
+    public function isUsed(): bool
     {
         return $this->used;
     }
