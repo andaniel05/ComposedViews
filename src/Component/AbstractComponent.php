@@ -4,11 +4,15 @@ namespace PlatformPHP\ComposedViews\Component;
 
 use PlatformPHP\ComposedViews\{AbstractPage, HtmlInterface};
 use PlatformPHP\ComposedViews\Asset\AssetsTrait;
-use PlatformPHP\ComposedViews\Traits\{PrintTrait, PageTrait};
+use PlatformPHP\ComposedViews\Traits\{PrintTrait, PageTrait, CloningTrait};
 
-abstract class AbstractComponent implements HtmlInterface
+abstract class AbstractComponent implements HtmlInterface, ComponentContainerInterface
 {
-    use AssetsTrait, PrintTrait, PageTrait;
+    use AssetsTrait;
+    use PrintTrait;
+    use PageTrait;
+    use CloningTrait;
+    use ComponentContainerTrait;
 
     protected $id;
     protected $parent;
