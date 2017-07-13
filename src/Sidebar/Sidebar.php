@@ -2,27 +2,10 @@
 
 namespace PlatformPHP\ComposedViews\Sidebar;
 
-use PlatformPHP\ComposedViews\HtmlInterface;
-use PlatformPHP\ComposedViews\Traits\PrintTrait;
-use PlatformPHP\ComposedViews\Component\{ComponentContainerTrait,
-    ComponentContainerInterface};
+use PlatformPHP\ComposedViews\Component\AbstractComponent;
 
-class Sidebar implements HtmlInterface, ComponentContainerInterface
+class Sidebar extends AbstractComponent
 {
-    use PrintTrait, ComponentContainerTrait;
-
-    protected $id;
-
-    public function __construct(string $id)
-    {
-        $this->id = $id;
-    }
-
-    public function getId(): string
-    {
-        return $this->id;
-    }
-
     public function html(): string
     {
         $result = '';
