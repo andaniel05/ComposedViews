@@ -203,19 +203,19 @@ abstract class AbstractPage implements HtmlInterface
             });
         }
 
-        if ($markUsage) {
+        if ( ! $group) {
+            $result = $assets;
+        } else {
             foreach ($assets as $id => $asset) {
-                $asset->setUsed(true);
+                if ($group == $asset->getGroup()) {
+                    $result[$id] = $asset;
+                }
             }
         }
 
-        if ( ! $group) {
-            return $assets;
-        }
-
-        foreach ($assets as $id => $asset) {
-            if ($group == $asset->getGroup()) {
-                $result[$id] = $asset;
+        if ($markUsage) {
+            foreach ($result as $id => $asset) {
+                $asset->setUsed(true);
             }
         }
 

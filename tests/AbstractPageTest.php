@@ -965,4 +965,18 @@ class AbstractPageTest extends TestCase
 
         $this->assertEmpty($filteredAssets);
     }
+
+    public function testGetAssets_OnlyMarkUsageOnAssetsFromSameGroup()
+    {
+        $style1 = new Asset('style1', 'styles', '');
+        $script1 = new Asset('script1', 'scripts', '');
+        $this->page->addAsset($style1);
+        $this->page->addAsset($script1);
+
+        $styles = $this->page->getAssets('styles');
+        $scripts = $this->page->getAssets('scripts');
+
+        $this->assertSame($style1, $styles['style1']);
+        $this->assertSame($script1, $scripts['script1']);
+    }
 }
