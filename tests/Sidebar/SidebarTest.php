@@ -42,38 +42,15 @@ class SidebarTest extends TestCase
         $this->assertEquals($sidebarId, $sidebar->getId());
     }
 
-    public function provider2()
+    public function testHtml_ReturnTheChildrenHtmlResult()
     {
-        return [
-            ['result1', 'result2', 'result1result2'],
-            ['result3', 'result4', 'result3result4'],
-        ];
-    }
-
-    /**
-     * @dataProvider provider2
-     */
-    public function testHtmlReturnAnStringWithHtmlResultOfAllComponents($result1, $result2, $expected)
-    {
-        $component1 = $this->createMock(AbstractComponent::class);
-        $component1->method('html')->willReturn($result1);
-
-        $component2 = $this->createMock(AbstractComponent::class);
-        $component2->method('html')->willReturn($result2);
-
-        $components = [
-            'component1' => $component1,
-            'component2' => $component2,
-        ];
-
+        $html = uniqid();
         $sidebar = $this->getMockBuilder(Sidebar::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getAllComponents'])
+            ->setConstructorArgs(['sidebar'])
+            ->setMethods(['childrenHtml'])
             ->getMock();
-        $sidebar->expects($this->once())
-            ->method('getAllComponents')
-            ->willReturn($components);
+        $sidebar->method('childrenHtml')->willReturn($html);
 
-        $this->assertEquals($expected, $sidebar->html());
+        $this->assertEquals($html, $sidebar->html());
     }
 }
