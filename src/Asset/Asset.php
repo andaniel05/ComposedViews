@@ -68,4 +68,9 @@ class Asset implements AssetInterface
     {
         $this->used = $used;
     }
+
+    public function setGroup(string $group): void
+    {
+        $this->group = $group;
+    }
 }

@@ -6,7 +6,7 @@ use PlatformPHP\ComposedViews\Component\AbstractComponent;
 
 class Sidebar extends AbstractComponent
 {
-    public function html(): string
+    public function html(): ?string
     {
         $result = '';
 

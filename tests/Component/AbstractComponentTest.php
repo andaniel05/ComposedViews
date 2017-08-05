@@ -106,4 +106,28 @@ class AbstractComponentTest extends TestCase
     {
         $this->assertNull($this->component->getPage());
     }
+
+    public function testChildrenHtml()
+    {
+        $component1Html = uniqid();
+        $component1 = $this->getMockBuilder(AbstractComponent::class)
+            ->setConstructorArgs(['component1'])
+            ->setMethods(['html'])
+            ->getMockForAbstractClass();
+        $component1->method('html')->willReturn($component1Html);
+
+        $component2 = $this->getMockForAbstractClass(
+            AbstractComponent::class, ['component2']
+        );
+
+        $component2->addComponent($component1);
+
+            $expected = <<<HTML
+<div class="cv-component cv-component1" id="cv-component1">
+    $component1Html
+</div>
+HTML;
+
+        $this->assertXmlStringEqualsXmlString($expected, $component2->childrenHtml());
+    }
 }

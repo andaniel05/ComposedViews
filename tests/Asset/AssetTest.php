@@ -91,4 +91,13 @@ class AssetTest extends TestCase
 
         $this->assertTrue($this->asset->isUsed());
     }
+
+    public function testGetAndSetGroup()
+    {
+        $group = uniqid();
+
+        $this->asset->setGroup($group);
+
+        $this->assertEquals($group, $this->asset->getGroup());
+    }
 }

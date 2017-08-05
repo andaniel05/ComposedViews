@@ -7,8 +7,7 @@ use PlatformPHP\ComposedViews\Asset\{AssetsTrait, AssetInterface};
 use PlatformPHP\ComposedViews\Traits\{PrintTrait, CloningTrait};
 use PlatformPHP\ComposedViews\Sidebar\Sidebar;
 use PlatformPHP\ComposedViews\Exception\AssetNotFoundException;
-use PlatformPHP\ComposedViews\Component\{AbstractComponent,
-    ComponentContainerInterface};
+use PlatformPHP\ComposedViews\Component\{AbstractComponent, ComponentContainerInterface};
 use Symfony\Component\EventDispatcher\{EventDispatcherInterface, EventDispatcher};
 
 abstract class AbstractPage implements HtmlInterface

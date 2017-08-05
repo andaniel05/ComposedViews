@@ -43,4 +43,19 @@ abstract class AbstractComponent implements HtmlInterface, ComponentContainerInt
             $this->parent->dropComponent($this->id);
         }
     }
+
+    public function childrenHtml(): ?string
+    {
+        $result = '';
+
+        foreach ($this->getAllComponents() as $component) {
+            $result .= <<<HTML
+<div class="cv-component cv-{$component->getId()}" id="cv-{$component->getId()}">
+    {$component->html()}
+</div>
+HTML;
+        }
+
+        return $result;
+    }
 }
