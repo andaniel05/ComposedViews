@@ -25,12 +25,17 @@ trait AssetsTrait
                 $defs = $value;
 
                 foreach ($defs as $def) {
-                    $id      = $def[0];
-                    $url     = $def[1];
-                    $deps    = $def[2] ?? [];
-                    $content = $def[3] ?? null;
+                    if ($def instanceOf Asset) {
+                        $this->assets[$def->getId()] = $def;
+                    } elseif (is_array($def)) {
 
-                    $this->assets[$id] = new Asset($id, $group, $url, $deps, $content);
+                        $id      = $def[0];
+                        $url     = $def[1];
+                        $deps    = $def[2] ?? [];
+                        $content = $def[3] ?? null;
+
+                        $this->assets[$id] = new Asset($id, $group, $url, $deps, $content);
+                    }
                 }
 
             } elseif (is_integer($key) && $value instanceOf Asset) {

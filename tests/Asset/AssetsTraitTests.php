@@ -53,6 +53,8 @@ trait AssetsTraitTests
             $this->markTestSkipped();
         }
 
+        $script2 = new Asset('script2', 'scripts');
+
         $def = [
             'styles' => [
                 ['bootstrap', '/css/bootstrap.css', [], ],
@@ -60,6 +62,7 @@ trait AssetsTraitTests
             ],
             'scripts' => [
                 ['jquery', '/js/jquery.js'],
+                $script2,
             ],
             new Asset('script1', 'scripts', '/js/script1.js', ['jquery']),
         ];
@@ -71,8 +74,9 @@ trait AssetsTraitTests
         $custom = $assets['custom'];
         $jquery = $assets['jquery'];
         $script1 = $assets['script1'];
+        $script2 = $assets['script2'];
 
-        $this->assertCount(4, $assets);
+        $this->assertCount(5, $assets);
 
         $this->assertEquals('bootstrap', $bootstrap->getId());
         $this->assertEquals('styles', $bootstrap->getGroup());
@@ -97,5 +101,8 @@ trait AssetsTraitTests
         $this->assertEquals('/js/script1.js', $script1->getUrl());
         $this->assertEquals(['jquery'], $script1->getDependencies());
         $this->assertEquals(null, $script1->getContent());
+
+        $this->assertEquals('script2', $script2->getId());
+        $this->assertEquals('scripts', $script2->getGroup());
     }
 }
