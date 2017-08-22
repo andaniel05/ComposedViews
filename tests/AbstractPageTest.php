@@ -8,14 +8,14 @@ use PlatformPHP\ComposedViews\Component\AbstractComponent;
 use PlatformPHP\ComposedViews\Sidebar\Sidebar;
 use PlatformPHP\ComposedViews\Asset\Asset;
 use PlatformPHP\ComposedViews\Tests\TestCase;
-use PlatformPHP\ComposedViews\Tests\Traits\{PrintTraitTests, CloningTraitTests};
+use PlatformPHP\ComposedViews\Tests\Traits\CloningTraitTests;
 use PlatformPHP\ComposedViews\Tests\Asset\AssetsTraitTests;
 use Symfony\Component\EventDispatcher\{EventDispatcherInterface,
     EventDispatcher};
 
 class AbstractPageTest extends TestCase
 {
-    use PrintTraitTests, AssetsTraitTests, CloningTraitTests;
+    use AssetsTraitTests, CloningTraitTests;
 
     public function setUp()
     {
@@ -978,5 +978,53 @@ class AbstractPageTest extends TestCase
 
         $this->assertSame($style1, $styles['style1']);
         $this->assertSame($script1, $scripts['script1']);
+    }
+
+    public function printTraitTestsProvider1()
+    {
+        return [
+            ['result1'], ['result2'],
+        ];
+    }
+
+    /**
+     * @dataProvider printTraitTestsProvider1
+     */
+    public function testPrintPrintResultOfHtmlMethod($htmlResult)
+    {
+        $trait = $this->getMockBuilder($this->getTestClass())
+            ->disableOriginalConstructor()
+            ->setMethods(['html']);
+        $trait = $this->assumeMock($this->getTestClass(), $trait);
+        $trait->expects($this->once())
+            ->method('html')
+            ->willReturn($htmlResult);
+
+        $trait->print();
+
+        $this->expectOutputString($htmlResult);
+    }
+
+    public function testIsPrintedReturnFalseByDefault()
+    {
+        $trait = $this->getMockBuilder($this->getTestClass())
+            ->disableOriginalConstructor();
+        $trait = $this->assumeMock($this->getTestClass(), $trait);
+
+        $this->assertFalse($trait->isPrinted());
+    }
+
+    public function testIsPrintedReturnTrueAfterPrintInvokation()
+    {
+        $trait = $this->getMockBuilder($this->getTestClass())
+            ->disableOriginalConstructor()
+            ->setMethods(['html']);
+        $trait = $this->assumeMock($this->getTestClass(), $trait);
+        $trait->expects($this->once())
+            ->method('html')->willReturn('');
+
+        $trait->print();
+
+        $this->assertTrue($trait->isPrinted());
     }
 }

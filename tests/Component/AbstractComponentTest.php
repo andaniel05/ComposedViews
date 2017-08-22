@@ -5,12 +5,11 @@ namespace PlatformPHP\ComposedViews\Tests;
 use PlatformPHP\ComposedViews\AbstractPage;
 use PlatformPHP\ComposedViews\Component\AbstractComponent;
 use PlatformPHP\ComposedViews\Tests\TestCase;
-use PlatformPHP\ComposedViews\Tests\Traits\PrintTraitTests;
 use PlatformPHP\ComposedViews\Tests\Asset\AssetsTraitTests;
 
 class AbstractComponentTest extends TestCase
 {
-    use PrintTraitTests, AssetsTraitTests;
+    use AssetsTraitTests;
 
     public function setUp()
     {

@@ -4,7 +4,7 @@ namespace PlatformPHP\ComposedViews;
 
 use PlatformPHP\ComposedViews\Event\FilterAssetsEvent;
 use PlatformPHP\ComposedViews\Asset\{AssetsTrait, AssetInterface};
-use PlatformPHP\ComposedViews\Traits\{PrintTrait, CloningTrait};
+use PlatformPHP\ComposedViews\Traits\CloningTrait;
 use PlatformPHP\ComposedViews\Sidebar\Sidebar;
 use PlatformPHP\ComposedViews\Exception\AssetNotFoundException;
 use PlatformPHP\ComposedViews\Component\{AbstractComponent, ComponentContainerInterface};
@@ -12,7 +12,7 @@ use Symfony\Component\EventDispatcher\{EventDispatcherInterface, EventDispatcher
 
 abstract class AbstractPage implements HtmlInterface
 {
-    use PrintTrait, CloningTrait;
+    use CloningTrait;
     use AssetsTrait {
         getAssets as getPageAssets;
     }
@@ -22,6 +22,7 @@ abstract class AbstractPage implements HtmlInterface
     protected $baseUrl = '';
     protected $pageAssets = [];
     protected $dispatcher;
+    protected $printed = false;
 
     public function __construct(string $baseUrl = '', EventDispatcherInterface $dispatcher = null)
     {
@@ -298,5 +299,17 @@ abstract class AbstractPage implements HtmlInterface
     public function getDispatcher(): EventDispatcherInterface
     {
         return $this->dispatcher;
+    }
+
+    public function print(): void
+    {
+        echo $this->html();
+
+        $this->printed = true;
+    }
+
+    public function isPrinted(): bool
+    {
+        return $this->printed;
     }
 }

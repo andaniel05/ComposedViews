@@ -5,12 +5,11 @@ namespace PlatformPHP\ComposedViews\Tests;
 use PlatformPHP\ComposedViews\Sidebar\Sidebar;
 use PlatformPHP\ComposedViews\Component\AbstractComponent;
 use PlatformPHP\ComposedViews\Tests\TestCase;
-use PlatformPHP\ComposedViews\Tests\Traits\PrintTraitTests;
 use PlatformPHP\ComposedViews\Tests\Component\ComponentContainerTraitTests;
 
 class SidebarTest extends TestCase
 {
-    use PrintTraitTests, ComponentContainerTraitTests;
+    use ComponentContainerTraitTests;
 
     public function getTestClass(): string
     {
