@@ -313,7 +313,7 @@ abstract class AbstractPage implements HtmlInterface
         return $this->printed;
     }
 
-    public function addComponent(string $parentId, AbstractComponent $component): void
+    public function insertComponent(string $parentId, AbstractComponent $component): void
     {
         $parent = $this->sidebars[$parentId] ?? $this->getComponent($parentId);
 

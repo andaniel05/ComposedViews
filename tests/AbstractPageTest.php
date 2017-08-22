@@ -1031,15 +1031,15 @@ class AbstractPageTest extends TestCase
     /**
      * @expectedException PlatformPHP\ComposedViews\Exception\ComponentNotFoundException
      */
-    public function testAddComponent_ThrowComponentNotFoundException()
+    public function testInsertComponent_ThrowComponentNotFoundException()
     {
         $component = $this->createMock(AbstractComponent::class);
         $parentId = uniqid('parentId');
 
-        $this->page->addComponent($parentId, $component);
+        $this->page->insertComponent($parentId, $component);
     }
 
-    public function testAddComponent_InsertTheChildWhenParentIsASidebar()
+    public function testInsertComponent_InsertTheChildWhenParentIsASidebar()
     {
         $sidebarId = uniqid('sidebar');
         $page = $this->getMockBuilder(AbstractPage::class)
@@ -1052,7 +1052,7 @@ class AbstractPageTest extends TestCase
         $component = $this->getMockForAbstractClass(AbstractComponent::class, [$componentId]);
 
         $page->__construct();
-        $page->addComponent($sidebarId, $component);
+        $page->insertComponent($sidebarId, $component);
 
         $sidebar = $page->getSidebar($sidebarId);
 
@@ -1060,7 +1060,7 @@ class AbstractPageTest extends TestCase
         $this->assertEquals($sidebar, $component->getParent());
     }
 
-    public function testAddComponent_InsertTheChildWhenParentIsAComponent()
+    public function testInsertComponent_InsertTheChildWhenParentIsAComponent()
     {
         $sidebarId = uniqid('sidebar');
         $page = $this->getMockBuilder(AbstractPage::class)
@@ -1075,10 +1075,10 @@ class AbstractPageTest extends TestCase
         $child = $this->getMockForAbstractClass(AbstractComponent::class, [$childId]);
 
         $page->__construct();
-        $page->addComponent($sidebarId, $parent);
+        $page->insertComponent($sidebarId, $parent);
 
         // Act
-        $page->addComponent($parentId, $child);
+        $page->insertComponent($parentId, $child);
 
         $this->assertEquals($child, $parent->getComponent($childId));
         $this->assertEquals($parent, $child->getParent());
