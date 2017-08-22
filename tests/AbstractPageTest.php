@@ -992,39 +992,96 @@ class AbstractPageTest extends TestCase
      */
     public function testPrintPrintResultOfHtmlMethod($htmlResult)
     {
-        $trait = $this->getMockBuilder($this->getTestClass())
+        $page = $this->getMockBuilder($this->getTestClass())
             ->disableOriginalConstructor()
             ->setMethods(['html']);
-        $trait = $this->assumeMock($this->getTestClass(), $trait);
-        $trait->expects($this->once())
+        $page = $this->assumeMock($this->getTestClass(), $page);
+        $page->expects($this->once())
             ->method('html')
             ->willReturn($htmlResult);
 
-        $trait->print();
+        $page->print();
 
         $this->expectOutputString($htmlResult);
     }
 
     public function testIsPrintedReturnFalseByDefault()
     {
-        $trait = $this->getMockBuilder($this->getTestClass())
+        $page = $this->getMockBuilder($this->getTestClass())
             ->disableOriginalConstructor();
-        $trait = $this->assumeMock($this->getTestClass(), $trait);
+        $page = $this->assumeMock($this->getTestClass(), $page);
 
-        $this->assertFalse($trait->isPrinted());
+        $this->assertFalse($page->isPrinted());
     }
 
     public function testIsPrintedReturnTrueAfterPrintInvokation()
     {
-        $trait = $this->getMockBuilder($this->getTestClass())
+        $page = $this->getMockBuilder($this->getTestClass())
             ->disableOriginalConstructor()
             ->setMethods(['html']);
-        $trait = $this->assumeMock($this->getTestClass(), $trait);
-        $trait->expects($this->once())
+        $page = $this->assumeMock($this->getTestClass(), $page);
+        $page->expects($this->once())
             ->method('html')->willReturn('');
 
-        $trait->print();
+        $page->print();
 
-        $this->assertTrue($trait->isPrinted());
+        $this->assertTrue($page->isPrinted());
+    }
+
+    /**
+     * @expectedException PlatformPHP\ComposedViews\Exception\ComponentNotFoundException
+     */
+    public function testAddComponent_ThrowComponentNotFoundException()
+    {
+        $component = $this->createMock(AbstractComponent::class);
+        $parentId = uniqid('parentId');
+
+        $this->page->addComponent($parentId, $component);
+    }
+
+    public function testAddComponent_InsertTheChildWhenParentIsASidebar()
+    {
+        $sidebarId = uniqid('sidebar');
+        $page = $this->getMockBuilder(AbstractPage::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['sidebars'])
+            ->getMockForAbstractClass();
+        $page->method('sidebars')->willReturn([$sidebarId]);
+
+        $componentId = uniqid('component');
+        $component = $this->createMock(AbstractComponent::class);
+        $component->method('getId')->willReturn($componentId);
+
+        $page->__construct();
+        $page->addComponent($sidebarId, $component);
+
+        $sidebar = $page->getSidebar($sidebarId);
+
+        $this->assertEquals($component, $sidebar->getComponent($componentId));
+        $this->assertEquals($sidebar, $component->getParent());
+    }
+
+    public function testAddComponent_InsertTheChildWhenParentIsAComponent()
+    {
+        $sidebarId = uniqid('sidebar');
+        $page = $this->getMockBuilder(AbstractPage::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['sidebars'])
+            ->getMockForAbstractClass();
+        $page->method('sidebars')->willReturn([$sidebarId]);
+
+        $parentId = uniqid('parent');
+        $parent = $this->createMock(AbstractComponent::class, [$parentId]);
+        $childId = uniqid('child');
+        $child = $this->createMock(AbstractComponent::class, [$childId]);
+
+        $page->__construct();
+        $page->addComponent($sidebarId, $parent);
+
+        // Act
+        $page->addComponent($parentId, $child);
+
+        $this->assertEquals($child, $parent->getComponent($childId));
+        $this->assertEquals($parent, $child->getParent());
     }
 }

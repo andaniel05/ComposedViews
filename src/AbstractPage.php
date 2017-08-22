@@ -6,7 +6,7 @@ use PlatformPHP\ComposedViews\Event\FilterAssetsEvent;
 use PlatformPHP\ComposedViews\Asset\{AssetsTrait, AssetInterface};
 use PlatformPHP\ComposedViews\Traits\CloningTrait;
 use PlatformPHP\ComposedViews\Sidebar\Sidebar;
-use PlatformPHP\ComposedViews\Exception\AssetNotFoundException;
+use PlatformPHP\ComposedViews\Exception\{AssetNotFoundException, ComponentNotFoundException};
 use PlatformPHP\ComposedViews\Component\{AbstractComponent, ComponentContainerInterface};
 use Symfony\Component\EventDispatcher\{EventDispatcherInterface, EventDispatcher};
 
@@ -311,5 +311,16 @@ abstract class AbstractPage implements HtmlInterface
     public function isPrinted(): bool
     {
         return $this->printed;
+    }
+
+    public function addComponent(string $parentId, AbstractComponent $component): void
+    {
+        $parent = $this->sidebars[$parentId] ?? $this->getComponent($parentId);
+
+        if ( ! $parent) {
+            throw new ComponentNotFoundException($parentId);
+        }
+
+        $parent->addComponent($component);
     }
 }
