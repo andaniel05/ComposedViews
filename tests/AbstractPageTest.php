@@ -1049,8 +1049,7 @@ class AbstractPageTest extends TestCase
         $page->method('sidebars')->willReturn([$sidebarId]);
 
         $componentId = uniqid('component');
-        $component = $this->createMock(AbstractComponent::class);
-        $component->method('getId')->willReturn($componentId);
+        $component = $this->getMockForAbstractClass(AbstractComponent::class, [$componentId]);
 
         $page->__construct();
         $page->addComponent($sidebarId, $component);
@@ -1071,9 +1070,9 @@ class AbstractPageTest extends TestCase
         $page->method('sidebars')->willReturn([$sidebarId]);
 
         $parentId = uniqid('parent');
-        $parent = $this->createMock(AbstractComponent::class, [$parentId]);
+        $parent = $this->getMockForAbstractClass(AbstractComponent::class, [$parentId]);
         $childId = uniqid('child');
-        $child = $this->createMock(AbstractComponent::class, [$childId]);
+        $child = $this->getMockForAbstractClass(AbstractComponent::class, [$childId]);
 
         $page->__construct();
         $page->addComponent($sidebarId, $parent);

@@ -58,7 +58,7 @@ trait ComponentContainerTrait
     {
         $this->components[$component->getId()] = $component;
 
-        if ($this instanceOf ComponentContainerInterface) {
+        if ($this instanceOf AbstractComponent) {
             $component->setParent($this);
         }
     }

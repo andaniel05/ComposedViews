@@ -26,12 +26,12 @@ abstract class AbstractComponent implements HtmlInterface, ComponentContainerInt
         return $this->id;
     }
 
-    public function getParent(): ?ComponentContainerInterface
+    public function getParent(): ?AbstractComponent
     {
         return $this->parent;
     }
 
-    public function setParent(?ComponentContainerInterface $parent)
+    public function setParent(?AbstractComponent $parent)
     {
         $this->parent = $parent;
     }
