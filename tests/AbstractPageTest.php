@@ -19,7 +19,12 @@ class AbstractPageTest extends TestCase
 
     public function setUp()
     {
-        $this->page = $this->getMockForAbstractClass(AbstractPage::class);
+        $this->page = $this->getMockBuilder(AbstractPage::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['sidebars'])
+            ->getMockForAbstractClass();
+        $this->page->method('sidebars')->willReturn(['body']);
+        $this->page->__construct();
     }
 
     public function getTestClass()
@@ -1031,15 +1036,15 @@ class AbstractPageTest extends TestCase
     /**
      * @expectedException PlatformPHP\ComposedViews\Exception\ComponentNotFoundException
      */
-    public function testInsertComponent_ThrowComponentNotFoundException()
+    public function testAppendComponent_ThrowComponentNotFoundException()
     {
         $component = $this->createMock(AbstractComponent::class);
         $parentId = uniqid('parentId');
 
-        $this->page->insertComponent($parentId, $component);
+        $this->page->appendComponent($parentId, $component);
     }
 
-    public function testInsertComponent_InsertTheChildWhenParentIsASidebar()
+    public function testAppendComponent_InsertTheChildWhenParentIsASidebar()
     {
         $sidebarId = uniqid('sidebar');
         $page = $this->getMockBuilder(AbstractPage::class)
@@ -1052,7 +1057,7 @@ class AbstractPageTest extends TestCase
         $component = $this->getMockForAbstractClass(AbstractComponent::class, [$componentId]);
 
         $page->__construct();
-        $page->insertComponent($sidebarId, $component);
+        $page->appendComponent($sidebarId, $component);
 
         $sidebar = $page->getSidebar($sidebarId);
 
@@ -1060,7 +1065,7 @@ class AbstractPageTest extends TestCase
         $this->assertEquals($sidebar, $component->getParent());
     }
 
-    public function testInsertComponent_InsertTheChildWhenParentIsAComponent()
+    public function testAppendComponent_InsertTheChildWhenParentIsAComponent()
     {
         $sidebarId = uniqid('sidebar');
         $page = $this->getMockBuilder(AbstractPage::class)
@@ -1075,12 +1080,31 @@ class AbstractPageTest extends TestCase
         $child = $this->getMockForAbstractClass(AbstractComponent::class, [$childId]);
 
         $page->__construct();
-        $page->insertComponent($sidebarId, $parent);
+        $page->appendComponent($sidebarId, $parent);
 
         // Act
-        $page->insertComponent($parentId, $child);
+        $page->appendComponent($parentId, $child);
 
         $this->assertEquals($child, $parent->getComponent($childId));
         $this->assertEquals($parent, $child->getParent());
+    }
+
+    public function testOn_IsShortcutToAddListenerOnDispatcher()
+    {
+        $eventName = uniqid('event');
+        $callback = function () {};
+
+        $dispatcher = $this->getMockBuilder(EventDispatcherInterface::class)
+            ->setMethods(['addListener'])
+            ->getMockForAbstractClass();
+        $dispatcher->expects($this->once())
+            ->method('addListener')
+            ->with(
+                $this->equalTo($eventName),
+                $this->equalTo($callback)
+            );
+
+        $page = $this->getMockForAbstractClass(AbstractPage::class, ['', $dispatcher]);
+        $page->on($eventName, $callback);
     }
 }
