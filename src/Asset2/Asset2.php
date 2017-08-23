@@ -9,6 +9,7 @@ class Asset2
     protected $dependencies = [];
     protected $content;
     protected $minimizedContent;
+    protected $used = false;
 
     public function __construct(string $id)
     {
@@ -86,5 +87,15 @@ class Asset2
     public function setMinimizedContent(?string $minimized)
     {
         $this->minimizedContent = $minimized;
+    }
+
+    public function isUsed(): bool
+    {
+        return $this->used;
+    }
+
+    public function setUsed(bool $used)
+    {
+        $this->used = $used;
     }
 }

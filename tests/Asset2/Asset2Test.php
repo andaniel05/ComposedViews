@@ -130,4 +130,16 @@ class Asset2Test extends TestCase
 
         $this->assertEquals($content, $this->asset->getMinimizedContent());
     }
+
+    public function testIsUsed_ReturnFalseByDefault()
+    {
+        $this->assertFalse($this->asset->isUsed());
+    }
+
+    public function testIsUsed_ReturnInsertedValueBySetUsed()
+    {
+        $this->asset->setUsed(true);
+
+        $this->assertTrue($this->asset->isUsed());
+    }
 }
