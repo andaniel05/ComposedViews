@@ -7,7 +7,7 @@ use PlatformPHP\ComposedViews\Asset\{AssetsTrait, AssetInterface};
 use PlatformPHP\ComposedViews\Traits\CloningTrait;
 use PlatformPHP\ComposedViews\Sidebar\Sidebar;
 use PlatformPHP\ComposedViews\Exception\{AssetNotFoundException, ComponentNotFoundException};
-use PlatformPHP\ComposedViews\Component\{AbstractComponent, ComponentContainerInterface};
+use PlatformPHP\ComposedViews\Component\AbstractComponent;
 use Symfony\Component\EventDispatcher\{EventDispatcherInterface, EventDispatcher};
 
 abstract class AbstractPage implements HtmlInterface
@@ -157,7 +157,7 @@ abstract class AbstractPage implements HtmlInterface
 
         foreach ($components as $component) {
 
-            if ($component instanceOf ComponentContainerInterface) {
+            if ($component instanceOf AbstractComponent) {
                 $assets = array_merge(
                     $assets,
                     $this->getAssetsFromComponents($component->getAllComponents())
@@ -272,7 +272,7 @@ abstract class AbstractPage implements HtmlInterface
             {
                 foreach ($components as $component) {
                     yield $component;
-                    if ($component instanceOf ComponentContainerInterface) {
+                    if ($component instanceOf AbstractComponent) {
                         yield from $gen($component->getAllComponents());
                     }
                 }
