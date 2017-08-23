@@ -62,4 +62,72 @@ class Asset2Test extends TestCase
 
         $this->assertEquals([], $this->asset->getGroups());
     }
+
+    public function testGetDependencies_ReturnAnEmptyArrayByDefault()
+    {
+        $this->assertEquals([], $this->asset->getDependencies());
+    }
+
+    public function testGetDependencies_ReturnAnArrayWithAllDefinedDependencies()
+    {
+        $dependency = uniqid();
+        $this->asset->addDependency($dependency);
+
+        $this->assertContains($dependency, $this->asset->getDependencies());
+    }
+
+    public function testHasDependency_ReturnFalseIfAssetDoNotHasDefinedTheDependency()
+    {
+        $dependency = uniqid();
+
+        $this->assertFalse($this->asset->hasDependency($dependency));
+    }
+
+    public function testHasDependency_ReturnTrueIfAssetHasTheDependency()
+    {
+        $dependency = uniqid();
+
+        $this->asset->addDependency($dependency);
+
+        $this->assertTrue($this->asset->hasDependency($dependency));
+    }
+
+    public function testRemoveDependency()
+    {
+        $dependency = uniqid();
+        $this->asset->addDependency($dependency);
+
+        $this->asset->removeDependency($dependency);
+
+        $this->assertFalse($this->asset->hasDependency($dependency));
+    }
+
+    public function testGetContent_ReturnNullByDefault()
+    {
+        $this->assertNull($this->asset->getContent());
+    }
+
+    public function testGetContent_ReturnValueInsertedBySetContent()
+    {
+        $content = uniqid();
+        $this->asset->setContent($content);
+
+        $this->assertEquals($content, $this->asset->getContent());
+    }
+
+    public function testGetMinimizedContent_ReturnValueOfTheContentWhenHisMinimizedContentIsNull()
+    {
+        $content = uniqid();
+        $this->asset->setContent($content);
+
+        $this->assertEquals($content, $this->asset->getMinimizedContent());
+    }
+
+    public function testGetMinimizedContent_ReturnInsertedValueBySetMinimizedContent()
+    {
+        $content = uniqid();
+        $this->asset->setMinimizedContent($content);
+
+        $this->assertEquals($content, $this->asset->getMinimizedContent());
+    }
 }
