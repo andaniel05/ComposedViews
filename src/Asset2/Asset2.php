@@ -2,7 +2,7 @@
 
 namespace PlatformPHP\ComposedViews\Asset2;
 
-abstract class AbstractAsset
+class Asset2
 {
     protected $id;
     protected $groups = [];
@@ -11,9 +11,13 @@ abstract class AbstractAsset
     protected $minimizedContent;
     protected $used = false;
 
-    public function __construct(string $id)
+    public function __construct(string $id, array $groups = [], array $dependencies = [], ?string $content = null, ?string $minimizedContent = null)
     {
         $this->id = $id;
+        $this->groups = $groups;
+        $this->dependencies = $dependencies;
+        $this->content = $content;
+        $this->minimizedContent = $minimizedContent;
     }
 
     public function getId(): string

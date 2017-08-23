@@ -3,22 +3,39 @@
 namespace PlatformPHP\ComposedViews\Tests;
 
 use PHPUnit\Framework\TestCase;
-use PlatformPHP\ComposedViews\Asset2\AbstractAsset;
+use PlatformPHP\ComposedViews\Asset2\Asset2;
 
-class AbstractAssetTest extends TestCase
+class Asset2Test extends TestCase
 {
     public function setUp()
     {
         $id = uniqid();
 
-        $this->asset = $this->getMockForAbstractClass(AbstractAsset::class, [$id]);
+        $this->asset = new Asset2($id);
+    }
+
+    public function testConstructor()
+    {
+        $id = uniqid();
+        $groups = range(0, rand(0, 10));
+        $deps = range(0, rand(0, 10));
+        $content = uniqid();
+        $minimized = uniqid();
+
+        $asset = new Asset2($id, $groups, $deps, $content, $minimized);
+
+        $this->assertEquals($id, $asset->getId());
+        $this->assertEquals($groups, $asset->getGroups());
+        $this->assertEquals($deps, $asset->getDependencies());
+        $this->assertEquals($content, $asset->getContent());
+        $this->assertEquals($minimized, $asset->getMinimizedContent());
     }
 
     public function testGetId_ReturnTheIdArgument()
     {
         $id = uniqid();
 
-        $asset = $this->getMockForAbstractClass(AbstractAsset::class, [$id]);
+        $asset = new Asset2($id);
 
         $this->assertEquals($id, $asset->getId());
     }
