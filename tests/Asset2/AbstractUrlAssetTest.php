@@ -31,4 +31,20 @@ class AbstractUrlAssetTest extends TestCase
 
         $this->assertEquals($url, $this->asset->getUrl());
     }
+
+    public function testGetMinimizedUrl_ReturnValueOfGetUrlByDefault()
+    {
+        $url = uniqid();
+        $this->asset->setUrl($url);
+
+        $this->assertEquals($url, $this->asset->getMinimizedUrl());
+    }
+
+    public function testGetMinimizedUrl_ReturnInsertedValueBySetMinimizedUrl()
+    {
+        $url = uniqid();
+        $this->asset->setMinimizedUrl($url);
+
+        $this->assertEquals($url, $this->asset->getMinimizedUrl());
+    }
 }

@@ -5,6 +5,7 @@ namespace PlatformPHP\ComposedViews\Asset2;
 abstract class AbstractUrlAsset extends AbstractAsset
 {
     protected $url;
+    protected $minimizedUrl;
 
     public function __construct(string $id)
     {
@@ -21,5 +22,15 @@ abstract class AbstractUrlAsset extends AbstractAsset
     public function setUrl(?string $url)
     {
         $this->url = $url;
+    }
+
+    public function getMinimizedUrl(): ?string
+    {
+        return $this->minimizedUrl ?? $this->url;
+    }
+
+    public function setMinimizedUrl(?string $url)
+    {
+        $this->minimizedUrl = $url;
     }
 }
