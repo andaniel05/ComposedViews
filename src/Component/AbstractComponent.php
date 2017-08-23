@@ -4,17 +4,17 @@ namespace PlatformPHP\ComposedViews\Component;
 
 use PlatformPHP\ComposedViews\{AbstractPage, HtmlInterface};
 use PlatformPHP\ComposedViews\Asset\AssetsTrait;
-use PlatformPHP\ComposedViews\Traits\{PageTrait, CloningTrait};
+use PlatformPHP\ComposedViews\Traits\CloningTrait;
 
 abstract class AbstractComponent implements HtmlInterface
 {
     use AssetsTrait;
-    use PageTrait;
     use CloningTrait;
 
     protected $id;
     protected $parent;
     protected $components = [];
+    protected $page;
 
     public function __construct(string $id)
     {
@@ -129,5 +129,15 @@ HTML;
     public function existsComponent(string $id): bool
     {
         return isset($this->components[$id]);
+    }
+
+    public function getPage(): ?AbstractPage
+    {
+        return $this->page;
+    }
+
+    public function setPage(?AbstractPage $page)
+    {
+        $this->page = $page;
     }
 }
