@@ -147,11 +147,17 @@ HTML;
             }
 
             if ($drop) {
+
                 if ($notifyChild) {
                     $component->setParent(null);
                 }
 
                 unset($this->components[$id]);
+
+                if ($this->page instanceOf AbstractPage) {
+                    $afterDeletionEvent = new AfterDeletionEvent($this, $component);
+                    $this->page->getDispatcher()->dispatch(PageEvents::AFTER_DELETION, $afterDeletionEvent);
+                }
             }
         }
     }

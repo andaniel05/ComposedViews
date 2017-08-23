@@ -496,4 +496,25 @@ HTML;
         $this->assertTrue($executed);
         $this->assertTrue($parent->existsComponent('child'));
     }
+
+    public function testTheAfterDeletionEventIsTriggeredOnThePageWhenAComponentWillBeDeleted()
+    {
+        $page = $this->getMockForAbstractClass(AbstractPage::class);
+        $parent = $this->getMockForAbstractClass(AbstractComponent::class, ['parent']);
+        $child = $this->getMockForAbstractClass(AbstractComponent::class, ['child']);
+
+        $executed = false;
+        $page->on(PageEvents::AFTER_DELETION, function (AfterDeletionEvent $event) use (&$executed, $parent, $child) {
+            $executed = true;
+            $this->assertEquals($parent, $event->getParent());
+            $this->assertEquals($child, $event->getChild());
+            $this->assertFalse($parent->existsComponent('child'));
+        });
+
+        $parent->setPage($page);
+        $parent->addComponent($child);
+        $parent->dropComponent('child'); // Act
+
+        $this->assertTrue($executed);
+    }
 }
