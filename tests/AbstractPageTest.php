@@ -976,18 +976,10 @@ class AbstractPageTest extends TestCase
         $this->assertSame($script1, $scripts['script1']);
     }
 
-    public function printTraitTestsProvider1()
+    public function testPrintPrintResultOfHtmlMethod()
     {
-        return [
-            ['result1'], ['result2'],
-        ];
-    }
+        $htmlResult = uniqid();
 
-    /**
-     * @dataProvider printTraitTestsProvider1
-     */
-    public function testPrintPrintResultOfHtmlMethod($htmlResult)
-    {
         $page = $this->getMockBuilder(AbstractPage::class)
             ->disableOriginalConstructor()
             ->setMethods(['html'])
