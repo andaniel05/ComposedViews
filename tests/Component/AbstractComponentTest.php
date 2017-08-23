@@ -17,21 +17,10 @@ class AbstractComponentTest extends TestCase
             ->getMockForAbstractClass();
     }
 
-    public function getTestClass(): string
+    public function testArgumentGetters()
     {
-        return AbstractComponent::class;
-    }
+        $id = uniqid();
 
-    public function provider1()
-    {
-        return [ ['component1'], ['component2'] ];
-    }
-
-    /**
-     * @dataProvider provider1
-     */
-    public function testArgumentGetters($id)
-    {
         $component = $this->getMockBuilder(AbstractComponent::class)
             ->setConstructorArgs([$id])
             ->getMockForAbstractClass();
@@ -60,20 +49,12 @@ class AbstractComponentTest extends TestCase
         $this->assertSame($this->parent, $this->component->getParent());
     }
 
-    public function provider2()
-    {
-        return [
-            ['child1', 'child2']
-        ];
-    }
-
-    /**
-     * @dataProvider provider2
-     */
-    public function testDetachInvokeDropComponentInTheParent($childId)
+    public function testDetachInvokeDropComponentInTheParent()
     {
         // Arrange
         //
+
+        $childId = uniqid();
 
         $parent = $this->getMockBuilder(AbstractComponent::class)
             ->setConstructorArgs(['parent'])
@@ -333,10 +314,6 @@ HTML;
 
     public function testAddComponentRegisterToItSelfAsParentInTheChild()
     {
-        if ($this->getTestClass() == ComponentContainerTrait::class) {
-            $this->markTestSkipped();
-        }
-
         $this->insertChildComponent();
 
         $this->assertSame($this->container, $this->child->getParent());
