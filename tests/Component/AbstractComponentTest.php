@@ -2,7 +2,8 @@
 
 namespace PlatformPHP\ComposedViews\Tests;
 
-use PlatformPHP\ComposedViews\AbstractPage;
+use PlatformPHP\ComposedViews\{AbstractPage, PageEvents};
+use PlatformPHP\ComposedViews\Event\BeforeInsertionEvent;
 use PlatformPHP\ComposedViews\Component\AbstractComponent;
 use PHPUnit\Framework\TestCase;
 
@@ -391,5 +392,24 @@ HTML;
         $component1->setPage($page);
 
         $this->assertSame($page, $component1->getPage());
+    }
+
+    public function testTheBeforeInsertionEventIsTriggeredWhenANewComponentIsInsertedOnTheTree()
+    {
+        $page = $this->getMockForAbstractClass(AbstractPage::class);
+        $parent = $this->getMockForAbstractClass(AbstractComponent::class, ['parent']);
+        $child = $this->getMockForAbstractClass(AbstractComponent::class, ['child']);
+
+        $executed = false;
+        $page->on(PageEvents::BEFORE_INSERTION, function (BeforeInsertionEvent $event) use (&$executed, $parent, $child) {
+            $executed = true;
+            $this->assertEquals($parent, $event->getParent());
+            $this->assertEquals($child, $event->getChild());
+        });
+
+        $parent->setPage($page);
+        $parent->addComponent($child); // Act
+
+        $this->assertTrue($executed);
     }
 }

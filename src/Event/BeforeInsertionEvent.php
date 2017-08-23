@@ -3,6 +3,7 @@
 namespace PlatformPHP\ComposedViews\Event;
 
 use Symfony\Component\EventDispatcher\Event;
+use PlatformPHP\ComposedViews\Component\AbstractComponent;
 
 class BeforeInsertionEvent extends Event
 {

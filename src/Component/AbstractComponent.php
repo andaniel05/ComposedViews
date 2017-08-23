@@ -2,8 +2,9 @@
 
 namespace PlatformPHP\ComposedViews\Component;
 
-use PlatformPHP\ComposedViews\{AbstractPage, HtmlInterface};
+use PlatformPHP\ComposedViews\{AbstractPage, HtmlInterface, PageEvents};
 use PlatformPHP\ComposedViews\Asset\AssetsTrait;
+use PlatformPHP\ComposedViews\Event\BeforeInsertionEvent;
 use PlatformPHP\ComposedViews\Traits\CloningTrait;
 
 abstract class AbstractComponent implements HtmlInterface
@@ -108,8 +109,12 @@ HTML;
 
     public function addComponent(AbstractComponent $component)
     {
-        $this->components[$component->getId()] = $component;
+        if ($this->page instanceOf AbstractPage) {
+            $beforeInsertionEvent = new BeforeInsertionEvent($this, $component);
+            $this->page->getDispatcher()->dispatch(PageEvents::BEFORE_INSERTION, $beforeInsertionEvent);
+        }
 
+        $this->components[$component->getId()] = $component;
         $component->setParent($this);
     }
 
