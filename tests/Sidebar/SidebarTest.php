@@ -8,16 +8,10 @@ use PHPUnit\Framework\TestCase;
 
 class SidebarTest extends TestCase
 {
-    public function provider1()
+    public function testGetIdReturnIdArgument()
     {
-        return [ ['sidebar1'], ['sidebar2'] ];
-    }
+        $sidebarId = uniqid();
 
-    /**
-     * @dataProvider provider1
-     */
-    public function testGetIdReturnIdArgument($sidebarId)
-    {
         $sidebar = new Sidebar($sidebarId);
 
         $this->assertEquals($sidebarId, $sidebar->getId());
