@@ -39,19 +39,10 @@ class AssetTest extends TestCase
         $this->assertSame($this->asset, $this->asset->setUrl('url'));
     }
 
-    public function provider2()
+    public function testGetUrlReturnInsertedValueBySetUrl()
     {
-        return [
-            ['url1'],
-            ['url2'],
-        ];
-    }
+        $url = uniqid('url');
 
-    /**
-     * @dataProvider provider2
-     */
-    public function testGetUrlReturnInsertedValueBySetUrl($url)
-    {
         $this->asset->setUrl($url);
 
         $this->assertSame($url, $this->asset->getUrl());
@@ -62,19 +53,10 @@ class AssetTest extends TestCase
         $this->assertSame($this->asset, $this->asset->setContent('content'));
     }
 
-    public function provider3()
+    public function testGetContentReturnInsertedValueBySetContent()
     {
-        return [
-            ['content1'],
-            [null],
-        ];
-    }
+        $content = uniqid();
 
-    /**
-     * @dataProvider provider3
-     */
-    public function testGetContentReturnInsertedValueBySetContent($content)
-    {
         $this->asset->setContent($content);
 
         $this->assertSame($content, $this->asset->getContent());
