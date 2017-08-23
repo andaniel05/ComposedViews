@@ -3,7 +3,8 @@
 namespace PlatformPHP\ComposedViews\Tests;
 
 use PlatformPHP\ComposedViews\{AbstractPage, PageEvents};
-use PlatformPHP\ComposedViews\Event\{BeforeInsertionEvent, AfterInsertionEvent};
+use PlatformPHP\ComposedViews\Event\{BeforeInsertionEvent, AfterInsertionEvent,
+    BeforeDeletionEvent, AfterDeletionEvent};
 use PlatformPHP\ComposedViews\Component\AbstractComponent;
 use PHPUnit\Framework\TestCase;
 
@@ -452,5 +453,47 @@ HTML;
         $parent->addComponent($child); // Act
 
         $this->assertTrue($executed);
+    }
+
+    public function testTheBeforeDeletionEventIsTriggeredOnThePageWhenAComponentWillBeDeleted()
+    {
+        $page = $this->getMockForAbstractClass(AbstractPage::class);
+        $parent = $this->getMockForAbstractClass(AbstractComponent::class, ['parent']);
+        $child = $this->getMockForAbstractClass(AbstractComponent::class, ['child']);
+
+        $executed = false;
+        $page->on(PageEvents::BEFORE_DELETION, function (BeforeDeletionEvent $event) use (&$executed, $parent, $child) {
+            $executed = true;
+            $this->assertEquals($parent, $event->getParent());
+            $this->assertEquals($child, $event->getChild());
+            $this->assertTrue($parent->existsComponent('child'));
+        });
+
+        $parent->setPage($page);
+        $parent->addComponent($child);
+        $parent->dropComponent('child'); // Act
+
+        $this->assertTrue($executed);
+        $this->assertFalse($parent->existsComponent('child'));
+    }
+
+    public function testTheBeforeDeletionEventCanCancelTheDeletion()
+    {
+        $page = $this->getMockForAbstractClass(AbstractPage::class);
+        $parent = $this->getMockForAbstractClass(AbstractComponent::class, ['parent']);
+        $child = $this->getMockForAbstractClass(AbstractComponent::class, ['child']);
+
+        $executed = false;
+        $page->on(PageEvents::BEFORE_DELETION, function (BeforeDeletionEvent $event) use (&$executed, $parent, $child) {
+            $executed = true;
+            $event->cancel(true);
+        });
+
+        $parent->setPage($page);
+        $parent->addComponent($child);
+        $parent->dropComponent('child'); // Act
+
+        $this->assertTrue($executed);
+        $this->assertTrue($parent->existsComponent('child'));
     }
 }

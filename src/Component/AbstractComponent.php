@@ -4,7 +4,8 @@ namespace PlatformPHP\ComposedViews\Component;
 
 use PlatformPHP\ComposedViews\{AbstractPage, HtmlInterface, PageEvents};
 use PlatformPHP\ComposedViews\Asset\AssetsTrait;
-use PlatformPHP\ComposedViews\Event\{BeforeInsertionEvent, AfterInsertionEvent};
+use PlatformPHP\ComposedViews\Event\{BeforeInsertionEvent, AfterInsertionEvent,
+    BeforeDeletionEvent, AfterDeletionEvent};
 use PlatformPHP\ComposedViews\Traits\CloningTrait;
 
 abstract class AbstractComponent implements HtmlInterface
@@ -133,11 +134,25 @@ HTML;
         $component = $this->components[$id] ?? null;
         if ($component) {
 
-            if ($notifyChild) {
-                $component->setParent(null);
+            $drop = true;
+
+            if ($this->page instanceOf AbstractPage) {
+
+                $beforeDeletionEvent = new BeforeDeletionEvent($this, $component);
+                $this->page->getDispatcher()->dispatch(PageEvents::BEFORE_DELETION, $beforeDeletionEvent);
+
+                if ($beforeDeletionEvent->isCancelled()) {
+                    $drop = false;
+                }
             }
 
-            unset($this->components[$id]);
+            if ($drop) {
+                if ($notifyChild) {
+                    $component->setParent(null);
+                }
+
+                unset($this->components[$id]);
+            }
         }
     }
 
