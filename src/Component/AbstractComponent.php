@@ -110,9 +110,7 @@ HTML;
     {
         $this->components[$component->getId()] = $component;
 
-        if ($this instanceOf AbstractComponent) {
-            $component->setParent($this);
-        }
+        $component->setParent($this);
     }
 
     public function dropComponent(string $id, bool $notifyChild = true)

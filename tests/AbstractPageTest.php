@@ -7,16 +7,12 @@ use PlatformPHP\ComposedViews\Event\FilterAssetsEvent;
 use PlatformPHP\ComposedViews\Component\AbstractComponent;
 use PlatformPHP\ComposedViews\Sidebar\Sidebar;
 use PlatformPHP\ComposedViews\Asset\Asset;
-use PlatformPHP\ComposedViews\Tests\TestCase;
-use PlatformPHP\ComposedViews\Tests\Traits\CloningTraitTests;
-use PlatformPHP\ComposedViews\Tests\Asset\AssetsTraitTests;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\{EventDispatcherInterface,
     EventDispatcher};
 
 class AbstractPageTest extends TestCase
 {
-    use AssetsTraitTests, CloningTraitTests;
-
     public function setUp()
     {
         $this->page = $this->getMockBuilder(AbstractPage::class)
@@ -25,11 +21,6 @@ class AbstractPageTest extends TestCase
             ->getMockForAbstractClass();
         $this->page->method('sidebars')->willReturn(['body']);
         $this->page->__construct();
-    }
-
-    public function getTestClass()
-    {
-        return AbstractPage::class;
     }
 
     public function testAssetsInitializationOnConstructor()
@@ -409,7 +400,7 @@ class AbstractPageTest extends TestCase
         $this->jquery       = new Asset('jquery', 'scripts', 'http://localhost/js/jquery.js');
         $this->bootstrapJs  = new Asset('bootstrap-js', 'scripts', 'http://localhost/js/bootstrap.js');
         $this->scripts      = new Asset('scripts', 'scripts', 'http://localhost/js/scripts.js');
-        $this->customJs      = new Asset('custom-js', 'scripts', 'http://localhost/js/custom-js.js');
+        $this->customJs     = new Asset('custom-js', 'scripts', 'http://localhost/js/custom-js.js');
 
         $this->assets = [
             'bootstrap-css' => $this->bootstrapCss,
@@ -844,19 +835,19 @@ class AbstractPageTest extends TestCase
         // Asserts
         //
 
-        $this->assertSame($this->component1, $components->current());
+        $this->assertEquals($this->component1, $components->current());
 
         $components->next();
-        $this->assertSame($this->component2, $components->current());
+        $this->assertEquals($this->component2, $components->current());
 
         $components->next();
-        $this->assertSame($this->component4, $components->current());
+        $this->assertEquals($this->component4, $components->current());
 
         $components->next();
-        $this->assertSame($this->component5, $components->current());
+        $this->assertEquals($this->component5, $components->current());
 
         $components->next();
-        $this->assertSame($this->component3, $components->current());
+        $this->assertEquals($this->component3, $components->current());
     }
 
     public function testBaseUrlReturnAnEmptyStringByDefault()
@@ -997,10 +988,10 @@ class AbstractPageTest extends TestCase
      */
     public function testPrintPrintResultOfHtmlMethod($htmlResult)
     {
-        $page = $this->getMockBuilder($this->getTestClass())
+        $page = $this->getMockBuilder(AbstractPage::class)
             ->disableOriginalConstructor()
-            ->setMethods(['html']);
-        $page = $this->assumeMock($this->getTestClass(), $page);
+            ->setMethods(['html'])
+            ->getMockForAbstractClass();
         $page->expects($this->once())
             ->method('html')
             ->willReturn($htmlResult);
@@ -1012,19 +1003,19 @@ class AbstractPageTest extends TestCase
 
     public function testIsPrintedReturnFalseByDefault()
     {
-        $page = $this->getMockBuilder($this->getTestClass())
-            ->disableOriginalConstructor();
-        $page = $this->assumeMock($this->getTestClass(), $page);
+        $page = $this->getMockBuilder(AbstractPage::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
 
         $this->assertFalse($page->isPrinted());
     }
 
     public function testIsPrintedReturnTrueAfterPrintInvokation()
     {
-        $page = $this->getMockBuilder($this->getTestClass())
+        $page = $this->getMockBuilder(AbstractPage::class)
             ->disableOriginalConstructor()
-            ->setMethods(['html']);
-        $page = $this->assumeMock($this->getTestClass(), $page);
+            ->setMethods(['html'])
+            ->getMockForAbstractClass();
         $page->expects($this->once())
             ->method('html')->willReturn('');
 
@@ -1106,5 +1097,16 @@ class AbstractPageTest extends TestCase
 
         $page = $this->getMockForAbstractClass(AbstractPage::class, ['', $dispatcher]);
         $page->on($eventName, $callback);
+    }
+
+    public function testCloneMethodReturnNewInstance()
+    {
+        $instance = $this->getMockBuilder(AbstractPage::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+
+        $newInstance = $instance->clone();
+
+        $this->assertNotEquals((array) $instance, (array) $newInstance);
     }
 }

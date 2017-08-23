@@ -2,15 +2,19 @@
 
 namespace PlatformPHP\ComposedViews\Tests\Traits;
 
-use PlatformPHP\ComposedViews\Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 use PlatformPHP\ComposedViews\Traits\CloningTrait;
 
 class CloningTraitTest extends TestCase
 {
-    use CloningTraitTests;
-
-    public function getTestClass()
+    public function testCloneMethodReturnNewInstance()
     {
-        return CloningTrait::class;
+        $instance = $this->getMockBuilder(CloningTrait::class)
+            ->disableOriginalConstructor()
+            ->getMockForTrait();
+
+        $newInstance = $instance->clone();
+
+        $this->assertNotEquals((array) $instance, (array) $newInstance);
     }
 }
