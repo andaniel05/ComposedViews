@@ -1,9 +1,8 @@
 <?php
 
-namespace PlatformPHP\ComposedViews\Tests;
+namespace PlatformPHP\ComposedViews\Tests\Component;
 
-use PlatformPHP\ComposedViews\Sidebar\Sidebar;
-use PlatformPHP\ComposedViews\Component\AbstractComponent;
+use PlatformPHP\ComposedViews\Component\{AbstractComponent, Sidebar};
 use PHPUnit\Framework\TestCase;
 
 class SidebarTest extends TestCase

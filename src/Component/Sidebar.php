@@ -1,8 +1,6 @@
 <?php
 
-namespace PlatformPHP\ComposedViews\Sidebar;
-
-use PlatformPHP\ComposedViews\Component\AbstractComponent;
+namespace PlatformPHP\ComposedViews\Component;
 
 class Sidebar extends AbstractComponent
 {

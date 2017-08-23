@@ -4,8 +4,7 @@ namespace PlatformPHP\ComposedViews\Tests;
 
 use PlatformPHP\ComposedViews\{AbstractPage, PageEvents};
 use PlatformPHP\ComposedViews\Event\FilterAssetsEvent;
-use PlatformPHP\ComposedViews\Component\AbstractComponent;
-use PlatformPHP\ComposedViews\Sidebar\Sidebar;
+use PlatformPHP\ComposedViews\Component\{AbstractComponent, Sidebar};
 use PlatformPHP\ComposedViews\Asset\Asset;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\{EventDispatcherInterface,
