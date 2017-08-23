@@ -3,7 +3,7 @@
 namespace PlatformPHP\ComposedViews\Tests;
 
 use PlatformPHP\ComposedViews\{AbstractPage, PageEvents};
-use PlatformPHP\ComposedViews\Event\BeforeInsertionEvent;
+use PlatformPHP\ComposedViews\Event\{BeforeInsertionEvent, AfterInsertionEvent};
 use PlatformPHP\ComposedViews\Component\AbstractComponent;
 use PHPUnit\Framework\TestCase;
 
@@ -432,5 +432,25 @@ HTML;
 
         $this->assertTrue($executed);
         $this->assertFalse($parent->existsComponent('child'));
+    }
+
+    public function testTheAfterInsertionEventIsTriggeredOnThePageWhenANewComponentIsInserted()
+    {
+        $page = $this->getMockForAbstractClass(AbstractPage::class);
+        $parent = $this->getMockForAbstractClass(AbstractComponent::class, ['parent']);
+        $child = $this->getMockForAbstractClass(AbstractComponent::class, ['child']);
+
+        $executed = false;
+        $page->on(PageEvents::AFTER_INSERTION, function (AfterInsertionEvent $event) use (&$executed, $parent, $child) {
+            $executed = true;
+            $this->assertEquals($parent, $event->getParent());
+            $this->assertEquals($child, $event->getChild());
+            $this->assertTrue($parent->existsComponent('child'));
+        });
+
+        $parent->setPage($page);
+        $parent->addComponent($child); // Act
+
+        $this->assertTrue($executed);
     }
 }
