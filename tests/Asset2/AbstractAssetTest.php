@@ -3,22 +3,22 @@
 namespace PlatformPHP\ComposedViews\Tests;
 
 use PHPUnit\Framework\TestCase;
-use PlatformPHP\ComposedViews\Asset2\Asset2;
+use PlatformPHP\ComposedViews\Asset2\AbstractAsset;
 
-class Asset2Test extends TestCase
+class AbstractAssetTest extends TestCase
 {
-    public function setUp(string $id = null)
+    public function setUp()
     {
-        $id = $id ?? uniqid();
+        $id = uniqid();
 
-        $this->asset = new Asset2($id);
+        $this->asset = $this->getMockForAbstractClass(AbstractAsset::class, [$id]);
     }
 
     public function testGetId_ReturnTheIdArgument()
     {
         $id = uniqid();
 
-        $asset = new Asset2($id);
+        $asset = $this->getMockForAbstractClass(AbstractAsset::class, [$id]);
 
         $this->assertEquals($id, $asset->getId());
     }

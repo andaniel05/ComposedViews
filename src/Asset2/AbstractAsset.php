@@ -2,7 +2,7 @@
 
 namespace PlatformPHP\ComposedViews\Asset2;
 
-class Asset2
+abstract class AbstractAsset
 {
     protected $id;
     protected $groups = [];
