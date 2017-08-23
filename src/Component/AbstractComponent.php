@@ -110,8 +110,13 @@ HTML;
     public function addComponent(AbstractComponent $component)
     {
         if ($this->page instanceOf AbstractPage) {
+
             $beforeInsertionEvent = new BeforeInsertionEvent($this, $component);
             $this->page->getDispatcher()->dispatch(PageEvents::BEFORE_INSERTION, $beforeInsertionEvent);
+
+            if ($beforeInsertionEvent->isCancelled()) {
+                return;
+            }
         }
 
         $this->components[$component->getId()] = $component;

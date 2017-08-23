@@ -394,7 +394,7 @@ HTML;
         $this->assertSame($page, $component1->getPage());
     }
 
-    public function testTheBeforeInsertionEventIsTriggeredWhenANewComponentIsInsertedOnTheTree()
+    public function testTheBeforeInsertionEventIsTriggeredOnThePageWhenANewComponentIsInserted()
     {
         $page = $this->getMockForAbstractClass(AbstractPage::class);
         $parent = $this->getMockForAbstractClass(AbstractComponent::class, ['parent']);
@@ -405,11 +405,32 @@ HTML;
             $executed = true;
             $this->assertEquals($parent, $event->getParent());
             $this->assertEquals($child, $event->getChild());
+            $this->assertFalse($parent->existsComponent('child'));
         });
 
         $parent->setPage($page);
         $parent->addComponent($child); // Act
 
         $this->assertTrue($executed);
+        $this->assertTrue($parent->existsComponent('child'));
+    }
+
+    public function testTheBeforeInsertionEventCanCancelTheInsertion()
+    {
+        $page = $this->getMockForAbstractClass(AbstractPage::class);
+        $parent = $this->getMockForAbstractClass(AbstractComponent::class, ['parent']);
+        $child = $this->getMockForAbstractClass(AbstractComponent::class, ['child']);
+
+        $executed = false;
+        $page->on(PageEvents::BEFORE_INSERTION, function (BeforeInsertionEvent $event) use (&$executed, $parent, $child) {
+            $executed = true;
+            $event->cancel(true);
+        });
+
+        $parent->setPage($page);
+        $parent->addComponent($child); // Act
+
+        $this->assertTrue($executed);
+        $this->assertFalse($parent->existsComponent('child'));
     }
 }
