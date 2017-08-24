@@ -37,9 +37,9 @@ class TagStyleAssetTest extends TestCase
         $this->assertTrue($this->asset->inGroup('styles'));
     }
 
-    public function testGetMinimizer_ReturnInstanceOfCssMinimizer()
+    public function testGetMinimizer_ReturnNullByDefault()
     {
-        $this->assertInstanceOf(CSSMinimizer::class, $this->asset->getMinimizer());
+        $this->assertNull($this->asset->getMinimizer());
     }
 
     public function testGetMinimizer_ReturnTheInsertedMinimizerBySetMinimizer()
@@ -50,23 +50,27 @@ class TagStyleAssetTest extends TestCase
         $this->assertEquals($minimizer, $this->asset->getMinimizer());
     }
 
-    public function testGetMinimizedContent_ReturnTheResultOfDoMinifyTheContent()
+    public function testGetMinimizedContent_ReturnResultOfMinimizeTheContent()
     {
-        $content = uniqid();
         $minimizedContent = uniqid();
-
         $minimizer = $this->getMockBuilder(CSSMinimizer::class)
-            ->setMethods(['add', 'minify'])
+            ->setMethods(['minify'])
             ->getMock();
         $minimizer->expects($this->once())
             ->method('minify')
             ->willReturn($minimizedContent);
-        $minimizer->expects($this->once())
-            ->method('add')
-            ->with($this->equalTo($content));
 
-        $this->asset->setContent($content);
         $this->asset->setMinimizer($minimizer);
+
+        $this->assertEquals($minimizedContent, $this->asset->getMinimizedContent());
+    }
+
+    public function testGetMinimizedContent_ReturnTheSameResult()
+    {
+        $content = uniqid();
+        $this->asset->setContent($content);
+
+        $minimizedContent = $this->asset->getMinimizedContent();
 
         $this->assertEquals($minimizedContent, $this->asset->getMinimizedContent());
     }

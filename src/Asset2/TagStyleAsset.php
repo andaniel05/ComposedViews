@@ -13,16 +13,14 @@ class TagStyleAsset extends TagAsset
         parent::__construct($id, $groups, $dependencies, $content, $minimizedContent);
 
         $this->addGroup('styles');
-
-        $this->minimizer = new CSSMinimizer();
     }
 
-    public function getMinimizer(): CSSMinimizer
+    public function getMinimizer(): ?CSSMinimizer
     {
         return $this->minimizer;
     }
 
-    public function setMinimizer(CSSMinimizer $minimizer)
+    public function setMinimizer(?CSSMinimizer $minimizer)
     {
         $this->minimizer = $minimizer;
     }
@@ -30,7 +28,7 @@ class TagStyleAsset extends TagAsset
     public function getMinimizedContent(): ?string
     {
         if ( ! $this->minimizedContent) {
-            $this->minimizer->add($this->content);
+            $this->minimizer = $this->minimizer ?? new CSSMinimizer($this->content);
             return $this->minimizer->minify();
         } else {
             return $this->minimizedContent;
