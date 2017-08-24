@@ -3,6 +3,7 @@
 namespace PlatformPHP\ComposedViews\Tests;
 
 use PHPUnit\Framework\TestCase;
+use PlatformPHP\ComposedViews\AbstractPage;
 use PlatformPHP\ComposedViews\Asset2\Asset2;
 
 class Asset2Test extends TestCase
@@ -158,5 +159,18 @@ class Asset2Test extends TestCase
         $this->asset->setUsed(true);
 
         $this->assertTrue($this->asset->isUsed());
+    }
+
+    public function testGetPage_ReturnNullByDefault()
+    {
+        $this->assertNull($this->asset->getPage());
+    }
+
+    public function testGetPage_ReturnPageInsertedBySetPage()
+    {
+        $page = $this->createMock(AbstractPage::class);
+        $this->asset->setPage($page);
+
+        $this->assertEquals($page, $this->asset->getPage());
     }
 }

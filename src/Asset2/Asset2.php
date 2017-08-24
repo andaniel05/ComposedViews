@@ -2,6 +2,8 @@
 
 namespace PlatformPHP\ComposedViews\Asset2;
 
+use PlatformPHP\ComposedViews\AbstractPage;
+
 class Asset2
 {
     protected $id;
@@ -10,6 +12,7 @@ class Asset2
     protected $content;
     protected $minimizedContent;
     protected $used = false;
+    protected $page;
 
     public function __construct(string $id, array $groups = [], array $dependencies = [], ?string $content = null, ?string $minimizedContent = null)
     {
@@ -101,5 +104,15 @@ class Asset2
     public function setUsed(bool $used)
     {
         $this->used = $used;
+    }
+
+    public function getPage(): ?AbstractPage
+    {
+        return $this->page;
+    }
+
+    public function setPage(?AbstractPage $page)
+    {
+        $this->page = $page;
     }
 }
