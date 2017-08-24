@@ -2,7 +2,7 @@
 
 namespace PlatformPHP\ComposedViews\Asset2;
 
-abstract class AbstractTagAsset extends AbstractAsset
+abstract class AbstractTagAsset extends AbstractMinimizedAsset
 {
     public function __construct(string $id, array $groups = [], array $dependencies = [], ?string $content = null, ?string $minimizedContent = null)
     {

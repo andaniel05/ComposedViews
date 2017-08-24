@@ -21,18 +21,16 @@ class AbstractAssetTest extends TestCase
         $groups = range(0, rand(0, 10));
         $deps = range(0, rand(0, 10));
         $content = uniqid();
-        $minimized = uniqid();
 
         $asset = $this->getMockForAbstractClass(
             AbstractAsset::class,
-            [$id, $groups, $deps, $content, $minimized]
+            [$id, $groups, $deps, $content]
         );
 
         $this->assertEquals($id, $asset->getId());
         $this->assertEquals($groups, $asset->getGroups());
         $this->assertEquals($deps, $asset->getDependencies());
         $this->assertEquals($content, $asset->getContent());
-        $this->assertEquals($minimized, $asset->getMinimizedContent());
     }
 
     public function testGetId_ReturnTheIdArgument()
@@ -134,22 +132,6 @@ class AbstractAssetTest extends TestCase
         $this->asset->setContent($content);
 
         $this->assertEquals($content, $this->asset->getContent());
-    }
-
-    public function testGetMinimizedContent_ReturnValueOfTheContentWhenHisMinimizedContentIsNull()
-    {
-        $content = uniqid();
-        $this->asset->setContent($content);
-
-        $this->assertEquals($content, $this->asset->getMinimizedContent());
-    }
-
-    public function testGetMinimizedContent_ReturnInsertedValueBySetMinimizedContent()
-    {
-        $content = uniqid();
-        $this->asset->setMinimizedContent($content);
-
-        $this->assertEquals($content, $this->asset->getMinimizedContent());
     }
 
     public function testIsUsed_ReturnFalseByDefault()

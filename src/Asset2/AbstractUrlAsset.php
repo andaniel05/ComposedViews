@@ -2,7 +2,7 @@
 
 namespace PlatformPHP\ComposedViews\Asset2;
 
-abstract class AbstractUrlAsset extends AbstractAsset
+abstract class AbstractUrlAsset extends AbstractMinimizedAsset
 {
     protected $url;
     protected $minimizedUrl;
