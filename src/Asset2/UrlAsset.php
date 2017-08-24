@@ -2,14 +2,17 @@
 
 namespace PlatformPHP\ComposedViews\Asset2;
 
-abstract class AbstractUrlAsset extends AbstractAsset
+class UrlAsset extends Asset2
 {
     protected $url;
     protected $minimizedUrl;
 
-    public function __construct(string $id)
+    public function __construct(string $id, array $groups = [], array $dependencies = [], ?string $url = null, ?string $minimizedUrl = null)
     {
-        parent::__construct($id);
+        parent::__construct($id, $groups, $dependencies);
+
+        $this->url = $url;
+        $this->minimizedUrl = $minimizedUrl;
 
         $this->addGroup('url');
     }

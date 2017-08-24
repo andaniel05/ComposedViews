@@ -3,15 +3,32 @@
 namespace PlatformPHP\ComposedViews\Tests;
 
 use PHPUnit\Framework\TestCase;
-use PlatformPHP\ComposedViews\Asset2\AbstractUrlAsset;
+use PlatformPHP\ComposedViews\Asset2\UrlAsset;
 
-class AbstractUrlAssetTest extends TestCase
+class UrlAssetTest extends TestCase
 {
     public function setUp()
     {
         $id = uniqid();
 
-        $this->asset = $this->getMockForAbstractClass(AbstractUrlAsset::class, [$id]);
+        $this->asset = new UrlAsset($id);
+    }
+
+    public function testConstructor()
+    {
+        $id = uniqid();
+        $groups = range(0, rand(0, 10));
+        $deps = range(0, rand(0, 10));
+        $url = uniqid();
+        $minimizedUrl = uniqid();
+
+        $asset = new UrlAsset($id, $groups, $deps, $url, $minimizedUrl);
+
+        $this->assertEquals($id, $asset->getId());
+        $this->assertArraySubset($groups, $asset->getGroups());
+        $this->assertEquals($deps, $asset->getDependencies());
+        $this->assertEquals($url, $asset->getUrl());
+        $this->assertEquals($minimizedUrl, $asset->getMinimizedUrl());
     }
 
     public function testHasUrlGroupByDefault()
