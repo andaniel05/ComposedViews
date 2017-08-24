@@ -154,24 +154,6 @@ class AbstractPageTest extends TestCase
         $this->assertEquals($expectedVars, $page->getAllVars());
     }
 
-    public function testPrintVarDoNotPrintNothingIfVarNotExists()
-    {
-        $page = $this->getMock1();
-
-        $page->printVar('var100');
-
-        $this->expectOutputString(null);
-    }
-
-    public function testPrintVarPrintInTheOutputTheValueOfVar()
-    {
-        $page = $this->getMock1();
-
-        $page->printVar('var1');
-
-        $this->expectOutputString('value1');
-    }
-
     public function testSidebarInitializationOnConstructor()
     {
         $page = $this->getMockBuilder(AbstractPage::class)
@@ -276,27 +258,6 @@ class AbstractPageTest extends TestCase
         ];
 
         $this->assertEquals($expected, $sidebar1->getAllComponents());
-    }
-
-    public function testPrintSidebarInvokePrintMethodInTheSidebar()
-    {
-        $sidebar1 = $this->getMockBuilder(Sidebar::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['print'])
-            ->getMock();
-        $sidebar1->expects($this->once())
-            ->method('print');
-
-        $page = $this->getMockBuilder(AbstractPage::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getSidebar'])
-            ->getMockForAbstractClass();
-        $page->expects($this->once())
-            ->method('getSidebar')
-            ->with($this->equalTo('sidebar1'))
-            ->willReturn($sidebar1);
-
-        $page->printSidebar('sidebar1');
     }
 
     public function initializeSidebarsWithEqualsComponents()

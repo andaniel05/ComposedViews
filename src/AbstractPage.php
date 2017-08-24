@@ -60,13 +60,6 @@ abstract class AbstractPage implements HtmlInterface
         }
     }
 
-    public function printVar($var): void
-    {
-        if (isset($this->vars[$var])) {
-            echo $this->vars[$var];
-        }
-    }
-
     protected function initializeSidebars(): void
     {
         foreach ($this->sidebars() as $key => $value) {
@@ -105,14 +98,6 @@ abstract class AbstractPage implements HtmlInterface
     public function getSidebar(string $id): ?Sidebar
     {
         return $this->sidebars[$id] ?? null;
-    }
-
-    public function printSidebar(string $id): void
-    {
-        $sidebar = $this->getSidebar($id);
-        if ($sidebar) {
-            $sidebar->print();
-        }
     }
 
     public function getComponent(string $id): ?AbstractComponent
