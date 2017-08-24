@@ -74,4 +74,38 @@ class TagStyleAssetTest extends TestCase
 
         $this->assertEquals($minimizedContent, $this->asset->getMinimizedContent());
     }
+
+    public function testHtml_RenderizeTheMinimizedContentWhenArgumentIsOmitted()
+    {
+        $minimizedContent = uniqid();
+
+        $asset = new TagStyleAsset('asset', [], [], null, $minimizedContent);
+
+        $expected = new \DOMDocument;
+        $expected->loadXML("<style>$minimizedContent</style>");
+
+        $actual = new \DOMDocument;
+        $actual->loadXML($asset->html());
+
+        $this->assertEqualXMLStructure(
+            $expected->firstChild, $actual->firstChild
+        );
+    }
+
+    public function testHtml_RenderizeTheContentWhenArgumentIsFalse()
+    {
+        $content = uniqid();
+
+        $asset = new TagStyleAsset('asset', [], [], $content);
+
+        $expected = new \DOMDocument;
+        $expected->loadXML("<style>$content</style>");
+
+        $actual = new \DOMDocument;
+        $actual->loadXML($asset->html(false));
+
+        $this->assertEqualXMLStructure(
+            $expected->firstChild, $actual->firstChild
+        );
+    }
 }

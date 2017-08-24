@@ -37,6 +37,7 @@ class TagStyleAsset extends AbstractTagAsset
 
     public function html(bool $minimized = true): string
     {
-        return '';
+        $content = $minimized ? $this->getMinimizedContent() : $this->getContent();
+        return "<style>$content</style>";
     }
 }
