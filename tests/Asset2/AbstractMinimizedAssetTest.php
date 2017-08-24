@@ -49,4 +49,16 @@ class AbstractMinimizedAssetTest extends TestCase
 
         $this->assertEquals($content, $this->asset->getMinimizedContent());
     }
+
+    public function testIsMinimized_ReturnTrueByDefault()
+    {
+        $this->assertTrue($this->asset->isMinimized());
+    }
+
+    public function testIsMinimized_ReturnInsertedValueBySetMinimized()
+    {
+        $this->asset->setMinimized(false);
+
+        $this->assertFalse($this->asset->isMinimized());
+    }
 }
