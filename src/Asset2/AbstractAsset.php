@@ -2,9 +2,9 @@
 
 namespace PlatformPHP\ComposedViews\Asset2;
 
-use PlatformPHP\ComposedViews\AbstractPage;
+use PlatformPHP\ComposedViews\{AbstractPage, HtmlInterface};
 
-class Asset2
+abstract class AbstractAsset implements HtmlInterface
 {
     protected $id;
     protected $groups = [];
@@ -115,4 +115,6 @@ class Asset2
     {
         $this->page = $page;
     }
+
+    abstract public function html(bool $minimized = true): string;
 }

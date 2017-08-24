@@ -3,15 +3,15 @@
 namespace PlatformPHP\ComposedViews\Tests;
 
 use PHPUnit\Framework\TestCase;
-use PlatformPHP\ComposedViews\Asset2\TagAsset;
+use PlatformPHP\ComposedViews\Asset2\AbstractTagAsset;
 
-class TagAssetTest extends TestCase
+class AbstractTagAssetTest extends TestCase
 {
     public function setUp()
     {
         $id = uniqid();
 
-        $this->asset = new TagAsset($id);
+        $this->asset = $this->getMockForAbstractClass(AbstractTagAsset::class, [$id]);
     }
 
     public function testConstructor()
@@ -22,7 +22,10 @@ class TagAssetTest extends TestCase
         $content = uniqid();
         $minimized = uniqid();
 
-        $asset = new TagAsset($id, $groups, $deps, $content, $minimized);
+        $asset = $this->getMockForAbstractClass(
+            AbstractTagAsset::class,
+            [$id, $groups, $deps, $content, $minimized]
+        );
 
         $this->assertEquals($id, $asset->getId());
         $this->assertArraySubset($groups, $asset->getGroups());

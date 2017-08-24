@@ -4,7 +4,7 @@ namespace PlatformPHP\ComposedViews\Asset2;
 
 use MatthiasMullie\Minify\CSS as CSSMinimizer;
 
-class TagStyleAsset extends TagAsset
+class TagStyleAsset extends AbstractTagAsset
 {
     protected $minimizer;
 
@@ -33,5 +33,10 @@ class TagStyleAsset extends TagAsset
         } else {
             return $this->minimizedContent;
         }
+    }
+
+    public function html(bool $minimized = true): string
+    {
+        return '';
     }
 }
