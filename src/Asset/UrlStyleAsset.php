@@ -1,12 +1,12 @@
 <?php
 
-namespace PlatformPHP\ComposedViews\Asset2;
+namespace PlatformPHP\ComposedViews\Asset;
 
 class UrlStyleAsset extends AbstractUrlAsset
 {
-    public function __construct(string $id, array $groups = [], array $dependencies = [], ?string $url = null, ?string $minimizedUrl = null)
+    public function __construct(string $id, string $url, ?string $minimizedUrl = null, array $dependencies = [], array $groups = [])
     {
-        parent::__construct($id, $groups, $dependencies, $url, $minimizedUrl);
+        parent::__construct($id, $url, $minimizedUrl, $dependencies, $groups);
 
         $this->addGroup('url');
         $this->addGroup('styles');

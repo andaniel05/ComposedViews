@@ -3,7 +3,7 @@
 namespace PlatformPHP\ComposedViews\Tests;
 
 use PHPUnit\Framework\TestCase;
-use PlatformPHP\ComposedViews\Asset2\UrlStyleAsset;
+use PlatformPHP\ComposedViews\Asset\UrlStyleAsset;
 
 class UrlStyleAssetTest extends TestCase
 {
@@ -11,24 +11,25 @@ class UrlStyleAssetTest extends TestCase
     {
         $id = uniqid();
 
-        $this->asset = new UrlStyleAsset($id);
+        $this->asset = new UrlStyleAsset($id, '');
     }
 
     public function testConstructor()
     {
         $id = uniqid();
-        $groups = range(0, rand(0, 10));
-        $deps = range(0, rand(0, 10));
         $url = uniqid();
         $minimizedUrl = uniqid();
+        $deps = range(0, rand(0, 10));
+        $groups = range(0, rand(0, 10));
 
-        $asset = new UrlStyleAsset($id, $groups, $deps, $url, $minimizedUrl);
+        $asset = new UrlStyleAsset($id, $url, $minimizedUrl, $deps, $groups);
 
         $this->assertEquals($id, $asset->getId());
-        $this->assertArraySubset($groups, $asset->getGroups());
-        $this->assertEquals($deps, $asset->getDependencies());
         $this->assertEquals($url, $asset->getUrl());
         $this->assertEquals($minimizedUrl, $asset->getMinimizedUrl());
+        $this->assertEquals($deps, $asset->getDependencies());
+        $this->assertArraySubset($groups, $asset->getGroups());
+
     }
 
     public function testHasUrlGroupByDefault()
@@ -44,7 +45,7 @@ class UrlStyleAssetTest extends TestCase
     public function testHtml_RenderizeTheMinimizedUrlByDefault()
     {
         $minimizedUrl = uniqid();
-        $asset = new UrlStyleAsset('asset', [], [], null, $minimizedUrl);
+        $asset = new UrlStyleAsset('asset', '', $minimizedUrl);
 
         $this->assertEquals(
             "<link href=\"$minimizedUrl\" />", $asset->html()
@@ -55,7 +56,7 @@ class UrlStyleAssetTest extends TestCase
     {
         $url = uniqid();
         $minimizedUrl = uniqid();
-        $asset = new UrlStyleAsset('asset', [], [], $url, $minimizedUrl);
+        $asset = new UrlStyleAsset('asset', $url, $minimizedUrl);
         $asset->setMinimized(false);
 
         $this->assertEquals(
