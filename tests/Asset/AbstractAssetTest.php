@@ -18,19 +18,16 @@ class AbstractAssetTest extends TestCase
     public function testConstructor()
     {
         $id = uniqid();
-        $groups = range(0, rand(0, 10));
         $deps = range(0, rand(0, 10));
-        $content = uniqid();
+        $groups = range(0, rand(0, 10));
 
         $asset = $this->getMockForAbstractClass(
-            AbstractAsset::class,
-            [$id, $groups, $deps, $content]
+            AbstractAsset::class, [$id, $deps, $groups]
         );
 
         $this->assertEquals($id, $asset->getId());
-        $this->assertEquals($groups, $asset->getGroups());
         $this->assertEquals($deps, $asset->getDependencies());
-        $this->assertEquals($content, $asset->getContent());
+        $this->assertEquals($groups, $asset->getGroups());
     }
 
     public function testGetId_ReturnTheIdArgument()

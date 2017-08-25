@@ -2,18 +2,22 @@
 
 namespace PlatformPHP\ComposedViews\Asset;
 
-abstract class AbstractAsset
+use PlatformPHP\ComposedViews\{AbstractPage, HtmlInterface};
+
+abstract class AbstractAsset implements HtmlInterface
 {
     protected $id;
     protected $groups = [];
     protected $dependencies = [];
     protected $content;
-    protected $minimizedContent;
     protected $used = false;
+    protected $page;
 
-    public function __construct(string $id)
+    public function __construct(string $id, array $dependencies = [], array $groups = [])
     {
         $this->id = $id;
+        $this->dependencies = $dependencies;
+        $this->groups = $groups;
     }
 
     public function getId(): string
@@ -31,9 +35,32 @@ abstract class AbstractAsset
         $this->groups[] = $group;
     }
 
+    public function addGroups(string $groups)
+    {
+        $parts = explode(' ', $groups);
+        foreach ($parts as $group) {
+            $this->addGroup($group);
+        }
+    }
+
     public function inGroup(string $group): bool
     {
         return in_array($group, $this->groups);
+    }
+
+    public function inGroups(string $groups): bool
+    {
+        $result = true;
+
+        $parts = explode(' ', $groups);
+        foreach ($parts as $group) {
+            if ( ! $this->inGroup($group)) {
+                $result = false;
+                break;
+            }
+        }
+
+        return $result;
     }
 
     public function removeGroup(string $group)
@@ -79,16 +106,6 @@ abstract class AbstractAsset
         $this->content = $content;
     }
 
-    public function getMinimizedContent(): ?string
-    {
-        return $this->minimizedContent ?? $this->content;
-    }
-
-    public function setMinimizedContent(?string $minimized)
-    {
-        $this->minimizedContent = $minimized;
-    }
-
     public function isUsed(): bool
     {
         return $this->used;
@@ -98,4 +115,16 @@ abstract class AbstractAsset
     {
         $this->used = $used;
     }
+
+    public function getPage(): ?AbstractPage
+    {
+        return $this->page;
+    }
+
+    public function setPage(?AbstractPage $page)
+    {
+        $this->page = $page;
+    }
+
+    abstract public function html(): string;
 }
