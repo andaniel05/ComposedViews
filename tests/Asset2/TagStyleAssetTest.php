@@ -32,6 +32,11 @@ class TagStyleAssetTest extends TestCase
         $this->assertEquals($minimized, $asset->getMinimizedContent());
     }
 
+    public function testHasTagGroupByDefault()
+    {
+        $this->assertTrue($this->asset->inGroup('tag'));
+    }
+
     public function testHasStylesGroupByDefault()
     {
         $this->assertTrue($this->asset->inGroup('styles'));
