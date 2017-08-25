@@ -1,6 +1,6 @@
 <?php
 
-namespace PlatformPHP\ComposedViews\Asset2;
+namespace PlatformPHP\ComposedViews\Asset;
 
 use MatthiasMullie\Minify\JS as JSMinimizer;
 
@@ -8,10 +8,11 @@ class TagScriptAsset extends AbstractMinimizedAsset
 {
     protected $minimizer;
 
-    public function __construct(string $id, array $groups = [], array $dependencies = [], ?string $content = null, ?string $minimizedContent = null)
+    public function __construct(string $id, ?string $content = null, array $dependencies = [], array $groups = [])
     {
-        parent::__construct($id, $groups, $dependencies, $content, $minimizedContent);
+        parent::__construct($id, $dependencies, $groups);
 
+        $this->content = $content;
         $this->addGroup('tag');
         $this->addGroup('scripts');
     }
@@ -38,10 +39,10 @@ class TagScriptAsset extends AbstractMinimizedAsset
 
     public function html(): string
     {
-        $source = $this->minimized ?
-            $this->getMinimizedContent() :
-            $this->getContent();
-
-        return "<script>$source</script>";
+        if ($this->minimized) {
+            return "<script>{$this->getMinimizedContent()}</script>";
+        } else {
+            return "<script>\n{$this->getContent()}\n</script>";
+        }
     }
 }
