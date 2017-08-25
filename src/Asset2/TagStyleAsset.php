@@ -38,10 +38,10 @@ class TagStyleAsset extends AbstractMinimizedAsset
 
     public function html(): string
     {
-        $minimizedContent = $this->getMinimizedContent();
-        $content = $this->getContent();
+        $source = $this->minimized ?
+            $this->getMinimizedContent() :
+            $this->getContent();
 
-        $source = $this->minimized ? $minimizedContent : $content;
         return "<style>$source</style>";
     }
 }
