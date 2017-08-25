@@ -11,27 +11,27 @@ class AbstractUrlAssetTest extends TestCase
     {
         $id = uniqid();
 
-        $this->asset = $this->getMockForAbstractClass(AbstractUrlAsset::class, [$id]);
+        $this->asset = $this->getMockForAbstractClass(AbstractUrlAsset::class, [$id, '']);
     }
 
     public function testConstructor()
     {
         $id = uniqid();
-        $groups = range(0, rand(0, 10));
-        $deps = range(0, rand(0, 10));
         $url = uniqid();
         $minimizedUrl = uniqid();
+        $deps = range(0, rand(0, 10));
+        $groups = range(0, rand(0, 10));
 
         $asset = $this->getMockForAbstractClass(
             AbstractUrlAsset::class,
-            [$id, $groups, $deps, $url, $minimizedUrl]
+            [$id, $url, $minimizedUrl, $deps, $groups]
         );
 
         $this->assertEquals($id, $asset->getId());
-        $this->assertArraySubset($groups, $asset->getGroups());
-        $this->assertEquals($deps, $asset->getDependencies());
         $this->assertEquals($url, $asset->getUrl());
         $this->assertEquals($minimizedUrl, $asset->getMinimizedUrl());
+        $this->assertEquals($deps, $asset->getDependencies());
+        $this->assertArraySubset($groups, $asset->getGroups());
     }
 
     public function testHasUrlGroupByDefault()
@@ -39,9 +39,9 @@ class AbstractUrlAssetTest extends TestCase
         $this->assertTrue($this->asset->inGroup('url'));
     }
 
-    public function testGetUrl_ReturnNullByDefault()
+    public function testGetUrl_ReturnAnEmptyStringByDefault()
     {
-        $this->assertNull($this->asset->getUrl());
+        $this->assertEmpty($this->asset->getUrl());
     }
 
     public function testGetUrl_ReturnInsertedValueBySetUrl()
