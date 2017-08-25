@@ -3,7 +3,7 @@
 namespace PlatformPHP\ComposedViews\Tests;
 
 use PHPUnit\Framework\TestCase;
-use PlatformPHP\ComposedViews\Asset2\TagStyleAsset;
+use PlatformPHP\ComposedViews\Asset\TagStyleAsset;
 use MatthiasMullie\Minify\CSS as CSSMinimizer;
 
 class TagStyleAssetTest extends TestCase
@@ -12,24 +12,22 @@ class TagStyleAssetTest extends TestCase
     {
         $id = uniqid();
 
-        $this->asset = new TagStyleAsset($id);
+        $this->asset = new TagStyleAsset($id, '');
     }
 
     public function testConstructor()
     {
         $id = uniqid();
-        $groups = range(0, rand(0, 10));
-        $deps = range(0, rand(0, 10));
         $content = uniqid();
-        $minimized = uniqid();
+        $deps = range(0, rand(0, 10));
+        $groups = range(0, rand(0, 10));
 
-        $asset = new TagStyleAsset($id, $groups, $deps, $content, $minimized);
+        $asset = new TagStyleAsset($id, $content, $deps, $groups);
 
         $this->assertEquals($id, $asset->getId());
         $this->assertArraySubset($groups, $asset->getGroups());
         $this->assertEquals($deps, $asset->getDependencies());
         $this->assertEquals($content, $asset->getContent());
-        $this->assertEquals($minimized, $asset->getMinimizedContent());
     }
 
     public function testHasTagGroupByDefault()
@@ -83,7 +81,8 @@ class TagStyleAssetTest extends TestCase
     public function testHtml_RenderizeTheMinimizedContentByDefault()
     {
         $minimizedContent = uniqid();
-        $asset = new TagStyleAsset('asset', [], [], null, $minimizedContent);
+        $asset = new TagStyleAsset('asset', '');
+        $asset->setMinimizedContent($minimizedContent);
 
         $this->assertXmlStringEqualsXmlString(
             "<style>$minimizedContent</style>", $asset->html()
@@ -94,11 +93,12 @@ class TagStyleAssetTest extends TestCase
     {
         $content = uniqid();
         $minimizedContent = uniqid();
-        $asset = new TagStyleAsset('asset', [], [], $content, $minimizedContent);
+        $asset = new TagStyleAsset('asset', $content);
         $asset->setMinimized(false);
+        $asset->setMinimizedContent($minimizedContent);
 
         $this->assertXmlStringEqualsXmlString(
-            "<style>$content</style>", $asset->html()
+            "<style>\n$content\n</style>", $asset->html()
         );
     }
 }
