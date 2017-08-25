@@ -18,30 +18,24 @@ trait AssetsTrait
 
     protected function initializeAssets(): void
     {
-        foreach ($this->assets() as $key => $value) {
-            if (is_string($key) && is_array($value)) {
+        $loadAssets = function (array $assets, string $groups = '') use (&$loadAssets) {
+            foreach ($assets as $key => $value) {
+                if ($value instanceOf AbstractAsset) {
 
-                $group = $key;
-                $defs = $value;
+                    $asset = $value;
 
-                foreach ($defs as $def) {
-                    if ($def instanceOf Asset) {
-                        $this->assets[$def->getId()] = $def;
-                    } elseif (is_array($def)) {
-
-                        $id      = $def[0];
-                        $url     = $def[1];
-                        $deps    = $def[2] ?? [];
-                        $content = $def[3] ?? null;
-
-                        $this->assets[$id] = new Asset($id, $group, $url, $deps, $content);
+                    if ( ! empty($groups)) {
+                        $asset->addGroups($groups);
                     }
-                }
 
-            } elseif (is_integer($key) && $value instanceOf Asset) {
-                $asset = $value;
-                $this->assets[$asset->getId()] = $asset;
+                    $this->assets[$asset->getId()] = $asset;
+
+                } elseif (is_string($key) && is_array($value)) {
+                    $loadAssets($value, $groups . " $key");
+                }
             }
-        }
+        };
+
+        $loadAssets($this->assets());
     }
 }

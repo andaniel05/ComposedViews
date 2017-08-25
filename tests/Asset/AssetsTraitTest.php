@@ -3,7 +3,7 @@
 namespace PlatformPHP\ComposedViews\Tests\Asset;
 
 use PHPUnit\Framework\TestCase;
-use PlatformPHP\ComposedViews\Asset\{AssetsTrait, Asset};
+use PlatformPHP\ComposedViews\Asset\{AssetsTrait, AbstractAsset};
 
 class AssetsTraitTest extends TestCase
 {
@@ -14,7 +14,7 @@ class AssetsTraitTest extends TestCase
         $this->assertEquals([], $trait->getAssets());
     }
 
-    public function assetsTraitTestsGetMock(array $assets = [])
+    public function getTrait(array $assets = [])
     {
         $trait = $this->getMockBuilder(AssetsTrait::class)
             ->disableOriginalConstructor()
@@ -26,7 +26,7 @@ class AssetsTraitTest extends TestCase
         $initializeAssetsMethod = new \ReflectionMethod(
             get_class($trait), 'initializeAssets'
         );
-        $initializeAssetsMethod->setAccessible(TRUE);
+        $initializeAssetsMethod->setAccessible(true);
         $initializeAssetsMethod->invoke($trait);
 
         return $trait;
@@ -34,63 +34,54 @@ class AssetsTraitTest extends TestCase
 
     public function testGetAssetsReturnAnEmptyArrayWhenAssetsReturnAnEmptyArrayToo()
     {
-        $trait = $this->assetsTraitTestsGetMock();
+        $trait = $this->getTrait();
 
         $this->assertEquals([], $trait->getAssets());
     }
 
-    public function testInitializeAssets()
+    public function testInitializeAssets_1()
     {
-        $script2 = new Asset('script2', 'scripts');
+        $asset1Id = uniqid();
+        $asset1 = $this->getMockForAbstractClass(AbstractAsset::class, [$asset1Id]);
 
-        $def = [
-            'styles' => [
-                ['bootstrap', '/css/bootstrap.css', [], ],
-                ['custom', '/css/custom.css', ['bootstrap'], '* {color: black}'],
-            ],
-            'scripts' => [
-                ['jquery', '/js/jquery.js'],
-                $script2,
-            ],
-            new Asset('script1', 'scripts', '/js/script1.js', ['jquery']),
-        ];
-
-        $trait = $this->assetsTraitTestsGetMock($def);
+        $def = [$asset1];
+        $trait = $this->getTrait($def);
 
         $assets = $trait->getAssets();
-        $bootstrap = $assets['bootstrap'];
-        $custom = $assets['custom'];
-        $jquery = $assets['jquery'];
-        $script1 = $assets['script1'];
-        $script2 = $assets['script2'];
+        $this->assertEquals($asset1, $assets[$asset1Id]);
+    }
 
-        $this->assertCount(5, $assets);
+    public function testInitializeAssets_2()
+    {
+        $asset1Id = uniqid();
+        $asset1 = $this->getMockForAbstractClass(AbstractAsset::class, [$asset1Id]);
+        $group1 = uniqid();
 
-        $this->assertEquals('bootstrap', $bootstrap->getId());
-        $this->assertEquals('styles', $bootstrap->getGroup());
-        $this->assertEquals('/css/bootstrap.css', $bootstrap->getUrl());
-        $this->assertEquals([], $bootstrap->getDependencies());
-        $this->assertEquals(null, $bootstrap->getContent());
+        $def = [$group1 => [$asset1]];
+        $trait = $this->getTrait($def);
 
-        $this->assertEquals('custom', $custom->getId());
-        $this->assertEquals('styles', $custom->getGroup());
-        $this->assertEquals('/css/custom.css', $custom->getUrl());
-        $this->assertEquals(['bootstrap'], $custom->getDependencies());
-        $this->assertEquals('* {color: black}', $custom->getContent());
+        $assets = $trait->getAssets();
+        $this->assertEquals($asset1, $assets[$asset1Id]);
+        $this->assertTrue($asset1->inGroup($group1));
+    }
 
-        $this->assertEquals('jquery', $jquery->getId());
-        $this->assertEquals('scripts', $jquery->getGroup());
-        $this->assertEquals('/js/jquery.js', $jquery->getUrl());
-        $this->assertEquals([], $jquery->getDependencies());
-        $this->assertEquals(null, $jquery->getContent());
+    public function testInitializeAssets_3()
+    {
+        $asset1Id = uniqid();
+        $asset1 = $this->getMockForAbstractClass(AbstractAsset::class, [$asset1Id]);
+        $group1 = uniqid();
+        $group2 = uniqid();
 
-        $this->assertEquals('script1', $script1->getId());
-        $this->assertEquals('scripts', $script1->getGroup());
-        $this->assertEquals('/js/script1.js', $script1->getUrl());
-        $this->assertEquals(['jquery'], $script1->getDependencies());
-        $this->assertEquals(null, $script1->getContent());
+        $def = [
+            $group1 => [
+                $group2 => [$asset1]
+            ]
+        ];
+        $trait = $this->getTrait($def);
 
-        $this->assertEquals('script2', $script2->getId());
-        $this->assertEquals('scripts', $script2->getGroup());
+        $assets = $trait->getAssets();
+        $this->assertEquals($asset1, $assets[$asset1Id]);
+        $this->assertTrue($asset1->inGroup($group1));
+        $this->assertTrue($asset1->inGroup($group2));
     }
 }
