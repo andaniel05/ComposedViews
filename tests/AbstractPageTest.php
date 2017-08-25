@@ -1098,4 +1098,63 @@ class AbstractPageTest extends TestCase
 
         $this->assertNotEquals((array) $instance, (array) $newInstance);
     }
+
+    public function testRenderAssets_InvokeToGetAssetsWithDefaultArguments()
+    {
+        $page = $this->getMockBuilder(AbstractPage::class)
+            ->setMethods(['getAssets'])
+            ->getMockForAbstractClass();
+        $page->expects($this->once())
+            ->method('getAssets')
+            ->with(
+                $this->equalTo(null),
+                $this->equalTo(true),
+                $this->equalTo(true)
+            );
+
+        $page->renderAssets();
+    }
+
+    public function testRenderAssets_InvokeToGetAssetsWithSameArguments()
+    {
+        $group = uniqid();
+        $page = $this->getMockBuilder(AbstractPage::class)
+            ->setMethods(['getAssets'])
+            ->getMockForAbstractClass();
+        $page->expects($this->once())
+            ->method('getAssets')
+            ->with(
+                $this->equalTo($group),
+                $this->equalTo(false),
+                $this->equalTo(false)
+            );
+
+        $page->renderAssets($group, false, false);
+    }
+
+    public function test1()
+    {
+        $group = uniqid();
+        $html1 = uniqid();
+        $html2 = uniqid();
+        $asset1 = $this->createMock(AbstractAsset::class, ['asset1']);
+        $asset2 = $this->createMock(AbstractAsset::class, ['asset2']);
+        $assets = [$asset1, $asset2];
+
+        $asset1->method('html')->willReturn($html1);
+        $asset2->method('html')->willReturn($html2);
+
+        $page = $this->getMockBuilder(AbstractPage::class)
+            ->setMethods(['getAssets'])
+            ->getMockForAbstractClass();
+        $page->expects($this->once())
+            ->method('getAssets')
+            ->with($this->equalTo($group))
+            ->willReturn($assets);
+
+        $result = $page->renderAssets($group);
+
+        $this->assertContains($html1, $result);
+        $this->assertContains($html2, $result);
+    }
 }

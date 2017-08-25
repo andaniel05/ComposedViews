@@ -207,6 +207,18 @@ abstract class AbstractPage implements HtmlInterface
         return $result;
     }
 
+    public function renderAssets(?string $group = null, bool $filterUnused = true, bool $markUsage = true): string
+    {
+        $result = '';
+
+        $assets = $this->getAssets($group, $filterUnused, $markUsage);
+        foreach ($assets as $asset) {
+            $result .= $asset->html() . PHP_EOL;
+        }
+
+        return $result;
+    }
+
     public function getOrderedAssets(): array
     {
         $result = [];
