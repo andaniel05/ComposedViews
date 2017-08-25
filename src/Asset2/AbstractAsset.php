@@ -36,9 +36,32 @@ abstract class AbstractAsset implements HtmlInterface
         $this->groups[] = $group;
     }
 
+    public function addGroups(string $groups)
+    {
+        $parts = explode(' ', $groups);
+        foreach ($parts as $group) {
+            $this->addGroup($group);
+        }
+    }
+
     public function inGroup(string $group): bool
     {
         return in_array($group, $this->groups);
+    }
+
+    public function inGroups(string $groups): bool
+    {
+        $result = true;
+
+        $parts = explode(' ', $groups);
+        foreach ($parts as $group) {
+            if ( ! $this->inGroup($group)) {
+                $result = false;
+                break;
+            }
+        }
+
+        return $result;
     }
 
     public function removeGroup(string $group)

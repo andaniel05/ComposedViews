@@ -158,4 +158,37 @@ class AbstractAssetTest extends TestCase
 
         $this->assertEquals($page, $this->asset->getPage());
     }
+
+    public function testAddGroups_InsertSeveralGroups()
+    {
+        $group1 = uniqid();
+        $group2 = uniqid();
+
+        $this->asset->addGroups("$group1 $group2");
+
+        $this->assertTrue($this->asset->inGroup($group1));
+        $this->assertTrue($this->asset->inGroup($group2));
+    }
+
+    public function testInGroups_ReturnTrueWhenAssetIsInAllSpecifiedGroups()
+    {
+        $group1 = uniqid();
+        $group2 = uniqid();
+
+        $this->asset->addGroup($group1);
+        $this->asset->addGroup($group2);
+
+        $this->assertTrue($this->asset->inGroups("$group1 $group2"));
+    }
+
+    public function testInGroups_ReturnFalseIfAssetIsNotInAllSpecifiedGroups()
+    {
+        $group1 = uniqid();
+        $group2 = uniqid();
+
+        $this->asset->addGroup($group1);
+        $this->asset->addGroup($group2);
+
+        $this->assertFalse($this->asset->inGroups("$group1 group3"));
+    }
 }
