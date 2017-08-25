@@ -12,7 +12,7 @@ class TagScriptAssetTest extends TestCase
     {
         $id = uniqid();
 
-        $this->asset = new TagScriptAsset($id);
+        $this->asset = new TagScriptAsset($id, '');
     }
 
     public function testConstructor()
@@ -81,7 +81,7 @@ class TagScriptAssetTest extends TestCase
     public function testHtml_RenderizeTheMinimizedContentByDefault()
     {
         $minimizedContent = uniqid();
-        $asset = new TagScriptAsset('asset');
+        $asset = new TagScriptAsset('asset', '');
         $asset->setMinimizedContent($minimizedContent);
 
         $this->assertXmlStringEqualsXmlString(

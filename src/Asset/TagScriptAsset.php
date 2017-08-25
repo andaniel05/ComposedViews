@@ -8,7 +8,7 @@ class TagScriptAsset extends AbstractMinimizedAsset
 {
     protected $minimizer;
 
-    public function __construct(string $id, ?string $content = null, array $dependencies = [], array $groups = [])
+    public function __construct(string $id, string $content, array $dependencies = [], array $groups = [])
     {
         parent::__construct($id, $dependencies, $groups);
 
