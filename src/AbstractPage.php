@@ -3,7 +3,7 @@
 namespace PlatformPHP\ComposedViews;
 
 use PlatformPHP\ComposedViews\Event\FilterAssetsEvent;
-use PlatformPHP\ComposedViews\Asset\{AssetsTrait, AssetInterface};
+use PlatformPHP\ComposedViews\Asset\{AssetsTrait, AbstractAsset};
 use PlatformPHP\ComposedViews\Traits\CloningTrait;
 use PlatformPHP\ComposedViews\Exception\{AssetNotFoundException, ComponentNotFoundException};
 use PlatformPHP\ComposedViews\Component\{AbstractComponent, Sidebar};
@@ -170,7 +170,7 @@ abstract class AbstractPage implements HtmlInterface
         return $assets;
     }
 
-    public function getAsset(string $id): ?AssetInterface
+    public function getAsset(string $id): ?AbstractAsset
     {
         return $this->getAllAssets()[$id] ?? null;
     }
@@ -192,7 +192,7 @@ abstract class AbstractPage implements HtmlInterface
             $result = $assets;
         } else {
             foreach ($assets as $id => $asset) {
-                if ($group == $asset->getGroup()) {
+                if ($asset->inGroup($group)) {
                     $result[$id] = $asset;
                 }
             }
@@ -275,7 +275,7 @@ abstract class AbstractPage implements HtmlInterface
         return $this->baseUrl . $assetUrl;
     }
 
-    public function addAsset(AssetInterface $asset): void
+    public function addAsset(AbstractAsset $asset): void
     {
         $this->pageAssets[$asset->getId()] = $asset;
     }
