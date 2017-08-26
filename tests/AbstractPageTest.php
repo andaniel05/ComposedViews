@@ -928,6 +928,15 @@ class AbstractPageTest extends TestCase
         $this->assertSame($dispatcher, $page->getDispatcher());
     }
 
+    public function testGetDispatcher_ReturnInsertedValueBySetDispatcher()
+    {
+        $dispatcher = $this->createMock(EventDispatcherInterface::class);
+
+        $this->page->setDispatcher($dispatcher);
+
+        $this->assertSame($dispatcher, $this->page->getDispatcher());
+    }
+
     public function testPageFilterAssetsEvent()
     {
         $jquery = $this->getMockForAbstractClass(

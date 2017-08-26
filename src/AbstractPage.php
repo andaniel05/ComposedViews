@@ -292,6 +292,11 @@ abstract class AbstractPage implements HtmlInterface
         $this->pageAssets[$asset->getId()] = $asset;
     }
 
+    public function setDispatcher(EventDispatcherInterface $dispatcher): void
+    {
+        $this->dispatcher = $dispatcher;
+    }
+
     public function getDispatcher(): EventDispatcherInterface
     {
         return $this->dispatcher;
