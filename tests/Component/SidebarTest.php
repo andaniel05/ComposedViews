@@ -16,14 +16,14 @@ class SidebarTest extends TestCase
         $this->assertEquals($sidebarId, $sidebar->getId());
     }
 
-    public function testHtml_ReturnTheChildrenHtmlResult()
+    public function testHtml_ReturnTheRenderizeChildrenResult()
     {
         $html = uniqid();
         $sidebar = $this->getMockBuilder(Sidebar::class)
             ->setConstructorArgs(['sidebar'])
-            ->setMethods(['childrenHtml'])
+            ->setMethods(['renderizeChildren'])
             ->getMock();
-        $sidebar->method('childrenHtml')->willReturn($html);
+        $sidebar->method('renderizeChildren')->willReturn($html);
 
         $this->assertEquals($html, $sidebar->html());
     }

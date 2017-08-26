@@ -45,7 +45,7 @@ abstract class AbstractComponent implements HtmlInterface
         }
     }
 
-    public function childrenHtml(): ?string
+    public function renderizeChildren(): ?string
     {
         $result = '';
 

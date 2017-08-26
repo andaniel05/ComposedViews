@@ -86,7 +86,7 @@ class AbstractComponentTest extends TestCase
         $this->assertNull($this->component->getPage());
     }
 
-    public function testChildrenHtml()
+    public function testRenderizeChildren()
     {
         $component1Html = uniqid();
         $component1 = $this->getMockBuilder(AbstractComponent::class)
@@ -107,7 +107,7 @@ class AbstractComponentTest extends TestCase
 </div>
 HTML;
 
-        $this->assertXmlStringEqualsXmlString($expected, $component2->childrenHtml());
+        $this->assertXmlStringEqualsXmlString($expected, $component2->renderizeChildren());
     }
 
 
