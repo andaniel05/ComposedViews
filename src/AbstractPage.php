@@ -323,6 +323,7 @@ abstract class AbstractPage implements HtmlInterface
         }
 
         $parent->addComponent($component);
+        $component->setPage($this);
     }
 
     public function on(string $eventName, callable $callback): void

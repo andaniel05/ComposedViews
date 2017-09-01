@@ -1078,6 +1078,17 @@ class AbstractPageTest extends TestCase
         $this->assertEquals($parent, $child->getParent());
     }
 
+    public function testAppendComponent_RegisterTheAppInTheComponent()
+    {
+        $component = $this->getMockForAbstractClass(
+            AbstractComponent::class, ['component1']
+        );
+
+        $this->page->appendComponent('body', $component);
+
+        $this->assertEquals($this->page, $component->getPage());
+    }
+
     public function testOn_IsShortcutToAddListenerOnDispatcher()
     {
         $eventName = uniqid('event');
