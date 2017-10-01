@@ -1,6 +1,6 @@
 <?php
 
-namespace PlatformPHP\ComposedViews\Traits;
+namespace Andaniel05\ComposedViews\Traits;
 
 use DeepCopy\DeepCopy;
 

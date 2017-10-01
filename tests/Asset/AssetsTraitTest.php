@@ -1,9 +1,9 @@
 <?php
 
-namespace PlatformPHP\ComposedViews\Tests\Asset;
+namespace Andaniel05\ComposedViews\Tests\Asset;
 
 use PHPUnit\Framework\TestCase;
-use PlatformPHP\ComposedViews\Asset\{AssetsTrait, AbstractAsset};
+use Andaniel05\ComposedViews\Asset\{AssetsTrait, AbstractAsset};
 
 class AssetsTraitTest extends TestCase
 {

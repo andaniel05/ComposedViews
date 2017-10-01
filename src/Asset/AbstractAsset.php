@@ -1,8 +1,8 @@
 <?php
 
-namespace PlatformPHP\ComposedViews\Asset;
+namespace Andaniel05\ComposedViews\Asset;
 
-use PlatformPHP\ComposedViews\{AbstractPage, HtmlInterface};
+use Andaniel05\ComposedViews\{AbstractPage, HtmlInterface};
 
 abstract class AbstractAsset implements HtmlInterface
 {

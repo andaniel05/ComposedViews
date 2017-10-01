@@ -1,11 +1,11 @@
 <?php
 
-namespace PlatformPHP\ComposedViews\Tests;
+namespace Andaniel05\ComposedViews\Tests;
 
-use PlatformPHP\ComposedViews\{AbstractPage, PageEvents};
-use PlatformPHP\ComposedViews\Event\{BeforeInsertionEvent, AfterInsertionEvent,
+use Andaniel05\ComposedViews\{AbstractPage, PageEvents};
+use Andaniel05\ComposedViews\Event\{BeforeInsertionEvent, AfterInsertionEvent,
     BeforeDeletionEvent, AfterDeletionEvent};
-use PlatformPHP\ComposedViews\Component\AbstractComponent;
+use Andaniel05\ComposedViews\Component\AbstractComponent;
 use PHPUnit\Framework\TestCase;
 
 class AbstractComponentTest extends TestCase

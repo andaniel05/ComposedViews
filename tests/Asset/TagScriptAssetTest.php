@@ -1,9 +1,9 @@
 <?php
 
-namespace PlatformPHP\ComposedViews\Tests;
+namespace Andaniel05\ComposedViews\Tests;
 
 use PHPUnit\Framework\TestCase;
-use PlatformPHP\ComposedViews\Asset\TagScriptAsset;
+use Andaniel05\ComposedViews\Asset\TagScriptAsset;
 use MatthiasMullie\Minify\JS as JSMinimizer;
 
 class TagScriptAssetTest extends TestCase

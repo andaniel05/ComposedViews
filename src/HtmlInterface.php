@@ -1,6 +1,6 @@
 <?php
 
-namespace PlatformPHP\ComposedViews;
+namespace Andaniel05\ComposedViews;
 
 interface HtmlInterface
 {

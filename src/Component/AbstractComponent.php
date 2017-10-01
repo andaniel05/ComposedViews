@@ -1,12 +1,12 @@
 <?php
 
-namespace PlatformPHP\ComposedViews\Component;
+namespace Andaniel05\ComposedViews\Component;
 
-use PlatformPHP\ComposedViews\{AbstractPage, HtmlInterface, PageEvents};
-use PlatformPHP\ComposedViews\Asset\AssetsTrait;
-use PlatformPHP\ComposedViews\Event\{BeforeInsertionEvent, AfterInsertionEvent,
+use Andaniel05\ComposedViews\{AbstractPage, HtmlInterface, PageEvents};
+use Andaniel05\ComposedViews\Asset\AssetsTrait;
+use Andaniel05\ComposedViews\Event\{BeforeInsertionEvent, AfterInsertionEvent,
     BeforeDeletionEvent, AfterDeletionEvent};
-use PlatformPHP\ComposedViews\Traits\CloningTrait;
+use Andaniel05\ComposedViews\Traits\CloningTrait;
 
 abstract class AbstractComponent implements HtmlInterface
 {

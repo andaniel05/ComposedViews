@@ -1,6 +1,6 @@
 <?php
 
-namespace PlatformPHP\ComposedViews\Event;
+namespace Andaniel05\ComposedViews\Event;
 
 class CancellableTreeEvent extends TreeEvent
 {

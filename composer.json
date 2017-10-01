@@ -1,5 +1,5 @@
 {
-    "name": "platform-php/composed-views",
+    "name": "andaniel05/composed-views",
     "authors": [
         {
             "name": "Andy D. Navarro Taño",
@@ -14,8 +14,8 @@
     },
     "autoload": {
         "psr-4": {
-            "PlatformPHP\\ComposedViews\\": "src/",
-            "PlatformPHP\\ComposedViews\\Tests\\": "tests/"
+            "Andaniel05\\ComposedViews\\": "src/",
+            "Andaniel05\\ComposedViews\\Tests\\": "tests/"
         }
     }
 }

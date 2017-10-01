@@ -1,6 +1,6 @@
 <?php
 
-namespace PlatformPHP\ComposedViews\Component;
+namespace Andaniel05\ComposedViews\Component;
 
 class Sidebar extends AbstractComponent
 {

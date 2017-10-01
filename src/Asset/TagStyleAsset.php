@@ -1,6 +1,6 @@
 <?php
 
-namespace PlatformPHP\ComposedViews\Asset;
+namespace Andaniel05\ComposedViews\Asset;
 
 use MatthiasMullie\Minify\CSS as CSSMinimizer;
 

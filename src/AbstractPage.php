@@ -1,12 +1,12 @@
 <?php
 
-namespace PlatformPHP\ComposedViews;
+namespace Andaniel05\ComposedViews;
 
-use PlatformPHP\ComposedViews\Event\FilterAssetsEvent;
-use PlatformPHP\ComposedViews\Asset\{AssetsTrait, AbstractAsset};
-use PlatformPHP\ComposedViews\Traits\CloningTrait;
-use PlatformPHP\ComposedViews\Exception\{AssetNotFoundException, ComponentNotFoundException};
-use PlatformPHP\ComposedViews\Component\{AbstractComponent, Sidebar};
+use Andaniel05\ComposedViews\Event\FilterAssetsEvent;
+use Andaniel05\ComposedViews\Asset\{AssetsTrait, AbstractAsset};
+use Andaniel05\ComposedViews\Traits\CloningTrait;
+use Andaniel05\ComposedViews\Exception\{AssetNotFoundException, ComponentNotFoundException};
+use Andaniel05\ComposedViews\Component\{AbstractComponent, Sidebar};
 use Symfony\Component\EventDispatcher\{EventDispatcherInterface, EventDispatcher};
 
 abstract class AbstractPage implements HtmlInterface

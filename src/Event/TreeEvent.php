@@ -1,9 +1,9 @@
 <?php
 
-namespace PlatformPHP\ComposedViews\Event;
+namespace Andaniel05\ComposedViews\Event;
 
 use Symfony\Component\EventDispatcher\Event;
-use PlatformPHP\ComposedViews\Component\AbstractComponent;
+use Andaniel05\ComposedViews\Component\AbstractComponent;
 
 class TreeEvent extends Event
 {

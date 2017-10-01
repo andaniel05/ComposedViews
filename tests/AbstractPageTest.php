@@ -1,11 +1,11 @@
 <?php
 
-namespace PlatformPHP\ComposedViews\Tests;
+namespace Andaniel05\ComposedViews\Tests;
 
-use PlatformPHP\ComposedViews\{AbstractPage, PageEvents};
-use PlatformPHP\ComposedViews\Event\FilterAssetsEvent;
-use PlatformPHP\ComposedViews\Component\{AbstractComponent, Sidebar};
-use PlatformPHP\ComposedViews\Asset\AbstractAsset;
+use Andaniel05\ComposedViews\{AbstractPage, PageEvents};
+use Andaniel05\ComposedViews\Event\FilterAssetsEvent;
+use Andaniel05\ComposedViews\Component\{AbstractComponent, Sidebar};
+use Andaniel05\ComposedViews\Asset\AbstractAsset;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\{EventDispatcherInterface,
     EventDispatcher};
@@ -890,7 +890,7 @@ class AbstractPageTest extends TestCase
     }
 
     /**
-     * @expectedException PlatformPHP\ComposedViews\Exception\AssetNotFoundException
+     * @expectedException Andaniel05\ComposedViews\Exception\AssetNotFoundException
      */
     public function testGetAssetsThrowAssetNotFoundExceptionWhenADependencyDoesNotFind()
     {
@@ -1023,7 +1023,7 @@ class AbstractPageTest extends TestCase
     }
 
     /**
-     * @expectedException PlatformPHP\ComposedViews\Exception\ComponentNotFoundException
+     * @expectedException Andaniel05\ComposedViews\Exception\ComponentNotFoundException
      */
     public function testAppendComponent_ThrowComponentNotFoundException()
     {

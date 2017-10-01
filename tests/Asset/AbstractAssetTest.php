@@ -1,10 +1,10 @@
 <?php
 
-namespace PlatformPHP\ComposedViews\Tests;
+namespace Andaniel05\ComposedViews\Tests;
 
 use PHPUnit\Framework\TestCase;
-use PlatformPHP\ComposedViews\AbstractPage;
-use PlatformPHP\ComposedViews\Asset\AbstractAsset;
+use Andaniel05\ComposedViews\AbstractPage;
+use Andaniel05\ComposedViews\Asset\AbstractAsset;
 
 class AbstractAssetTest extends TestCase
 {

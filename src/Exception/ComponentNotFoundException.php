@@ -1,6 +1,6 @@
 <?php
 
-namespace PlatformPHP\ComposedViews\Exception;
+namespace Andaniel05\ComposedViews\Exception;
 
 class ComponentNotFoundException extends \Exception
 {

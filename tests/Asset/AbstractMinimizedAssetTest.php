@@ -1,9 +1,9 @@
 <?php
 
-namespace PlatformPHP\ComposedViews\Tests;
+namespace Andaniel05\ComposedViews\Tests;
 
 use PHPUnit\Framework\TestCase;
-use PlatformPHP\ComposedViews\Asset\AbstractMinimizedAsset;
+use Andaniel05\ComposedViews\Asset\AbstractMinimizedAsset;
 
 class AbstractMinimizedAssetTest extends TestCase
 {

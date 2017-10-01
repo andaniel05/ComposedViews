@@ -1,9 +1,9 @@
 <?php
 
-namespace PlatformPHP\ComposedViews\Tests;
+namespace Andaniel05\ComposedViews\Tests;
 
 use PHPUnit\Framework\TestCase;
-use PlatformPHP\ComposedViews\Asset\UrlScriptAsset;
+use Andaniel05\ComposedViews\Asset\UrlScriptAsset;
 
 class UrlScriptAssetTest extends TestCase
 {

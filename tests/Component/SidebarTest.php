@@ -1,8 +1,8 @@
 <?php
 
-namespace PlatformPHP\ComposedViews\Tests\Component;
+namespace Andaniel05\ComposedViews\Tests\Component;
 
-use PlatformPHP\ComposedViews\Component\{AbstractComponent, Sidebar};
+use Andaniel05\ComposedViews\Component\{AbstractComponent, Sidebar};
 use PHPUnit\Framework\TestCase;
 
 class SidebarTest extends TestCase

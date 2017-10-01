@@ -1,9 +1,9 @@
 <?php
 
-namespace PlatformPHP\ComposedViews\Tests\Traits;
+namespace Andaniel05\ComposedViews\Tests\Traits;
 
 use PHPUnit\Framework\TestCase;
-use PlatformPHP\ComposedViews\Traits\CloningTrait;
+use Andaniel05\ComposedViews\Traits\CloningTrait;
 
 class CloningTraitTest extends TestCase
 {
