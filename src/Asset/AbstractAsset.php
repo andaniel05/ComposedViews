@@ -125,6 +125,4 @@ abstract class AbstractAsset implements HtmlInterface
     {
         $this->page = $page;
     }
-
-    abstract public function html(): string;
 }
