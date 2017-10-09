@@ -2,7 +2,8 @@
 
 namespace Andaniel05\ComposedViews\Asset;
 
-use Andaniel05\ComposedViews\{AbstractPage, HtmlInterface};
+use Andaniel05\ComposedViews\AbstractPage;
+use Andaniel05\ComposedViews\HtmlElement\HtmlInterface;
 
 abstract class AbstractAsset implements HtmlInterface
 {

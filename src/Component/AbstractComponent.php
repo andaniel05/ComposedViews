@@ -2,7 +2,8 @@
 
 namespace Andaniel05\ComposedViews\Component;
 
-use Andaniel05\ComposedViews\{AbstractPage, HtmlInterface, PageEvents};
+use Andaniel05\ComposedViews\{AbstractPage, PageEvents};
+use Andaniel05\ComposedViews\HtmlElement\HtmlInterface;
 use Andaniel05\ComposedViews\Asset\AssetsTrait;
 use Andaniel05\ComposedViews\Event\{BeforeInsertionEvent, AfterInsertionEvent,
     BeforeDeletionEvent, AfterDeletionEvent};

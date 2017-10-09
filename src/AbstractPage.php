@@ -3,6 +3,7 @@
 namespace Andaniel05\ComposedViews;
 
 use Andaniel05\ComposedViews\Event\FilterAssetsEvent;
+use Andaniel05\ComposedViews\HtmlElement\HtmlInterface;
 use Andaniel05\ComposedViews\Asset\{AssetsTrait, AbstractAsset};
 use Andaniel05\ComposedViews\Traits\CloningTrait;
 use Andaniel05\ComposedViews\Exception\{AssetNotFoundException, ComponentNotFoundException};
