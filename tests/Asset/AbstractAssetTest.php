@@ -5,6 +5,7 @@ namespace Andaniel05\ComposedViews\Tests;
 use PHPUnit\Framework\TestCase;
 use Andaniel05\ComposedViews\AbstractPage;
 use Andaniel05\ComposedViews\Asset\AbstractAsset;
+use Andaniel05\ComposedViews\HtmlElement\HtmlElementInterface;
 
 class AbstractAssetTest extends TestCase
 {
@@ -187,5 +188,39 @@ class AbstractAssetTest extends TestCase
         $this->asset->addGroup($group2);
 
         $this->assertFalse($this->asset->inGroups("$group1 group3"));
+    }
+
+    public function testGetHtmlElement_ReturnTheElementArgument()
+    {
+        $elem = $this->createMock(HtmlElementInterface::class);
+
+        $asset = $this->getMockForAbstractClass(
+            AbstractAsset::class, ['id', [], [], $elem]
+        );
+
+        $this->assertEquals($elem, $asset->getHtmlElement());
+    }
+
+    public function testGetHtmlElement_ReturnInsertedValueBySetHtmlElement()
+    {
+        $elem = $this->createMock(HtmlElementInterface::class);
+        $asset = $this->getMockForAbstractClass(AbstractAsset::class, ['id', [], []]);
+
+        $asset->setHtmlElement($elem);
+
+        $this->assertEquals($elem, $asset->getHtmlElement());
+    }
+
+    public function testHtml_ReturnResultOfHtmlFromHtmlElement()
+    {
+        $html = uniqid();
+        $elem = $this->createMock(HtmlElementInterface::class);
+        $elem->method('html')->willReturn($html);
+
+        $asset = $this->getMockForAbstractClass(
+            AbstractAsset::class, ['id', [], [], $elem]
+        );
+
+        $this->assertEquals($html, $asset->html());
     }
 }

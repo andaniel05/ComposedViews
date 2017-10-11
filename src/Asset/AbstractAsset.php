@@ -3,22 +3,24 @@
 namespace Andaniel05\ComposedViews\Asset;
 
 use Andaniel05\ComposedViews\AbstractPage;
-use Andaniel05\ComposedViews\HtmlElement\HtmlInterface;
+use Andaniel05\ComposedViews\HtmlElement\{HtmlInterface, HtmlElementInterface};
 
 abstract class AbstractAsset implements HtmlInterface
 {
     protected $id;
-    protected $groups = [];
     protected $dependencies = [];
+    protected $groups = [];
+    protected $element;
     protected $content;
     protected $used = false;
     protected $page;
 
-    public function __construct(string $id, array $dependencies = [], array $groups = [])
+    public function __construct(string $id, array $dependencies = [], array $groups = [], HtmlElementInterface $element = null)
     {
         $this->id = $id;
         $this->dependencies = $dependencies;
         $this->groups = $groups;
+        $this->element = $element;
     }
 
     public function getId(): string
@@ -125,5 +127,20 @@ abstract class AbstractAsset implements HtmlInterface
     public function setPage(?AbstractPage $page)
     {
         $this->page = $page;
+    }
+
+    public function getHtmlElement(): HtmlElementInterface
+    {
+        return $this->element;
+    }
+
+    public function setHtmlElement(HtmlElementInterface $element)
+    {
+        $this->element = $element;
+    }
+
+    public function html(): ?string
+    {
+        return $this->element->html();
     }
 }
