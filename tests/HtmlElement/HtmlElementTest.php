@@ -59,6 +59,22 @@ class HtmlElementTest extends TestCase
         $this->assertEquals($attributes, $element->getAttributes());
     }
 
+    public function testGetAttribute_ReturnNullWhenAttributeDoNotExists()
+    {
+        $this->assertNull($this->element->getAttribute('attribute1'));
+    }
+
+    public function testGetAttribute_ReturnInsertedValueBySetAttribute()
+    {
+        $attribute = uniqid();
+        $value = uniqid();
+        $element = new HtmlElement;
+
+        $element->setAttribute($attribute, $value);
+
+        $this->assertEquals($value, $element->getAttribute($attribute));
+    }
+
     public function testGetContent_ReturnAnEmptyArrayByDefault()
     {
         $this->assertEquals([], $this->element->getContent());
@@ -116,12 +132,12 @@ class HtmlElementTest extends TestCase
         $this->assertEquals($endTag, $this->element->getEndTag());
     }
 
-    public function testAddAttribute()
+    public function testSetAttribute()
     {
         $attr = uniqid();
         $value = uniqid();
 
-        $this->element->addAttribute($attr, $value);
+        $this->element->setAttribute($attr, $value);
 
         $this->assertArraySubset(
             [$attr => $value], $this->element->getAttributes()
@@ -129,13 +145,13 @@ class HtmlElementTest extends TestCase
     }
 
     /**
-     * @depends testAddAttribute
+     * @depends testSetAttribute
      */
     public function testDeleteAttribute()
     {
         $attr = uniqid();
         $value = uniqid();
-        $this->element->addAttribute($attr, $value);
+        $this->element->setAttribute($attr, $value);
 
         $this->element->deleteAttribute($attr);
 

@@ -85,7 +85,7 @@ class HtmlElement implements HtmlElementInterface
         $this->endTag = $endTag;
     }
 
-    public function addAttribute(string $attribute, $value): void
+    public function setAttribute(string $attribute, $value): void
     {
         $this->attributes[$attribute] = $value;
     }
@@ -103,5 +103,10 @@ class HtmlElement implements HtmlElementInterface
     public function deleteContent(int $id): void
     {
         unset($this->content[$id]);
+    }
+
+    public function getAttribute(string $attribute)
+    {
+        return $this->attributes[$attribute] ?? null;
     }
 }

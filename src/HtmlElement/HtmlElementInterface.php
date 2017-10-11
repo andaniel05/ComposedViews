@@ -12,6 +12,12 @@ interface HtmlElementInterface extends HtmlInterface
 
     public function setAttributes(array $attributes);
 
+    public function getAttribute(string $attribute);
+
+    public function setAttribute(string $attribute, $value);
+
+    public function deleteAttribute(string $attribute);
+
     public function getContent(): array;
 
     public function setContent(array $content);
@@ -23,8 +29,4 @@ interface HtmlElementInterface extends HtmlInterface
     public function getEndTag(): ?bool;
 
     public function setEndTag(?bool $endTag);
-
-    public function addAttribute(string $attribute, $value);
-
-    public function deleteAttribute(string $attribute);
 }
