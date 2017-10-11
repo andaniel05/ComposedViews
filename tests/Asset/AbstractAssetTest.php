@@ -211,6 +211,20 @@ class AbstractAssetTest extends TestCase
         $this->assertEquals($elem, $asset->getHtmlElement());
     }
 
+    public function testHtml_InvokeUpdateHtmlElement()
+    {
+        $dummyElement = $this->createMock(HtmlElementInterface::class);
+
+        $asset = $this->getMockBuilder(AbstractAsset::class)
+            ->setConstructorArgs(['id', [], [], $dummyElement])
+            ->setMethods(['updateHtmlElement'])
+            ->getMockForAbstractClass();
+        $asset->expects($this->once())
+            ->method('updateHtmlElement');
+
+        $asset->html();
+    }
+
     public function testHtml_ReturnResultOfHtmlFromHtmlElement()
     {
         $html = uniqid();

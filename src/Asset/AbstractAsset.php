@@ -141,6 +141,10 @@ abstract class AbstractAsset implements HtmlInterface
 
     public function html(): ?string
     {
+        $this->updateHtmlElement();
+
         return $this->element->html();
     }
+
+    abstract public function updateHtmlElement();
 }
