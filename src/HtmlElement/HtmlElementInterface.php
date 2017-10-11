@@ -16,6 +16,10 @@ interface HtmlElementInterface extends HtmlInterface
 
     public function setContent(array $content);
 
+    public function addContent($content);
+
+    public function deleteContent(int $id);
+
     public function getEndTag(): ?bool;
 
     public function setEndTag(?bool $endTag);

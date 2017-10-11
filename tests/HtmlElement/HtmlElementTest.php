@@ -3,7 +3,7 @@
 namespace Andaniel05\ComposedViews\Tests\HtmlElement;
 
 use PHPUnit\Framework\TestCase;
-use Andaniel05\ComposedViews\HtmlElement\HtmlElement;
+use Andaniel05\ComposedViews\HtmlElement\{HtmlElement, HtmlElementInterface};
 
 class HtmlElementTest extends TestCase
 {
@@ -188,12 +188,36 @@ class HtmlElementTest extends TestCase
         $this->assertEquals($expected, $this->element->html());
     }
 
-    public function testHtml_RenderTheContent()
+    public function testHtml_RenderTheStringContentType()
     {
         $content = uniqid();
         $this->element->setContent([$content]);
 
         $this->assertEquals("<div>{$content}</div>", $this->element->html());
+    }
+
+    public function testHtml_RenderTheHtmlElementContentType()
+    {
+        $elemHtml = uniqid();
+        $elem = $this->createMock(HtmlElementInterface::class);
+        $elem->method('html')->willReturn($elemHtml);
+
+        $this->element->setContent([$elem]);
+
+        $this->assertEquals("<div>{$elemHtml}</div>", $this->element->html());
+    }
+
+    public function testHtml_RenderAllTheContentType()
+    {
+        $elemHtml = uniqid();
+        $elem = $this->createMock(HtmlElementInterface::class);
+        $elem->method('html')->willReturn($elemHtml);
+
+        $content1 = uniqid();
+
+        $this->element->setContent([$content1, $elem]);
+
+        $this->assertEquals("<div>{$content1}{$elemHtml}</div>", $this->element->html());
     }
 
     public function testHtml_DoNotRenderTheEndTagWhenEndTagIsFalse()
@@ -208,5 +232,27 @@ class HtmlElementTest extends TestCase
         $this->element->setEndTag(null);
 
         $this->assertEquals("<div />", $this->element->html());
+    }
+
+    public function testAddContent()
+    {
+        $content = uniqid();
+
+        $this->element->addContent($content);
+
+        $this->assertArraySubset([$content], $this->element->getContent());
+    }
+
+    /**
+     * @depends testAddContent
+     */
+    public function testDeleteContent()
+    {
+        $content = uniqid();
+        $this->element->addContent($content);
+
+        $this->element->deleteContent(0);
+
+        $this->assertEquals([], $this->element->getContent());
     }
 }

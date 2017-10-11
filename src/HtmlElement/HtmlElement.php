@@ -50,7 +50,7 @@ class HtmlElement implements HtmlElementInterface
         return $this->tag;
     }
 
-    public function setTag(string $tag)
+    public function setTag(string $tag): void
     {
         $this->tag = $tag;
     }
@@ -60,7 +60,7 @@ class HtmlElement implements HtmlElementInterface
         return $this->attributes;
     }
 
-    public function setAttributes(array $attributes)
+    public function setAttributes(array $attributes): void
     {
         $this->attributes = $attributes;
     }
@@ -70,7 +70,7 @@ class HtmlElement implements HtmlElementInterface
         return $this->content;
     }
 
-    public function setContent(array $content)
+    public function setContent(array $content): void
     {
         $this->content = $content;
     }
@@ -80,18 +80,28 @@ class HtmlElement implements HtmlElementInterface
         return $this->endTag;
     }
 
-    public function setEndTag(?bool $endTag)
+    public function setEndTag(?bool $endTag): void
     {
         $this->endTag = $endTag;
     }
 
-    public function addAttribute(string $attribute, $value)
+    public function addAttribute(string $attribute, $value): void
     {
         $this->attributes[$attribute] = $value;
     }
 
-    public function deleteAttribute(string $attribute)
+    public function deleteAttribute(string $attribute): void
     {
         unset($this->attributes[$attribute]);
+    }
+
+    public function addContent($content): void
+    {
+        $this->content[] = $content;
+    }
+
+    public function deleteContent(int $id): void
+    {
+        unset($this->content[$id]);
     }
 }
