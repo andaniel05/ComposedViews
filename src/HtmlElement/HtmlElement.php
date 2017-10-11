@@ -9,7 +9,7 @@ class HtmlElement implements HtmlElementInterface
     protected $content;
     protected $endTag;
 
-    public function __construct(string $tag = 'div', array $attributes = [], ?string $content = null, ?bool $endTag = true)
+    public function __construct(string $tag = 'div', array $attributes = [], array $content = [], ?bool $endTag = true)
     {
         $this->tag = $tag;
         $this->attributes = $attributes;
@@ -26,7 +26,17 @@ class HtmlElement implements HtmlElementInterface
         }
 
         $inLineEndTag = $this->endTag === null ? ' /' : null;
-        $result .= "{$inLineEndTag}>{$this->content}";
+
+        $content = '';
+        foreach ($this->content as $key => $value) {
+            if (is_scalar($value)) {
+                $content .= $value;
+            } elseif ($value instanceOf HtmlElementInterface) {
+                $content .= $value->html();
+            }
+        }
+
+        $result .= "{$inLineEndTag}>{$content}";
 
         if ($this->endTag) {
             $result .= "</{$this->tag}>";
@@ -55,12 +65,12 @@ class HtmlElement implements HtmlElementInterface
         $this->attributes = $attributes;
     }
 
-    public function getContent(): ?string
+    public function getContent(): array
     {
         return $this->content;
     }
 
-    public function setContent(?string $content)
+    public function setContent(array $content)
     {
         $this->content = $content;
     }

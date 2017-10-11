@@ -12,9 +12,9 @@ interface HtmlElementInterface extends HtmlInterface
 
     public function setAttributes(array $attributes);
 
-    public function getContent(): ?string;
+    public function getContent(): array;
 
-    public function setContent(?string $content);
+    public function setContent(array $content);
 
     public function getEndTag(): ?bool;
 

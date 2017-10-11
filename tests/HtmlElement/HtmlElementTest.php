@@ -59,14 +59,14 @@ class HtmlElementTest extends TestCase
         $this->assertEquals($attributes, $element->getAttributes());
     }
 
-    public function testGetContent_ReturnNullByDefault()
+    public function testGetContent_ReturnAnEmptyArrayByDefault()
     {
-        $this->assertNull($this->element->getContent());
+        $this->assertEquals([], $this->element->getContent());
     }
 
     public function testGetContent_ReturnContentArgument()
     {
-        $content = uniqid();
+        $content = range(0, rand(0, 10));
         $element = new HtmlElement('div', [], $content);
 
         $this->assertEquals($content, $element->getContent());
@@ -74,7 +74,7 @@ class HtmlElementTest extends TestCase
 
     public function testGetContent_ReturnInsertedValueBySetContent()
     {
-        $content = uniqid();
+        $content = range(0, rand(0, 10));
         $element = new HtmlElement('div', []);
 
         $element->setContent($content);
@@ -101,7 +101,7 @@ class HtmlElementTest extends TestCase
      */
     public function testGetEndTag_ReturnEndTagArgument($endTag)
     {
-        $element = new HtmlElement('div', [], null, $endTag);
+        $element = new HtmlElement('div', [], [], $endTag);
 
         $this->assertEquals($endTag, $element->getEndTag());
     }
@@ -191,7 +191,7 @@ class HtmlElementTest extends TestCase
     public function testHtml_RenderTheContent()
     {
         $content = uniqid();
-        $this->element->setContent($content);
+        $this->element->setContent([$content]);
 
         $this->assertEquals("<div>{$content}</div>", $this->element->html());
     }
