@@ -19,7 +19,15 @@ class HtmlElement implements HtmlElementInterface
 
     public function html(): ?string
     {
-        return '<div></div>';
+        $result = "<{$this->tag}";
+
+        foreach ($this->attributes as $attr => $value) {
+            $result .= " {$attr}=\"{$value}\"";
+        }
+
+        $result .= "></{$this->tag}>";
+
+        return $result;
     }
 
     public function getTag(): string

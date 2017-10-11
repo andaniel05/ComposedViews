@@ -146,4 +146,45 @@ class HtmlElementTest extends TestCase
     {
         $this->assertEquals('<div></div>', $this->element->html());
     }
+
+    public function testHtml_RenderTheRightTagName()
+    {
+        $tag = uniqid();
+        $element = new HtmlElement($tag);
+
+        $html = $element->html();
+
+        $this->assertStringStartsWith("<$tag>", $html);
+        $this->assertStringEndsWith("</$tag>", $html);
+    }
+
+    public function providerHtml_RenderTheAttributesAndHisValues()
+    {
+        $attr1 = uniqid('attr1');
+        $value1 = uniqid();
+
+        $attr2 = uniqid('attr2');
+        $value2 = uniqid();
+
+        return [
+            [
+                "<div {$attr1}=\"{$value1}\"></div>",
+                [$attr1 => $value1]
+            ],
+            [
+                "<div {$attr1}=\"{$value1}\" {$attr2}=\"{$value2}\"></div>",
+                [$attr1 => $value1, $attr2 => $value2]
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider providerHtml_RenderTheAttributesAndHisValues
+     */
+    public function testHtml_RenderTheAttributesAndHisValues($expected, $attributes)
+    {
+        $this->element->setAttributes($attributes);
+
+        $this->assertEquals($expected, $this->element->html());
+    }
 }
