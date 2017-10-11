@@ -25,7 +25,12 @@ class HtmlElement implements HtmlElementInterface
             $result .= " {$attr}=\"{$value}\"";
         }
 
-        $result .= "></{$this->tag}>";
+        $inLineEndTag = $this->endTag === null ? ' /' : null;
+        $result .= "{$inLineEndTag}>{$this->content}";
+
+        if ($this->endTag) {
+            $result .= "</{$this->tag}>";
+        }
 
         return $result;
     }

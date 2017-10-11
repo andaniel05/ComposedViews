@@ -187,4 +187,26 @@ class HtmlElementTest extends TestCase
 
         $this->assertEquals($expected, $this->element->html());
     }
+
+    public function testHtml_RenderTheContent()
+    {
+        $content = uniqid();
+        $this->element->setContent($content);
+
+        $this->assertEquals("<div>{$content}</div>", $this->element->html());
+    }
+
+    public function testHtml_DoNotRenderTheEndTagWhenEndTagIsFalse()
+    {
+        $this->element->setEndTag(false);
+
+        $this->assertEquals("<div>", $this->element->html());
+    }
+
+    public function testHtml_DoNotRenderInLineEndTagWhenEndTagIsNull()
+    {
+        $this->element->setEndTag(null);
+
+        $this->assertEquals("<div />", $this->element->html());
+    }
 }
