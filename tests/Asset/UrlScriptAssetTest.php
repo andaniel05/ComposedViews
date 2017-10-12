@@ -62,4 +62,14 @@ class UrlScriptAssetTest extends TestCase
             "<script src=\"$url\">", $asset->html()
         );
     }
+
+    public function testTheHtmlElementTagIsScript()
+    {
+        $this->assertEquals('script', $this->asset->getHtmlElement()->getTag());
+    }
+
+    public function testTheHtmlElementDoNotHasEndTag()
+    {
+        $this->assertFalse($this->asset->getHtmlElement()->getEndTag());
+    }
 }
