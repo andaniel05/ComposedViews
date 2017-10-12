@@ -81,6 +81,7 @@ abstract class AbstractPage implements HtmlInterface
             }
 
             if ($sidebar) {
+                $sidebar->setPage($this);
                 $this->sidebars[$sidebar->getId()] = $sidebar;
             }
         }

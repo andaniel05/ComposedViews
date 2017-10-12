@@ -1152,7 +1152,7 @@ class AbstractPageTest extends TestCase
         $page->renderAssets($group, false, false);
     }
 
-    public function test1()
+    public function testRenderAssets_ReturnTheAllAssetsHtmlFromTherGroup()
     {
         $group = uniqid();
         $html1 = uniqid();
@@ -1176,5 +1176,18 @@ class AbstractPageTest extends TestCase
 
         $this->assertContains($html1, $result);
         $this->assertContains($html2, $result);
+    }
+
+    public function testCreatedSidebarsKnowHisPage()
+    {
+        $sidebar = uniqid();
+        $page = $this->getMockBuilder(AbstractPage::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['sidebars'])
+            ->getMockForAbstractClass();
+        $page->method('sidebars')->willReturn([$sidebar]);
+        $page->__construct('');
+
+        $this->assertEquals($page, $page->getSidebar($sidebar)->getPage());
     }
 }
