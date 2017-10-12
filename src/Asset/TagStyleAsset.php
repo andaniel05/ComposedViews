@@ -7,6 +7,8 @@ use Andaniel05\ComposedViews\HtmlElement\HtmlElement;
 
 class TagStyleAsset extends AbstractMinimizedAsset
 {
+    use UpdateHtmlElementTagAssetTrait;
+
     protected $minimizer;
 
     public function __construct(string $id, string $content, array $dependencies = [], array $groups = [])
@@ -37,15 +39,6 @@ class TagStyleAsset extends AbstractMinimizedAsset
             return $this->minimizer->minify();
         } else {
             return $this->minimizedContent;
-        }
-    }
-
-    public function html(): string
-    {
-        if ($this->minimized) {
-            return "<style>{$this->getMinimizedContent()}</style>";
-        } else {
-            return "<style>\n{$this->getContent()}\n</style>";
         }
     }
 }

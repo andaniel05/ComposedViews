@@ -26,13 +26,4 @@ abstract class AbstractMinimizedAsset extends AbstractAsset
     {
         $this->minimized = $value;
     }
-
-    public function updateHtmlElement()
-    {
-        if ($this->minimized) {
-            $this->element->setContent([$this->getMinimizedContent()]);
-        } else {
-            $this->element->setContent(["\n", $this->getContent(), "\n"]);
-        }
-    }
 }

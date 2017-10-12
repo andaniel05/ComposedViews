@@ -7,6 +7,8 @@ use Andaniel05\ComposedViews\HtmlElement\HtmlElement;
 
 class TagScriptAsset extends AbstractMinimizedAsset
 {
+    use UpdateHtmlElementTagAssetTrait;
+
     protected $minimizer;
 
     public function __construct(string $id, string $content, array $dependencies = [], array $groups = [])
