@@ -3,6 +3,7 @@
 namespace Andaniel05\ComposedViews\Asset;
 
 use MatthiasMullie\Minify\CSS as CSSMinimizer;
+use Andaniel05\ComposedViews\HtmlElement\HtmlElement;
 
 class TagStyleAsset extends AbstractMinimizedAsset
 {
@@ -10,7 +11,9 @@ class TagStyleAsset extends AbstractMinimizedAsset
 
     public function __construct(string $id, string $content, array $dependencies = [], array $groups = [])
     {
-        parent::__construct($id, $dependencies, $groups);
+        $element = new HtmlElement('style');
+
+        parent::__construct($id, $dependencies, $groups, $element);
 
         $this->content = $content;
         $this->addGroup('tag');

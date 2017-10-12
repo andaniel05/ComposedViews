@@ -17,4 +17,8 @@ class UrlStyleAsset extends AbstractUrlAsset
         $href = $this->minimized ? $this->getMinimizedUrl() : $this->getUrl();
         return "<link href=\"$href\" />";
     }
+
+    public function updateHtmlElement()
+    {
+    }
 }

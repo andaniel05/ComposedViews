@@ -40,11 +40,6 @@ class TagStyleAssetTest extends TestCase
         $this->assertTrue($this->asset->inGroup('styles'));
     }
 
-    public function testGetMinimizer_ReturnNullByDefault()
-    {
-        $this->assertNull($this->asset->getMinimizer());
-    }
-
     public function testGetMinimizer_ReturnTheInsertedMinimizerBySetMinimizer()
     {
         $minimizer = new CSSMinimizer();
@@ -99,6 +94,46 @@ class TagStyleAssetTest extends TestCase
 
         $this->assertXmlStringEqualsXmlString(
             "<style>\n$content\n</style>", $asset->html()
+        );
+    }
+
+    public function testTheHtmlElementTagIsStyle()
+    {
+        $this->assertEquals('style', $this->asset->getHtmlElement()->getTag());
+    }
+
+    public function testTheContentOfHtmlElementIsEqualToResultOfGetMinimizedContentByDefault()
+    {
+        $content = uniqid();
+        $asset = $this->getMockBuilder(TagStyleAsset::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getMinimizedContent'])
+            ->getMock();
+        $asset->method('getMinimizedContent')->willReturn($content);
+        $asset->__construct('id', $content);
+
+        $this->assertEquals(
+            $asset->getMinimizedContent(),
+            $asset->getHtmlElement()->getContent()[0]
+        );
+    }
+
+    public function testTheContentOfHtmlElementIsEqualToResultOfGetContentWhenAssetIsNotMinimized()
+    {
+        $content = uniqid();
+        $asset = $this->getMockBuilder(TagStyleAsset::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getContent'])
+            ->getMock();
+        $asset->method('getContent')->willReturn($content);
+        $asset->__construct('id', '');
+
+        $asset->setMinimized(false);
+        $asset->updateHtmlElement(); // Act
+
+        $this->assertEquals(
+            $asset->getContent(),
+            $asset->getHtmlElement()->getContent()[1]
         );
     }
 }

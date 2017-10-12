@@ -17,4 +17,8 @@ class UrlScriptAsset extends AbstractUrlAsset
         $href = $this->minimized ? $this->getMinimizedUrl() : $this->getUrl();
         return "<script src=\"$href\">";
     }
+
+    public function updateHtmlElement()
+    {
+    }
 }
