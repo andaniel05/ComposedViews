@@ -21,6 +21,8 @@ abstract class AbstractAsset implements HtmlInterface
         $this->dependencies = $dependencies;
         $this->groups = $groups;
         $this->element = $element;
+
+        $this->updateHtmlElement();
     }
 
     public function getId(): string

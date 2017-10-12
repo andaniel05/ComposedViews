@@ -3,6 +3,7 @@
 namespace Andaniel05\ComposedViews\Asset;
 
 use MatthiasMullie\Minify\JS as JSMinimizer;
+use Andaniel05\ComposedViews\HtmlElement\HtmlElement;
 
 class TagScriptAsset extends AbstractMinimizedAsset
 {
@@ -10,7 +11,9 @@ class TagScriptAsset extends AbstractMinimizedAsset
 
     public function __construct(string $id, string $content, array $dependencies = [], array $groups = [])
     {
-        parent::__construct($id, $dependencies, $groups);
+        $element = new HtmlElement('script');
+
+        parent::__construct($id, $dependencies, $groups, $element);
 
         $this->content = $content;
         $this->addGroup('tag');
@@ -37,12 +40,12 @@ class TagScriptAsset extends AbstractMinimizedAsset
         }
     }
 
-    public function html(): string
+    public function updateHtmlElement()
     {
         if ($this->minimized) {
-            return "<script>{$this->getMinimizedContent()}</script>";
+            $this->element->setContent([$this->getMinimizedContent()]);
         } else {
-            return "<script>\n{$this->getContent()}\n</script>";
+            $this->element->setContent(["\n", $this->getContent(), "\n"]);
         }
     }
 }

@@ -237,4 +237,17 @@ class AbstractAssetTest extends TestCase
 
         $this->assertEquals($html, $asset->html());
     }
+
+    public function testUpdateHtmlElement_IsInvokedInTheConstructor()
+    {
+        $dummyElement = $this->createMock(HtmlElementInterface::class);
+        $asset = $this->getMockBuilder(AbstractAsset::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['updateHtmlElement'])
+            ->getMockForAbstractClass();
+        $asset->expects($this->once())
+            ->method('updateHtmlElement');
+
+        $asset->__construct('id', [], [], $dummyElement); // Act
+    }
 }

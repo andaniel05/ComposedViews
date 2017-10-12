@@ -40,11 +40,6 @@ class TagScriptAssetTest extends TestCase
         $this->assertTrue($this->asset->inGroup('scripts'));
     }
 
-    public function testGetMinimizer_ReturnNullByDefault()
-    {
-        $this->assertNull($this->asset->getMinimizer());
-    }
-
     public function testGetMinimizer_ReturnTheInsertedMinimizerBySetMinimizer()
     {
         $minimizer = new JSMinimizer();
@@ -84,8 +79,8 @@ class TagScriptAssetTest extends TestCase
         $asset = new TagScriptAsset('asset', '');
         $asset->setMinimizedContent($minimizedContent);
 
-        $this->assertXmlStringEqualsXmlString(
-            "<script>$minimizedContent</script>", $asset->html()
+        $this->assertEquals(
+            "<script>{$minimizedContent}</script>", $asset->html()
         );
     }
 
@@ -97,8 +92,48 @@ class TagScriptAssetTest extends TestCase
         $asset->setMinimizedContent($minimizedContent);
         $asset->setMinimized(false);
 
-        $this->assertXmlStringEqualsXmlString(
-            "<script>\n$content\n</script>", $asset->html()
+        $this->assertEquals(
+            "<script>\n{$content}\n</script>", $asset->html()
+        );
+    }
+
+    public function testTheHtmlElementTagIsScript()
+    {
+        $this->assertEquals('script', $this->asset->getHtmlElement()->getTag());
+    }
+
+    public function testTheContentOfHtmlElementIsEqualToResultOfGetMinimizedContentByDefault()
+    {
+        $content = uniqid();
+        $asset = $this->getMockBuilder(TagScriptAsset::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getMinimizedContent'])
+            ->getMock();
+        $asset->method('getMinimizedContent')->willReturn($content);
+        $asset->__construct('id', $content);
+
+        $this->assertEquals(
+            $asset->getMinimizedContent(),
+            $asset->getHtmlElement()->getContent()[0]
+        );
+    }
+
+    public function testTheContentOfHtmlElementIsEqualToResultOfGetContentWhenAssetIsNotMinimized()
+    {
+        $content = uniqid();
+        $asset = $this->getMockBuilder(TagScriptAsset::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getContent'])
+            ->getMock();
+        $asset->method('getContent')->willReturn($content);
+        $asset->__construct('id', '');
+
+        $asset->setMinimized(false);
+        $asset->updateHtmlElement(); // Act
+
+        $this->assertEquals(
+            $asset->getContent(),
+            $asset->getHtmlElement()->getContent()[1]
         );
     }
 }
