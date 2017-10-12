@@ -63,4 +63,14 @@ class UrlStyleAssetTest extends TestCase
             "<link href=\"$url\" />", $asset->html()
         );
     }
+
+    public function testTheHtmlElementTagIsLink()
+    {
+        $this->assertEquals('link', $this->asset->getHtmlElement()->getTag());
+    }
+
+    public function testTheHtmlElementDoNotHasEndTag()
+    {
+        $this->assertNull($this->asset->getHtmlElement()->getEndTag());
+    }
 }
