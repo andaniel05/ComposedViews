@@ -82,7 +82,7 @@ HTML;
         return null;
     }
 
-    public function getComponent(string $id): ?AbstractComponent
+    public function getChild(string $id): ?AbstractComponent
     {
         $idList = preg_split('/\s+/', $id);
 
@@ -96,7 +96,7 @@ HTML;
         for ($i = 0; $i < count($idList); $i++) {
 
             $componentId = $idList[$i];
-            $component = $container->getComponent($componentId);
+            $component = $container->getChild($componentId);
 
             if ($component) {
                 $hash[$componentId] = $component;

@@ -128,11 +128,11 @@ HTML;
         $this->assertEquals([], $component->getChildren());
     }
 
-    public function testGetComponentReturnNullIfComponentNotExists()
+    public function testGetChildReturnNullIfComponentNotExists()
     {
         $component = $this->getComponentMock();
 
-        $this->assertNull($component->getComponent('component1'));
+        $this->assertNull($component->getChild('component1'));
     }
 
     public function insertTwoComponents()
@@ -147,13 +147,13 @@ HTML;
         $this->container->addComponent($this->component2);
     }
 
-    public function testGetComponentReturnTheComponentIfExists()
+    public function testGetChildReturnTheComponentIfExists()
     {
         $this->insertTwoComponents();
 
         $this->assertSame(
             $this->component1,
-            $this->container->getComponent('component1')
+            $this->container->getChild('component1')
         );
     }
 
@@ -235,70 +235,70 @@ HTML;
         $this->component5 = $component5;
     }
 
-    public function testGetComponentSearchTheComponentInAllTheTree()
+    public function testGetChildSearchTheComponentInAllTheTree()
     {
         $this->initializeNestedComponents();
 
         $this->assertSame(
             $this->component2,
-            $this->container->getComponent('component2')
+            $this->container->getChild('component2')
         );
         $this->assertSame(
             $this->component3,
-            $this->container->getComponent('component3')
+            $this->container->getChild('component3')
         );
         $this->assertSame(
             $this->component5,
-            $this->container->getComponent('component5')
+            $this->container->getChild('component5')
         );
     }
 
-    public function testGetComponentWhenIdIsComplex1()
+    public function testGetChildWhenIdIsComplex1()
     {
         $this->initializeNestedComponents();
 
         $this->assertSame(
             $this->component5,
-            $this->container->getComponent('component4 component5')
+            $this->container->getChild('component4 component5')
         );
     }
 
-    public function testGetComponentWhenIdIsComplex2()
+    public function testGetChildWhenIdIsComplex2()
     {
         $this->initializeNestedComponents();
 
         $this->assertSame(
             $this->component3,
-            $this->container->getComponent('component1 component3')
+            $this->container->getChild('component1 component3')
         );
     }
 
-    public function testGetComponentWhenIdIsComplex3()
+    public function testGetChildWhenIdIsComplex3()
     {
         $this->initializeNestedComponents();
 
         $this->assertSame(
             $this->component3,
-            $this->container->getComponent('component1 component2 component3')
+            $this->container->getChild('component1 component2 component3')
         );
     }
 
-    public function testGetComponentWhenIdIsComplex4()
+    public function testGetChildWhenIdIsComplex4()
     {
         $this->initializeNestedComponents();
 
         $this->assertSame(
             $this->component3,
-            $this->container->getComponent('component2 component3')
+            $this->container->getChild('component2 component3')
         );
     }
 
-    public function testGetComponentWhenIdIsComplex5()
+    public function testGetChildWhenIdIsComplex5()
     {
         $this->initializeNestedComponents();
 
         $this->assertNull(
-            $this->container->getComponent('component1 component5')
+            $this->container->getChild('component1 component5')
         );
     }
 

@@ -1050,7 +1050,7 @@ class AbstractPageTest extends TestCase
 
         $sidebar = $page->getSidebar($sidebarId);
 
-        $this->assertEquals($component, $sidebar->getComponent($componentId));
+        $this->assertEquals($component, $sidebar->getChild($componentId));
         $this->assertEquals($sidebar, $component->getParent());
     }
 
@@ -1074,7 +1074,7 @@ class AbstractPageTest extends TestCase
         // Act
         $page->appendComponent($parentId, $child);
 
-        $this->assertEquals($child, $parent->getComponent($childId));
+        $this->assertEquals($child, $parent->getChild($childId));
         $this->assertEquals($parent, $child->getParent());
     }
 

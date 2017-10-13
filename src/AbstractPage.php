@@ -114,7 +114,7 @@ abstract class AbstractPage implements HtmlInterface
             $sidebar = $this->getSidebar($idList[0]);
             if ($sidebar) {
                 $componentId = preg_split("/{$idList[0]}\s+/", $id)[1];
-                $component = $sidebar->getComponent($componentId);
+                $component = $sidebar->getChild($componentId);
             } else {
                 $component = $this->getComponentFromAllSidebars($id);
             }
@@ -128,7 +128,7 @@ abstract class AbstractPage implements HtmlInterface
         $component = null;
 
         foreach ($this->getAllSidebars() as $sidebar) {
-            $component = $sidebar->getComponent($id);
+            $component = $sidebar->getChild($id);
             if ($component) {
                 break;
             }
