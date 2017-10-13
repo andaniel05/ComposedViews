@@ -50,7 +50,7 @@ abstract class AbstractComponent implements HtmlInterface
     {
         $result = '';
 
-        foreach ($this->getAllComponents() as $component) {
+        foreach ($this->getChildren() as $component) {
             $result .= <<<HTML
 <div class="cv-component cv-{$component->getId()}" id="cv-{$component->getId()}">
     {$component->html()}
@@ -61,7 +61,7 @@ HTML;
         return $result;
     }
 
-    public function getAllComponents(): array
+    public function getChildren(): array
     {
         return $this->components;
     }
@@ -72,7 +72,7 @@ HTML;
             if ($id == $component->getId()) {
                 return $component;
             } elseif ($component instanceOf AbstractComponent) {
-                $component = $this->findOne($component->getAllComponents(), $id);
+                $component = $this->findOne($component->getChildren(), $id);
                 if ($component) {
                     return $component;
                 }
@@ -87,7 +87,7 @@ HTML;
         $idList = preg_split('/\s+/', $id);
 
         if (1 == count($idList)) {
-            return $this->findOne($this->getAllComponents(), $id);
+            return $this->findOne($this->getChildren(), $id);
         }
 
         $hash = array_fill_keys($idList, null);

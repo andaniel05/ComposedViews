@@ -257,7 +257,7 @@ class AbstractPageTest extends TestCase
             'component2' => $component2,
         ];
 
-        $this->assertEquals($expected, $sidebar1->getAllComponents());
+        $this->assertEquals($expected, $sidebar1->getChildren());
     }
 
     public function initializeSidebarsWithEqualsComponents()

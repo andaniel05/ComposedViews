@@ -146,7 +146,7 @@ abstract class AbstractPage implements HtmlInterface
             if ($component instanceOf AbstractComponent) {
                 $assets = array_merge(
                     $assets,
-                    $this->getAssetsFromComponents($component->getAllComponents())
+                    $this->getAssetsFromComponents($component->getChildren())
                 );
             }
 
@@ -163,7 +163,7 @@ abstract class AbstractPage implements HtmlInterface
         foreach ($this->sidebars as $sidebar) {
             $assets = array_merge(
                 $assets,
-                $this->getAssetsFromComponents($sidebar->getAllComponents())
+                $this->getAssetsFromComponents($sidebar->getChildren())
             );
         }
 
@@ -271,13 +271,13 @@ abstract class AbstractPage implements HtmlInterface
                 foreach ($components as $component) {
                     yield $component;
                     if ($component instanceOf AbstractComponent) {
-                        yield from $gen($component->getAllComponents());
+                        yield from $gen($component->getChildren());
                     }
                 }
             };
 
             foreach ($sidebars as $sidebar) {
-                yield from $gen($sidebar->getAllComponents());
+                yield from $gen($sidebar->getChildren());
             }
         };
 

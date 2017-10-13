@@ -121,11 +121,11 @@ HTML;
         return $component;
     }
 
-    public function testGetAllComponentsReturnAnEmptyArrayByDefault()
+    public function testGetChildrenReturnAnEmptyArrayByDefault()
     {
         $component = $this->getComponentMock();
 
-        $this->assertEquals([], $component->getAllComponents());
+        $this->assertEquals([], $component->getChildren());
     }
 
     public function testGetComponentReturnNullIfComponentNotExists()
@@ -157,7 +157,7 @@ HTML;
         );
     }
 
-    public function testGetAllComponentsReturnAnArrayWithAllInsertedComponents()
+    public function testGetChildrenReturnAnArrayWithAllInsertedComponents()
     {
         $this->insertTwoComponents();
 
@@ -166,7 +166,7 @@ HTML;
             'component2' => $this->component2,
         ];
 
-        $this->assertEquals($expected, $this->container->getAllComponents());
+        $this->assertEquals($expected, $this->container->getChildren());
     }
 
     public function testDropComponentRemoveTheComponentWhenExists()
@@ -177,7 +177,7 @@ HTML;
 
         $this->assertEquals(
             ['component1' => $this->component1],
-            $this->container->getAllComponents()
+            $this->container->getChildren()
         );
     }
 
