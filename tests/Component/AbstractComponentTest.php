@@ -49,7 +49,7 @@ class AbstractComponentTest extends TestCase
         $this->assertSame($this->parent, $this->component->getParent());
     }
 
-    public function testDetachInvokeDropComponentInTheParent()
+    public function testDetachInvokeDropChildInTheParent()
     {
         // Arrange
         //
@@ -58,10 +58,10 @@ class AbstractComponentTest extends TestCase
 
         $parent = $this->getMockBuilder(AbstractComponent::class)
             ->setConstructorArgs(['parent'])
-            ->setMethods(['dropComponent'])
+            ->setMethods(['dropChild'])
             ->getMockForAbstractClass();
         $parent->expects($this->once())
-            ->method('dropComponent')
+            ->method('dropChild')
             ->with($this->equalTo($childId));
 
         $child = $this->getMockBuilder(AbstractComponent::class)
@@ -169,11 +169,11 @@ HTML;
         $this->assertEquals($expected, $this->container->getChildren());
     }
 
-    public function testDropComponentRemoveTheComponentWhenExists()
+    public function testDropChildRemoveTheComponentWhenExists()
     {
         $this->insertTwoComponents();
 
-        $this->container->dropComponent('component2');
+        $this->container->dropChild('component2');
 
         $this->assertEquals(
             ['component1' => $this->component1],
@@ -319,11 +319,11 @@ HTML;
         $this->assertSame($this->container, $this->child->getParent());
     }
 
-    public function testDropComponentSetNullAsParentInTheChild()
+    public function testDropChildSetNullAsParentInTheChild()
     {
         $this->insertChildComponent();
 
-        $this->container->dropComponent('child');
+        $this->container->dropChild('child');
 
         $this->assertNull($this->child->getParent());
     }
@@ -339,7 +339,7 @@ HTML;
         $this->container->addChild($this->child);
     }
 
-    public function testDropComponentInvokeSetParentWithNullInTheChild()
+    public function testDropChildInvokeSetParentWithNullInTheChild()
     {
         $this->initialization1();
 
@@ -347,17 +347,17 @@ HTML;
             ->method('setParent')
             ->with($this->equalTo(null));
 
-        $this->container->dropComponent('child');
+        $this->container->dropChild('child');
     }
 
-    public function testDropComponentNotInvokeToSetParentWithNullInTheChildWhenNotifyChildArgumentIsFalse()
+    public function testDropChildNotInvokeToSetParentWithNullInTheChildWhenNotifyChildArgumentIsFalse()
     {
         $this->initialization1();
 
         $this->child->expects($this->exactly(0))
             ->method('setParent');
 
-        $this->container->dropComponent('child', false);
+        $this->container->dropChild('child', false);
     }
 
     public function testGetPage_ReturnTheInsertedPage()
@@ -448,7 +448,7 @@ HTML;
 
         $parent->setPage($page);
         $parent->addChild($child);
-        $parent->dropComponent('child'); // Act
+        $parent->dropChild('child'); // Act
 
         $this->assertTrue($executed);
         $this->assertFalse($parent->existsComponent('child'));
@@ -468,7 +468,7 @@ HTML;
 
         $parent->setPage($page);
         $parent->addChild($child);
-        $parent->dropComponent('child'); // Act
+        $parent->dropChild('child'); // Act
 
         $this->assertTrue($executed);
         $this->assertTrue($parent->existsComponent('child'));
@@ -490,7 +490,7 @@ HTML;
 
         $parent->setPage($page);
         $parent->addChild($child);
-        $parent->dropComponent('child'); // Act
+        $parent->dropChild('child'); // Act
 
         $this->assertTrue($executed);
     }

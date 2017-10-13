@@ -42,7 +42,7 @@ abstract class AbstractComponent implements HtmlInterface
     public function detach(): void
     {
         if ($this->parent) {
-            $this->parent->dropComponent($this->id);
+            $this->parent->dropChild($this->id);
         }
     }
 
@@ -130,7 +130,7 @@ HTML;
         }
     }
 
-    public function dropComponent(string $id, bool $notifyChild = true)
+    public function dropChild(string $id, bool $notifyChild = true)
     {
         $component = $this->components[$id] ?? null;
         if ($component) {
