@@ -1,6 +1,6 @@
 <?php
 
-namespace Andaniel05\ComposedViews\Tests;
+namespace Andaniel05\ComposedViews\Tests\Component;
 
 use Andaniel05\ComposedViews\{AbstractPage, PageEvents};
 use Andaniel05\ComposedViews\Event\{BeforeInsertionEvent, AfterInsertionEvent,
@@ -181,19 +181,19 @@ HTML;
         );
     }
 
-    public function testExistsComponentReturnFalseWhenComponentNotExists()
+    public function testHasRootChildReturnFalseWhenComponentNotExists()
     {
         $this->insertTwoComponents();
 
-        $this->assertFalse($this->container->existsComponent('component5'));
+        $this->assertFalse($this->container->hasRootChild('component5'));
     }
 
-    public function testExistsComponentReturnTrueWhenComponentExists()
+    public function testHasRootChildReturnTrueWhenComponentExists()
     {
         $this->insertTwoComponents();
 
-        $this->assertTrue($this->container->existsComponent('component1'));
-        $this->assertTrue($this->container->existsComponent('component2'));
+        $this->assertTrue($this->container->hasRootChild('component1'));
+        $this->assertTrue($this->container->hasRootChild('component2'));
     }
 
     public function initializeNestedComponents()
@@ -383,14 +383,14 @@ HTML;
             $executed = true;
             $this->assertEquals($parent, $event->getParent());
             $this->assertEquals($child, $event->getChild());
-            $this->assertFalse($parent->existsComponent('child'));
+            $this->assertFalse($parent->hasRootChild('child'));
         });
 
         $parent->setPage($page);
         $parent->addChild($child); // Act
 
         $this->assertTrue($executed);
-        $this->assertTrue($parent->existsComponent('child'));
+        $this->assertTrue($parent->hasRootChild('child'));
     }
 
     public function testTheBeforeInsertionEventCanCancelTheInsertion()
@@ -409,7 +409,7 @@ HTML;
         $parent->addChild($child); // Act
 
         $this->assertTrue($executed);
-        $this->assertFalse($parent->existsComponent('child'));
+        $this->assertFalse($parent->hasRootChild('child'));
     }
 
     public function testTheAfterInsertionEventIsTriggeredOnThePageWhenANewComponentIsInserted()
@@ -423,7 +423,7 @@ HTML;
             $executed = true;
             $this->assertEquals($parent, $event->getParent());
             $this->assertEquals($child, $event->getChild());
-            $this->assertTrue($parent->existsComponent('child'));
+            $this->assertTrue($parent->hasRootChild('child'));
         });
 
         $parent->setPage($page);
@@ -443,7 +443,7 @@ HTML;
             $executed = true;
             $this->assertEquals($parent, $event->getParent());
             $this->assertEquals($child, $event->getChild());
-            $this->assertTrue($parent->existsComponent('child'));
+            $this->assertTrue($parent->hasRootChild('child'));
         });
 
         $parent->setPage($page);
@@ -451,7 +451,7 @@ HTML;
         $parent->dropChild('child'); // Act
 
         $this->assertTrue($executed);
-        $this->assertFalse($parent->existsComponent('child'));
+        $this->assertFalse($parent->hasRootChild('child'));
     }
 
     public function testTheBeforeDeletionEventCanCancelTheDeletion()
@@ -471,7 +471,7 @@ HTML;
         $parent->dropChild('child'); // Act
 
         $this->assertTrue($executed);
-        $this->assertTrue($parent->existsComponent('child'));
+        $this->assertTrue($parent->hasRootChild('child'));
     }
 
     public function testTheAfterDeletionEventIsTriggeredOnThePageWhenAComponentWillBeDeleted()
@@ -485,7 +485,7 @@ HTML;
             $executed = true;
             $this->assertEquals($parent, $event->getParent());
             $this->assertEquals($child, $event->getChild());
-            $this->assertFalse($parent->existsComponent('child'));
+            $this->assertFalse($parent->hasRootChild('child'));
         });
 
         $parent->setPage($page);

@@ -163,7 +163,7 @@ HTML;
         }
     }
 
-    public function existsComponent(string $id): bool
+    public function hasRootChild(string $id): bool
     {
         return isset($this->components[$id]);
     }
