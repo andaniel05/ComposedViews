@@ -74,7 +74,7 @@ abstract class AbstractPage implements HtmlInterface
                 $sidebar = new Sidebar($key);
                 foreach ($value as $component) {
                     if ($component instanceOf AbstractComponent) {
-                        $sidebar->addComponent($component);
+                        $sidebar->addChild($component);
                     }
                 }
 
@@ -324,7 +324,7 @@ abstract class AbstractPage implements HtmlInterface
             throw new ComponentNotFoundException($parentId);
         }
 
-        $parent->addComponent($component);
+        $parent->addChild($component);
         $component->setPage($this);
     }
 

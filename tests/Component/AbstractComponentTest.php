@@ -68,7 +68,7 @@ class AbstractComponentTest extends TestCase
             ->setConstructorArgs([$childId])
             ->getMockForAbstractClass();
 
-        $parent->addComponent($child);
+        $parent->addChild($child);
 
         // Act
         $child->detach();
@@ -99,7 +99,7 @@ class AbstractComponentTest extends TestCase
             AbstractComponent::class, ['component2']
         );
 
-        $component2->addComponent($component1);
+        $component2->addChild($component1);
 
             $expected = <<<HTML
 <div class="cv-component cv-component1" id="cv-component1">
@@ -143,8 +143,8 @@ HTML;
         $this->component2->method('getId')->willReturn('component2');
 
         $this->container = $this->getComponentMock();
-        $this->container->addComponent($this->component1);
-        $this->container->addComponent($this->component2);
+        $this->container->addChild($this->component1);
+        $this->container->addChild($this->component2);
     }
 
     public function testGetChildReturnTheComponentIfExists()
@@ -220,12 +220,12 @@ HTML;
             ->setConstructorArgs(['component5'])
             ->getMockForAbstractClass();
 
-        $component1->addComponent($component2);
-        $component2->addComponent($component3);
-        $component4->addComponent($component5);
+        $component1->addChild($component2);
+        $component2->addChild($component3);
+        $component4->addChild($component5);
 
-        $component->addComponent($component1);
-        $component->addComponent($component4);
+        $component->addChild($component1);
+        $component->addChild($component4);
 
         $this->container  = $component;
         $this->component1 = $component1;
@@ -309,10 +309,10 @@ HTML;
             ->setConstructorArgs(['child'])
             ->getMockForAbstractClass();
 
-        $this->container->addComponent($this->child);
+        $this->container->addChild($this->child);
     }
 
-    public function testAddComponentRegisterToItSelfAsParentInTheChild()
+    public function testAddChildRegisterToItSelfAsParentInTheChild()
     {
         $this->insertChildComponent();
 
@@ -336,7 +336,7 @@ HTML;
             ->getMockForAbstractClass();
 
         $this->container = $this->getComponentMock();
-        $this->container->addComponent($this->child);
+        $this->container->addChild($this->child);
     }
 
     public function testDropComponentInvokeSetParentWithNullInTheChild()
@@ -387,7 +387,7 @@ HTML;
         });
 
         $parent->setPage($page);
-        $parent->addComponent($child); // Act
+        $parent->addChild($child); // Act
 
         $this->assertTrue($executed);
         $this->assertTrue($parent->existsComponent('child'));
@@ -406,7 +406,7 @@ HTML;
         });
 
         $parent->setPage($page);
-        $parent->addComponent($child); // Act
+        $parent->addChild($child); // Act
 
         $this->assertTrue($executed);
         $this->assertFalse($parent->existsComponent('child'));
@@ -427,7 +427,7 @@ HTML;
         });
 
         $parent->setPage($page);
-        $parent->addComponent($child); // Act
+        $parent->addChild($child); // Act
 
         $this->assertTrue($executed);
     }
@@ -447,7 +447,7 @@ HTML;
         });
 
         $parent->setPage($page);
-        $parent->addComponent($child);
+        $parent->addChild($child);
         $parent->dropComponent('child'); // Act
 
         $this->assertTrue($executed);
@@ -467,7 +467,7 @@ HTML;
         });
 
         $parent->setPage($page);
-        $parent->addComponent($child);
+        $parent->addChild($child);
         $parent->dropComponent('child'); // Act
 
         $this->assertTrue($executed);
@@ -489,7 +489,7 @@ HTML;
         });
 
         $parent->setPage($page);
-        $parent->addComponent($child);
+        $parent->addChild($child);
         $parent->dropComponent('child'); // Act
 
         $this->assertTrue($executed);

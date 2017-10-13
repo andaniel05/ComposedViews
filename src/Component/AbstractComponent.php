@@ -109,7 +109,7 @@ HTML;
         return array_pop($hash);
     }
 
-    public function addComponent(AbstractComponent $component)
+    public function addChild(AbstractComponent $component)
     {
         if ($this->page instanceOf AbstractPage) {
 

@@ -462,12 +462,12 @@ class AbstractPageTest extends TestCase
     {
         $this->initialization1();
 
-        $this->component1->addComponent($this->component2);
-        $this->component2->addComponent($this->component3);
-        $this->component3->addComponent($this->component4);
-        $this->component4->addComponent($this->component5);
+        $this->component1->addChild($this->component2);
+        $this->component2->addChild($this->component3);
+        $this->component3->addChild($this->component4);
+        $this->component4->addChild($this->component5);
 
-        $this->sidebar1->addComponent($this->component1);
+        $this->sidebar1->addChild($this->component1);
 
         $this->assertsForAssetsTest();
     }
@@ -476,13 +476,13 @@ class AbstractPageTest extends TestCase
     {
         $this->initialization1();
 
-        $this->component1->addComponent($this->component2);
-        $this->component2->addComponent($this->component3);
+        $this->component1->addChild($this->component2);
+        $this->component2->addChild($this->component3);
 
-        $this->component4->addComponent($this->component5);
+        $this->component4->addChild($this->component5);
 
-        $this->sidebar1->addComponent($this->component1);
-        $this->sidebar2->addComponent($this->component4);
+        $this->sidebar1->addChild($this->component1);
+        $this->sidebar2->addChild($this->component4);
 
         $this->assertsForAssetsTest();
     }
@@ -498,12 +498,12 @@ class AbstractPageTest extends TestCase
     {
         $this->initialization1();
 
-        $this->component1->addComponent($this->component2);
-        $this->component2->addComponent($this->component3);
-        $this->component3->addComponent($this->component4);
-        $this->component4->addComponent($this->component5);
+        $this->component1->addChild($this->component2);
+        $this->component2->addChild($this->component3);
+        $this->component3->addChild($this->component4);
+        $this->component4->addChild($this->component5);
 
-        $this->sidebar1->addComponent($this->component1);
+        $this->sidebar1->addChild($this->component1);
 
         $this->assertSame($this->jquery, $this->page->getAsset('jquery'));
         $this->assertSame($this->customJs, $this->page->getAsset('custom-js'));
@@ -729,7 +729,7 @@ class AbstractPageTest extends TestCase
     {
         $this->initialization1();
 
-        $this->sidebar1->addComponent($this->component1);
+        $this->sidebar1->addChild($this->component1);
 
         $this->assertSame(
             $this->component1,
@@ -778,11 +778,11 @@ class AbstractPageTest extends TestCase
         // Act
         //
 
-        $this->sidebar1->addComponent($this->component1);
-        $this->component1->addComponent($this->component2);
-        $this->component2->addComponent($this->component3);
-        $this->component3->addComponent($this->component4);
-        $this->component4->addComponent($this->component5);
+        $this->sidebar1->addChild($this->component1);
+        $this->component1->addChild($this->component2);
+        $this->component2->addChild($this->component3);
+        $this->component3->addChild($this->component4);
+        $this->component4->addChild($this->component5);
 
         $components = $this->page->components();
 
@@ -812,13 +812,13 @@ class AbstractPageTest extends TestCase
         // Act
         //
 
-        $this->sidebar1->addComponent($this->component1);
+        $this->sidebar1->addChild($this->component1);
 
-        $this->component1->addComponent($this->component2);
-        $this->component1->addComponent($this->component3);
+        $this->component1->addChild($this->component2);
+        $this->component1->addChild($this->component3);
 
-        $this->component2->addComponent($this->component4);
-        $this->component4->addComponent($this->component5);
+        $this->component2->addChild($this->component4);
+        $this->component4->addChild($this->component5);
 
         $components = $this->page->components();
 
@@ -879,8 +879,8 @@ class AbstractPageTest extends TestCase
     public function testGetAllAssetsIncludeInTheResultArrayInsertionsByAddAsset()
     {
         $this->initialization1();
-        $this->component1->addComponent($this->component2);
-        $this->sidebar1->addComponent($this->component1);
+        $this->component1->addChild($this->component2);
+        $this->sidebar1->addChild($this->component1);
 
         $newAsset = $this->getMockForAbstractClass(AbstractAsset::class, ['new-asset']);
         $this->page->addAsset($newAsset);
