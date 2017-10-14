@@ -494,4 +494,88 @@ HTML;
 
         $this->assertTrue($executed);
     }
+
+    public function createAuxComponents()
+    {
+        $this->comp1 = $this->getMockForAbstractClass(
+            AbstractComponent::class, ['comp1']
+        );
+        $this->comp2 = $this->getMockForAbstractClass(
+            AbstractComponent::class, ['comp2']
+        );
+        $this->comp3 = $this->getMockForAbstractClass(
+            AbstractComponent::class, ['comp3']
+        );
+        $this->comp4 = $this->getMockForAbstractClass(
+            AbstractComponent::class, ['comp4']
+        );
+        $this->comp5 = $this->getMockForAbstractClass(
+            AbstractComponent::class, ['comp5']
+        );
+    }
+
+    public function testTraverse1()
+    {
+        $this->createAuxComponents();
+
+        $this->component->addChild($this->comp1);
+        $this->component->addChild($this->comp2);
+        $this->component->addChild($this->comp3);
+
+        $iter = $this->component->traverse();
+
+        $this->assertEquals($this->comp1, $iter->current());
+        $iter->next();
+        $this->assertEquals($this->comp2, $iter->current());
+        $iter->next();
+        $this->assertEquals($this->comp3, $iter->current());
+    }
+
+    public function testTraverse2()
+    {
+        $this->createAuxComponents();
+
+        $this->comp1->addChild($this->comp2);
+        $this->comp2->addChild($this->comp3);
+        $this->comp3->addChild($this->comp4);
+        $this->comp4->addChild($this->comp5);
+
+        $this->component->addChild($this->comp1);
+
+        $iter = $this->component->traverse();
+
+        $this->assertEquals($this->comp1, $iter->current());
+        $iter->next();
+        $this->assertEquals($this->comp2, $iter->current());
+        $iter->next();
+        $this->assertEquals($this->comp3, $iter->current());
+        $iter->next();
+        $this->assertEquals($this->comp4, $iter->current());
+        $iter->next();
+        $this->assertEquals($this->comp5, $iter->current());
+    }
+
+    public function testTraverse3()
+    {
+        $this->createAuxComponents();
+
+        $this->comp1->addChild($this->comp3);
+        $this->comp1->addChild($this->comp4);
+        $this->comp2->addChild($this->comp5);
+
+        $this->component->addChild($this->comp1);
+        $this->component->addChild($this->comp2);
+
+        $iter = $this->component->traverse();
+
+        $this->assertEquals($this->comp1, $iter->current());
+        $iter->next();
+        $this->assertEquals($this->comp3, $iter->current());
+        $iter->next();
+        $this->assertEquals($this->comp4, $iter->current());
+        $iter->next();
+        $this->assertEquals($this->comp2, $iter->current());
+        $iter->next();
+        $this->assertEquals($this->comp5, $iter->current());
+    }
 }
