@@ -2,7 +2,7 @@
 
 namespace Andaniel05\ComposedViews\Exception;
 
-class ComponentNotFoundException extends \Exception
+class ComponentNotFoundException extends ComposedViewsException
 {
     public function __construct(string $componentId)
     {

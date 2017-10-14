@@ -4,7 +4,7 @@ namespace Andaniel05\ComposedViews\Asset;
 
 use Andaniel05\ComposedViews\HtmlElement\HtmlElementInterface;
 
-abstract class AbstractUrlAsset extends AbstractMinimizedAsset
+abstract class AbstractUrlAsset extends AbstractMinimizedAsset implements UrlAssetInterface
 {
     protected $url;
     protected $minimizedUrl;

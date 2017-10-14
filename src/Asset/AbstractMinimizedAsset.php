@@ -2,7 +2,7 @@
 
 namespace Andaniel05\ComposedViews\Asset;
 
-abstract class AbstractMinimizedAsset extends AbstractAsset
+abstract class AbstractMinimizedAsset extends AbstractAsset implements MinimizedAssetInterface
 {
     protected $minimizedContent;
     protected $minimized = true;

@@ -2,10 +2,10 @@
 
 namespace Andaniel05\ComposedViews\Asset;
 
-use Andaniel05\ComposedViews\AbstractPage;
-use Andaniel05\ComposedViews\HtmlElement\{HtmlInterface, HtmlElementInterface};
+use Andaniel05\ComposedViews\PageInterface;
+use Andaniel05\ComposedViews\HtmlElement\HtmlElementInterface;
 
-abstract class AbstractAsset implements HtmlInterface
+abstract class AbstractAsset implements AssetInterface
 {
     protected $id;
     protected $dependencies = [];
@@ -121,12 +121,12 @@ abstract class AbstractAsset implements HtmlInterface
         $this->used = $used;
     }
 
-    public function getPage(): ?AbstractPage
+    public function getPage(): ?PageInterface
     {
         return $this->page;
     }
 
-    public function setPage(?AbstractPage $page)
+    public function setPage(?PageInterface $page)
     {
         $this->page = $page;
     }

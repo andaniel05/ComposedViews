@@ -20,7 +20,7 @@ trait AssetsTrait
     {
         $loadAssets = function (array $assets, string $groups = '') use (&$loadAssets) {
             foreach ($assets as $key => $value) {
-                if ($value instanceOf AbstractAsset) {
+                if ($value instanceOf AssetInterface) {
 
                     $asset = $value;
 

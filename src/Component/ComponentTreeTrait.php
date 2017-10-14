@@ -21,7 +21,7 @@ trait ComponentTreeTrait
         return $generator($this->components);
     }
 
-    public function getComponent(string $id): ?AbstractComponent
+    public function getComponent(string $id): ?ComponentInterface
     {
         $idList = preg_split('/\s+/', $id);
 

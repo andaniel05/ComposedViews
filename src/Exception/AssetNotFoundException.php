@@ -2,7 +2,7 @@
 
 namespace Andaniel05\ComposedViews\Exception;
 
-class AssetNotFoundException extends \Exception
+class AssetNotFoundException extends ComposedViewsException
 {
     public function __construct(string $assetId, string $dependency)
     {

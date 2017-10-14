@@ -3,14 +3,13 @@
 namespace Andaniel05\ComposedViews;
 
 use Andaniel05\ComposedViews\Event\FilterAssetsEvent;
-use Andaniel05\ComposedViews\HtmlElement\HtmlInterface;
-use Andaniel05\ComposedViews\Asset\{AssetsTrait, AbstractAsset};
+use Andaniel05\ComposedViews\Asset\{AssetsTrait, AssetInterface};
 use Andaniel05\ComposedViews\Traits\CloningTrait;
 use Andaniel05\ComposedViews\Exception\{AssetNotFoundException, ComponentNotFoundException};
-use Andaniel05\ComposedViews\Component\{AbstractComponent, Sidebar, ComponentTreeTrait};
+use Andaniel05\ComposedViews\Component\{ComponentInterface, Sidebar, ComponentTreeTrait};
 use Symfony\Component\EventDispatcher\{EventDispatcherInterface, EventDispatcher};
 
-abstract class AbstractPage implements HtmlInterface
+abstract class AbstractPage implements PageInterface
 {
     use CloningTrait;
 
@@ -77,7 +76,7 @@ abstract class AbstractPage implements HtmlInterface
 
                 $sidebar = new Sidebar($key);
                 foreach ($value as $component) {
-                    if ($component instanceOf AbstractComponent) {
+                    if ($component instanceOf ComponentInterface) {
                         $sidebar->addChild($component);
                     }
                 }
@@ -101,7 +100,7 @@ abstract class AbstractPage implements HtmlInterface
         return $this->components;
     }
 
-    public function getSidebar(string $id): ?Sidebar
+    public function getSidebar(string $id): ?ComponentInterface
     {
         return $this->components[$id] ?? null;
     }
@@ -112,7 +111,7 @@ abstract class AbstractPage implements HtmlInterface
 
         foreach ($components as $component) {
 
-            if ($component instanceOf AbstractComponent) {
+            if ($component instanceOf ComponentInterface) {
                 $assets = array_merge(
                     $assets,
                     $this->getAssetsFromComponents($component->getChildren())
@@ -141,7 +140,7 @@ abstract class AbstractPage implements HtmlInterface
         return $assets;
     }
 
-    public function getAsset(string $id): ?AbstractAsset
+    public function getAsset(string $id): ?AssetInterface
     {
         return $this->getAllAssets()[$id] ?? null;
     }
@@ -226,7 +225,7 @@ abstract class AbstractPage implements HtmlInterface
         return $result;
     }
 
-    public function __get(string $name): ?AbstractComponent
+    public function __get(string $name): ?ComponentInterface
     {
         return $this->getComponent($name);
     }
@@ -236,7 +235,7 @@ abstract class AbstractPage implements HtmlInterface
         return $this->baseUrl . $assetUrl;
     }
 
-    public function addAsset(AbstractAsset $asset): void
+    public function addAsset(AssetInterface $asset): void
     {
         $this->pageAssets[$asset->getId()] = $asset;
     }
@@ -263,7 +262,7 @@ abstract class AbstractPage implements HtmlInterface
         return $this->printed;
     }
 
-    public function appendComponent(string $parentId, AbstractComponent $component): void
+    public function appendComponent(string $parentId, ComponentInterface $component): void
     {
         $parent = $this->components[$parentId] ?? $this->getComponent($parentId);
 

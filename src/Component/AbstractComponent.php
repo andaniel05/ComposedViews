@@ -2,14 +2,13 @@
 
 namespace Andaniel05\ComposedViews\Component;
 
-use Andaniel05\ComposedViews\{AbstractPage, PageEvents};
-use Andaniel05\ComposedViews\HtmlElement\HtmlInterface;
+use Andaniel05\ComposedViews\{PageInterface, PageEvents};
 use Andaniel05\ComposedViews\Asset\AssetsTrait;
 use Andaniel05\ComposedViews\Event\{BeforeInsertionEvent, AfterInsertionEvent,
     BeforeDeletionEvent, AfterDeletionEvent};
 use Andaniel05\ComposedViews\Traits\CloningTrait;
 
-abstract class AbstractComponent implements HtmlInterface
+abstract class AbstractComponent implements ComponentInterface
 {
     use AssetsTrait;
     use CloningTrait;
@@ -32,12 +31,12 @@ abstract class AbstractComponent implements HtmlInterface
         return $this->id;
     }
 
-    public function getParent(): ?AbstractComponent
+    public function getParent(): ?ComponentInterface
     {
         return $this->parent;
     }
 
-    public function setParent(?AbstractComponent $parent)
+    public function setParent(?ComponentInterface $parent)
     {
         $this->parent = $parent;
     }
@@ -69,9 +68,9 @@ HTML;
         return $this->components;
     }
 
-    public function addChild(AbstractComponent $component)
+    public function addChild(ComponentInterface $component)
     {
-        if ($this->page instanceOf AbstractPage) {
+        if ($this->page instanceOf PageInterface) {
 
             $beforeInsertionEvent = new BeforeInsertionEvent($this, $component);
             $this->page->getDispatcher()->dispatch(PageEvents::BEFORE_INSERTION, $beforeInsertionEvent);
@@ -84,7 +83,7 @@ HTML;
         $this->components[$component->getId()] = $component;
         $component->setParent($this);
 
-        if ($this->page instanceOf AbstractPage) {
+        if ($this->page instanceOf PageInterface) {
             $afterInsertionEvent = new AfterInsertionEvent($this, $component);
             $this->page->getDispatcher()->dispatch(PageEvents::AFTER_INSERTION, $afterInsertionEvent);
         }
@@ -97,7 +96,7 @@ HTML;
 
             $drop = true;
 
-            if ($this->page instanceOf AbstractPage) {
+            if ($this->page instanceOf PageInterface) {
 
                 $beforeDeletionEvent = new BeforeDeletionEvent($this, $component);
                 $this->page->getDispatcher()->dispatch(PageEvents::BEFORE_DELETION, $beforeDeletionEvent);
@@ -115,7 +114,7 @@ HTML;
 
                 unset($this->components[$id]);
 
-                if ($this->page instanceOf AbstractPage) {
+                if ($this->page instanceOf PageInterface) {
                     $afterDeletionEvent = new AfterDeletionEvent($this, $component);
                     $this->page->getDispatcher()->dispatch(PageEvents::AFTER_DELETION, $afterDeletionEvent);
                 }
@@ -128,13 +127,15 @@ HTML;
         return isset($this->components[$id]);
     }
 
-    public function getPage(): ?AbstractPage
+    public function getPage(): ?PageInterface
     {
         return $this->page;
     }
 
-    public function setPage(?AbstractPage $page)
+    public function setPage(?PageInterface $page)
     {
         $this->page = $page;
     }
+
+    abstract public function html(): ?string;
 }
