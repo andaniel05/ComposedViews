@@ -20,4 +20,38 @@ trait ComponentTreeTrait
 
         return $generator($this->components);
     }
+
+    public function getComponent(string $id): ?AbstractComponent
+    {
+        $idList = preg_split('/\s+/', $id);
+
+        if (1 == count($idList)) {
+
+            foreach ($this->traverse() as $component) {
+                if ($id == $component->getId()) {
+                    return $component;
+                }
+            }
+
+            return null;
+        }
+
+        $hash = array_fill_keys($idList, null);
+
+        $container = $this;
+        for ($i = 0; $i < count($idList); $i++) {
+
+            $componentId = $idList[$i];
+            $component = $container->getComponent($componentId);
+
+            if ($component) {
+                $hash[$componentId] = $component;
+                $container = $component;
+            } else {
+                break;
+            }
+        }
+
+        return array_pop($hash);
+    }
 }

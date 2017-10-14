@@ -101,4 +101,47 @@ class ComponentTreeTraitTest extends TestCase
         $iter->next();
         $this->assertEquals($this->comp5, $iter->current());
     }
+
+    public function testGetComponent_ReturnNullWhenComponentDoNotExists()
+    {
+        $this->assertNull($this->trait->getComponent(uniqid()));
+    }
+
+    public function testGetComponent_ReturnRootComponents()
+    {
+        $id = uniqid();
+        $component = $this->getMockForAbstractClass(AbstractComponent::class, [$id]);
+
+        $this->setComponents([$id => $component]);
+
+        $this->assertEquals($component, $this->trait->getComponent($id));
+    }
+
+    public function testGetComponent_Case1()
+    {
+        $this->comp1->addChild($this->comp2);
+
+        $this->setComponents(['comp1' => $this->comp1]);
+
+        $this->assertEquals($this->comp2, $this->trait->getComponent('comp1 comp2'));
+    }
+
+    public function testGetComponent_Case2()
+    {
+        $this->comp1->addChild($this->comp2);
+
+        $this->setComponents(['comp1' => $this->comp1]);
+
+        $this->assertEquals($this->comp2, $this->trait->getComponent('comp2'));
+    }
+
+    public function testGetComponent_Case3()
+    {
+        $this->comp1->addChild($this->comp2);
+        $this->comp2->addChild($this->comp3);
+
+        $this->setComponents(['comp1' => $this->comp1]);
+
+        $this->assertEquals($this->comp3, $this->trait->getComponent('comp1 comp3'));
+    }
 }
