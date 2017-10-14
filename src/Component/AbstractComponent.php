@@ -13,7 +13,10 @@ abstract class AbstractComponent implements HtmlInterface
 {
     use AssetsTrait;
     use CloningTrait;
-    use ComponentTreeTrait;
+
+    use ComponentTreeTrait {
+        getComponent as getChild;
+    }
 
     protected $id;
     protected $parent;
@@ -64,49 +67,6 @@ HTML;
     public function getChildren(): array
     {
         return $this->components;
-    }
-
-    private function findOne(array $components, string $id): ?AbstractComponent
-    {
-        foreach ($components as $component) {
-            if ($id == $component->getId()) {
-                return $component;
-            } elseif ($component instanceOf AbstractComponent) {
-                $component = $this->findOne($component->getChildren(), $id);
-                if ($component) {
-                    return $component;
-                }
-            }
-        }
-
-        return null;
-    }
-
-    public function getChild(string $id): ?AbstractComponent
-    {
-        $idList = preg_split('/\s+/', $id);
-
-        if (1 == count($idList)) {
-            return $this->findOne($this->getChildren(), $id);
-        }
-
-        $hash = array_fill_keys($idList, null);
-
-        $container = $this;
-        for ($i = 0; $i < count($idList); $i++) {
-
-            $componentId = $idList[$i];
-            $component = $container->getChild($componentId);
-
-            if ($component) {
-                $hash[$componentId] = $component;
-                $container = $component;
-            } else {
-                break;
-            }
-        }
-
-        return array_pop($hash);
     }
 
     public function addChild(AbstractComponent $component)
