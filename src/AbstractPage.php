@@ -106,41 +106,6 @@ abstract class AbstractPage implements HtmlInterface
         return $this->components[$id] ?? null;
     }
 
-    public function getComponent(string $id): ?AbstractComponent
-    {
-        $component = null;
-
-        $idList = preg_split('/\s+/', $id);
-
-        if (1 == count($idList)) {
-            $component = $this->getComponentFromAllSidebars($id);
-        } else {
-            $sidebar = $this->getSidebar($idList[0]);
-            if ($sidebar) {
-                $componentId = preg_split("/{$idList[0]}\s+/", $id)[1];
-                $component = $sidebar->getChild($componentId);
-            } else {
-                $component = $this->getComponentFromAllSidebars($id);
-            }
-        }
-
-        return $component;
-    }
-
-    protected function getComponentFromAllSidebars(string $id): ?AbstractComponent
-    {
-        $component = null;
-
-        foreach ($this->getAllSidebars() as $sidebar) {
-            $component = $sidebar->getChild($id);
-            if ($component) {
-                break;
-            }
-        }
-
-        return $component;
-    }
-
     protected function getAssetsFromComponents(array $components): array
     {
         $assets = [];

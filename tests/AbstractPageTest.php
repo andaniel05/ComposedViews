@@ -301,31 +301,6 @@ class AbstractPageTest extends TestCase
         );
     }
 
-    public function provider3()
-    {
-        return [
-            ['component1 component2'],
-            ['component3 component4'],
-        ];
-    }
-
-    /**
-     * @dataProvider provider3
-     */
-    public function testGetComponentDelegateInGetComponentFromAllSidebarsWhenPatternNotStartBySidebarId($componentId)
-    {
-        $page = $this->getMockBuilder(AbstractPage::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getComponentFromAllSidebars'])
-            ->getMockForAbstractClass();
-        $page->expects($this->once())
-            ->method('getComponentFromAllSidebars')
-            ->with($this->equalTo($componentId));
-        $page->__construct();
-
-        $page->getComponent($componentId);
-    }
-
     public function testGetPageAssetsReturnAnEmptyArrayByDefault()
     {
         $this->assertEquals([], $this->page->getPageAssets());
