@@ -13,10 +13,10 @@ abstract class AbstractComponent implements HtmlInterface
 {
     use AssetsTrait;
     use CloningTrait;
+    use ComponentTreeTrait;
 
     protected $id;
     protected $parent;
-    protected $components = [];
     protected $page;
 
     public function __construct(string $id)

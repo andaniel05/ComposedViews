@@ -7,18 +7,22 @@ use Andaniel05\ComposedViews\HtmlElement\HtmlInterface;
 use Andaniel05\ComposedViews\Asset\{AssetsTrait, AbstractAsset};
 use Andaniel05\ComposedViews\Traits\CloningTrait;
 use Andaniel05\ComposedViews\Exception\{AssetNotFoundException, ComponentNotFoundException};
-use Andaniel05\ComposedViews\Component\{AbstractComponent, Sidebar};
+use Andaniel05\ComposedViews\Component\{AbstractComponent, Sidebar, ComponentTreeTrait};
 use Symfony\Component\EventDispatcher\{EventDispatcherInterface, EventDispatcher};
 
 abstract class AbstractPage implements HtmlInterface
 {
     use CloningTrait;
+
     use AssetsTrait {
         getAssets as getPageAssets;
     }
 
+    use ComponentTreeTrait {
+        traverse as components;
+    }
+
     protected $vars = [];
-    protected $sidebars = [];
     protected $baseUrl = '';
     protected $pageAssets = [];
     protected $dispatcher;
@@ -82,7 +86,7 @@ abstract class AbstractPage implements HtmlInterface
 
             if ($sidebar) {
                 $sidebar->setPage($this);
-                $this->sidebars[$sidebar->getId()] = $sidebar;
+                $this->components[$sidebar->getId()] = $sidebar;
             }
         }
     }
@@ -94,12 +98,12 @@ abstract class AbstractPage implements HtmlInterface
 
     public function getAllSidebars(): array
     {
-        return $this->sidebars;
+        return $this->components;
     }
 
     public function getSidebar(string $id): ?Sidebar
     {
-        return $this->sidebars[$id] ?? null;
+        return $this->components[$id] ?? null;
     }
 
     public function getComponent(string $id): ?AbstractComponent
@@ -160,7 +164,7 @@ abstract class AbstractPage implements HtmlInterface
     {
         $assets = $this->getPageAssets();
 
-        foreach ($this->sidebars as $sidebar) {
+        foreach ($this->components as $sidebar) {
             $assets = array_merge(
                 $assets,
                 $this->getAssetsFromComponents($sidebar->getChildren())
@@ -262,28 +266,6 @@ abstract class AbstractPage implements HtmlInterface
         return $this->getComponent($name);
     }
 
-    public function components(): iterable
-    {
-        $generator = function (array $sidebars)
-        {
-            $gen = function (array $components) use (&$gen)
-            {
-                foreach ($components as $component) {
-                    yield $component;
-                    if ($component instanceOf AbstractComponent) {
-                        yield from $gen($component->getChildren());
-                    }
-                }
-            };
-
-            foreach ($sidebars as $sidebar) {
-                yield from $gen($sidebar->getChildren());
-            }
-        };
-
-        return $generator($this->sidebars);
-    }
-
     public function baseUrl(string $assetUrl = ''): string
     {
         return $this->baseUrl . $assetUrl;
@@ -318,7 +300,7 @@ abstract class AbstractPage implements HtmlInterface
 
     public function appendComponent(string $parentId, AbstractComponent $component): void
     {
-        $parent = $this->sidebars[$parentId] ?? $this->getComponent($parentId);
+        $parent = $this->components[$parentId] ?? $this->getComponent($parentId);
 
         if ( ! $parent) {
             throw new ComponentNotFoundException($parentId);

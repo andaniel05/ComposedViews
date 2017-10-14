@@ -8,11 +8,14 @@ trait ComponentTreeTrait
 
     public function traverse(): iterable
     {
-        $generator = function (array $components) use (&$generator) {
+        $generator = function (array $components) use (&$generator)
+        {
             foreach ($components as $component) {
                 yield $component;
                 yield from $generator($component->getChildren());
             }
+
+            return;
         };
 
         return $generator($this->components);

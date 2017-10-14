@@ -789,6 +789,9 @@ class AbstractPageTest extends TestCase
         // Asserts
         //
 
+        $this->assertSame($this->sidebar1, $components->current());
+
+        $components->next();
         $this->assertSame($this->component1, $components->current());
 
         $components->next();
@@ -825,6 +828,9 @@ class AbstractPageTest extends TestCase
         // Asserts
         //
 
+        $this->assertEquals($this->sidebar1, $components->current());
+
+        $components->next();
         $this->assertEquals($this->component1, $components->current());
 
         $components->next();
