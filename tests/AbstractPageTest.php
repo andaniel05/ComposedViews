@@ -1225,4 +1225,31 @@ class AbstractPageTest extends TestCase
 
         $this->assertAttributeEquals($lang, 'lang', $this->page);
     }
+
+    public function testCharsetAttributeIsUTF8ByDefault()
+    {
+        $this->assertAttributeEquals('utf-8', 'charset', $this->page);
+    }
+
+    public function testGetCharset_ReturnTheCharsetAttribute()
+    {
+        $charset = uniqid();
+
+        $closure = function () use ($charset) {
+            $this->charset = $charset;
+        };
+
+        $closure->call($this->page); // Act
+
+        $this->assertEquals($charset, $this->page->getCharset());
+    }
+
+    public function testSetCharset_ChangeTheCharsetAttribute()
+    {
+        $charset = uniqid();
+
+        $this->page->setCharset($charset); // Act
+
+        $this->assertAttributeEquals($charset, 'charset', $this->page);
+    }
 }

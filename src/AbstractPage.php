@@ -28,6 +28,7 @@ abstract class AbstractPage implements PageInterface
     protected $printed = false;
     protected $title = '';
     protected $lang = 'en';
+    protected $charset = 'utf-8';
 
     public function __construct(string $basePath = '', EventDispatcherInterface $dispatcher = null)
     {
@@ -299,5 +300,15 @@ abstract class AbstractPage implements PageInterface
     public function setLang(string $lang)
     {
         $this->lang = $lang;
+    }
+
+    public function getCharset(): string
+    {
+        return $this->charset;
+    }
+
+    public function setCharset(string $charset)
+    {
+        $this->charset = $charset;
     }
 }

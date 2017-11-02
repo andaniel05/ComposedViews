@@ -58,4 +58,8 @@ interface PageInterface extends HtmlInterface
     public function getLang(): string;
 
     public function setLang(string $lang);
+
+    public function getCharset(): string;
+
+    public function setCharset(string $charset);
 }
