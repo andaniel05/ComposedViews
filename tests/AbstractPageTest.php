@@ -1171,4 +1171,58 @@ class AbstractPageTest extends TestCase
 
         $this->assertEquals($page, $page->getSidebar($sidebar)->getPage());
     }
+
+    public function testTitleAttributeIsEmptyByDefault()
+    {
+        $this->assertAttributeSame('', 'title', $this->page);
+    }
+
+    public function testGetTitle_ReturnTheTitleAttribute()
+    {
+        $title = uniqid();
+
+        $closure = function () use ($title) {
+            $this->title = $title;
+        };
+
+        $closure->call($this->page); // Act
+
+        $this->assertEquals($title, $this->page->getTitle());
+    }
+
+    public function testSetTitle_ChangeTheTitleAttribute()
+    {
+        $title = uniqid();
+
+        $this->page->setTitle($title); // Act
+
+        $this->assertAttributeEquals($title, 'title', $this->page);
+    }
+
+    public function testLangAttributeIsEnByDefault()
+    {
+        $this->assertAttributeEquals('en', 'lang', $this->page);
+    }
+
+    public function testGetLang_ReturnTheLangAttribute()
+    {
+        $lang = uniqid();
+
+        $closure = function () use ($lang) {
+            $this->lang = $lang;
+        };
+
+        $closure->call($this->page); // Act
+
+        $this->assertEquals($lang, $this->page->getLang());
+    }
+
+    public function testSetLang_ChangeTheLangAttribute()
+    {
+        $lang = uniqid();
+
+        $this->page->setLang($lang); // Act
+
+        $this->assertAttributeEquals($lang, 'lang', $this->page);
+    }
 }

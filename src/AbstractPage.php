@@ -26,6 +26,8 @@ abstract class AbstractPage implements PageInterface
     protected $pageAssets = [];
     protected $dispatcher;
     protected $printed = false;
+    protected $title = '';
+    protected $lang = 'en';
 
     public function __construct(string $basePath = '', EventDispatcherInterface $dispatcher = null)
     {
@@ -277,5 +279,25 @@ abstract class AbstractPage implements PageInterface
     public function on(string $eventName, callable $callback): void
     {
         $this->dispatcher->addListener($eventName, $callback);
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title)
+    {
+        $this->title = $title;
+    }
+
+    public function getLang(): string
+    {
+        return $this->lang;
+    }
+
+    public function setLang(string $lang)
+    {
+        $this->lang = $lang;
     }
 }

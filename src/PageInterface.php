@@ -50,4 +50,12 @@ interface PageInterface extends HtmlInterface
     public function appendComponent(string $parentId, ComponentInterface $component): void;
 
     public function on(string $eventName, callable $callback): void;
+
+    public function getTitle(): string;
+
+    public function setTitle(string $title);
+
+    public function getLang(): string;
+
+    public function setLang(string $lang);
 }
