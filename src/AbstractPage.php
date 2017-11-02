@@ -22,18 +22,18 @@ abstract class AbstractPage implements PageInterface
     }
 
     protected $vars = [];
-    protected $baseUrl = '';
+    protected $basePath = '';
     protected $pageAssets = [];
     protected $dispatcher;
     protected $printed = false;
 
-    public function __construct(string $baseUrl = '', EventDispatcherInterface $dispatcher = null)
+    public function __construct(string $basePath = '', EventDispatcherInterface $dispatcher = null)
     {
         $this->initializeVars();
         $this->initializeAssets();
         $this->initializeSidebars();
 
-        $this->baseUrl = $baseUrl;
+        $this->basePath = $basePath;
         $this->dispatcher = $dispatcher ?? new EventDispatcher();
     }
 
@@ -230,9 +230,9 @@ abstract class AbstractPage implements PageInterface
         return $this->getComponent($name);
     }
 
-    public function baseUrl(string $assetUrl = ''): string
+    public function basePath(string $assetUri = ''): string
     {
-        return $this->baseUrl . $assetUrl;
+        return $this->basePath . $assetUri;
     }
 
     public function addAsset(AssetInterface $asset): void

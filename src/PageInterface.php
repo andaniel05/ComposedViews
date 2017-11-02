@@ -35,7 +35,7 @@ interface PageInterface extends HtmlInterface
 
     public function getOrderedAssets(): array;
 
-    public function baseUrl(string $assetUrl = ''): string;
+    public function basePath(string $assetUri = ''): string;
 
     public function addAsset(AssetInterface $asset): void;
 

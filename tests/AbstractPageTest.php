@@ -821,20 +821,20 @@ class AbstractPageTest extends TestCase
         $this->assertEquals($this->component3, $components->current());
     }
 
-    public function testBaseUrlReturnAnEmptyStringByDefault()
+    public function testBasePathReturnAnEmptyStringByDefault()
     {
         $page = $this->getMockForAbstractClass(AbstractPage::class);
 
-        $this->assertEquals('', $page->baseUrl());
+        $this->assertEquals('', $page->basePath());
     }
 
-    public function testBaseUrlReturnTheBaseUrlArgument()
+    public function testBasePathReturnTheBasePathArgument()
     {
         $page = $this->getMockBuilder(AbstractPage::class)
             ->setConstructorArgs(['http://localhost/'])
             ->getMockForAbstractClass();
 
-        $this->assertEquals('http://localhost/', $page->baseUrl());
+        $this->assertEquals('http://localhost/', $page->basePath());
     }
 
     public function provider6()
@@ -848,13 +848,13 @@ class AbstractPageTest extends TestCase
     /**
      * @dataProvider provider6
      */
-    public function testBaseUrlReturnMixOfBaseUrlAndAssetUrl($baseUrl, $assetUrl, $expected)
+    public function testBasePathReturnMixOfBasePathAndAssetUrl($basePath, $assetUri, $expected)
     {
         $page = $this->getMockBuilder(AbstractPage::class)
-            ->setConstructorArgs([$baseUrl])
+            ->setConstructorArgs([$basePath])
             ->getMockForAbstractClass();
 
-        $this->assertEquals($expected, $page->baseUrl($assetUrl));
+        $this->assertEquals($expected, $page->basePath($assetUri));
     }
 
     public function testGetAllAssetsIncludeInTheResultArrayInsertionsByAddAsset()
