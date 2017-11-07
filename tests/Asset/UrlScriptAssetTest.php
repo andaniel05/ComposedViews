@@ -68,7 +68,7 @@ class UrlScriptAssetTest extends TestCase
         $this->assertEquals('script', $this->asset->getHtmlElement()->getTag());
     }
 
-    public function testTheHtmlElementDoNotHasEndTag()
+    public function testTheHtmlElementNotHasEndTag()
     {
         $this->assertFalse($this->asset->getHtmlElement()->getEndTag());
     }

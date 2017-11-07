@@ -93,7 +93,7 @@ class AbstractAssetTest extends TestCase
         $this->assertContains($dependency, $this->asset->getDependencies());
     }
 
-    public function testHasDependency_ReturnFalseIfAssetDoNotHasDefinedTheDependency()
+    public function testHasDependency_ReturnFalseIfAssetNotHasDefinedTheDependency()
     {
         $dependency = uniqid();
 

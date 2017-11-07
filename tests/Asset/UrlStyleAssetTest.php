@@ -69,7 +69,7 @@ class UrlStyleAssetTest extends TestCase
         $this->assertEquals('link', $this->asset->getHtmlElement()->getTag());
     }
 
-    public function testTheHtmlElementDoNotHasEndTag()
+    public function testTheHtmlElementNotHasEndTag()
     {
         $this->assertNull($this->asset->getHtmlElement()->getEndTag());
     }

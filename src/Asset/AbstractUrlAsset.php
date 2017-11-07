@@ -11,10 +11,10 @@ abstract class AbstractUrlAsset extends AbstractMinimizedAsset implements UrlAss
 
     public function __construct(string $id, string $url, ?string $minimizedUrl = null, array $dependencies = [], array $groups = [], HtmlElementInterface $element = null)
     {
-        parent::__construct($id, $dependencies, $groups, $element);
-
         $this->url = $url;
         $this->minimizedUrl = $minimizedUrl;
+
+        parent::__construct($id, $dependencies, $groups, $element);
 
         $this->addGroup('url');
     }
