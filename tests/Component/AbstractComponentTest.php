@@ -578,4 +578,16 @@ HTML;
         $iter->next();
         $this->assertEquals($this->comp5, $iter->current());
     }
+
+    public function testInitializeAssetsInInvokedInConstructor()
+    {
+        $component = $this->getMockBuilder(AbstractComponent::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['initializeAssets'])
+            ->getMockForAbstractClass();
+        $component->expects($this->once())
+            ->method('initializeAssets');
+
+        $component->__construct('component');
+    }
 }

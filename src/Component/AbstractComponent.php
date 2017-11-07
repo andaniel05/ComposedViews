@@ -24,6 +24,8 @@ abstract class AbstractComponent implements ComponentInterface
     public function __construct(string $id)
     {
         $this->id = $id;
+
+        $this->initializeAssets();
     }
 
     public function getId(): string
