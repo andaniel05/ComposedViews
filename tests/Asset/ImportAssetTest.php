@@ -53,4 +53,11 @@ class ImportAssetTest extends TestCase
             $url, $asset->getHtmlElement()->getAttribute('href')
         );
     }
+
+    public function testRelAttributeIsImport()
+    {
+        $this->assertEquals(
+            'import', $this->asset->getHtmlElement()->getAttribute('rel')
+        );
+    }
 }

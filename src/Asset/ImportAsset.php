@@ -9,6 +9,7 @@ class ImportAsset extends AbstractUrlAsset
     public function __construct(string $id, string $url, array $dependencies = [], array $groups = [])
     {
         $element = new HtmlElement('link');
+        $element->setAttribute('rel', 'import');
         $element->setEndTag(false);
 
         parent::__construct($id, $url, null, $dependencies, $groups, $element);
