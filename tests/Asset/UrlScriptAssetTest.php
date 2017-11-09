@@ -47,7 +47,7 @@ class UrlScriptAssetTest extends TestCase
         $asset = new UrlScriptAsset('asset', '', $minimizedUrl);
 
         $this->assertEquals(
-            "<script src=\"$minimizedUrl\" />", $asset->html()
+            "<script src=\"$minimizedUrl\"></script>", $asset->html()
         );
     }
 
@@ -59,7 +59,7 @@ class UrlScriptAssetTest extends TestCase
         $asset->setMinimized(false);
 
         $this->assertEquals(
-            "<script src=\"$url\" />", $asset->html()
+            "<script src=\"$url\"></script>", $asset->html()
         );
     }
 
@@ -68,8 +68,8 @@ class UrlScriptAssetTest extends TestCase
         $this->assertEquals('script', $this->asset->getHtmlElement()->getTag());
     }
 
-    public function testTheHtmlElementHasInLineEndTag()
+    public function testTheHtmlElementHasEndTag()
     {
-        $this->assertNull($this->asset->getHtmlElement()->getEndTag());
+        $this->assertTrue($this->asset->getHtmlElement()->getEndTag());
     }
 }

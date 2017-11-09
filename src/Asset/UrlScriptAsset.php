@@ -9,7 +9,6 @@ class UrlScriptAsset extends AbstractUrlAsset
     public function __construct(string $id, string $url, ?string $minimizedUrl = null, array $dependencies = [], array $groups = [])
     {
         $element = new HtmlElement('script');
-        $element->setEndTag(null);
 
         parent::__construct($id, $url, $minimizedUrl, $dependencies, $groups, $element);
 
