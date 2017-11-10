@@ -143,9 +143,15 @@ abstract class AbstractPage implements PageInterface
         return $assets;
     }
 
-    public function getAsset(string $id): ?AssetInterface
+    public function getAsset(string $id, bool $markUsage = false): ?AssetInterface
     {
-        return $this->getAllAssets()[$id] ?? null;
+        $asset = $this->getAllAssets()[$id] ?? null;
+
+        if ($asset && $markUsage) {
+            $asset->setUsed(true);
+        }
+
+        return $asset;
     }
 
     public function getAssets(?string $group = null, bool $filterUnused = true, bool $markUsage = true): array

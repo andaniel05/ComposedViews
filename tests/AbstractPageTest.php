@@ -1252,4 +1252,45 @@ class AbstractPageTest extends TestCase
 
         $this->assertAttributeEquals($charset, 'charset', $this->page);
     }
+
+    public function initializePageWithAsset()
+    {
+        $this->asset = $this->getMockForAbstractClass(
+            AbstractAsset::class, ['asset']
+        );
+
+        $this->page = $this->getMockBuilder(AbstractPage::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['assets'])
+            ->getMockForAbstractClass();
+        $this->page->method('assets')->willReturn([$this->asset]);
+        $this->page->__construct();
+    }
+
+    public function testGetAssetDoNotMarkUsageOnAssetByDefault()
+    {
+        $this->initializePageWithAsset();
+
+        $this->page->getAsset('asset');
+
+        $this->assertFalse($this->asset->isUsed());
+    }
+
+    public function testGetAssetDoNotMarkUsageOnAssetWhenSecondArgumentOfGetAssetIsFalse()
+    {
+        $this->initializePageWithAsset();
+
+        $this->page->getAsset('asset', false);
+
+        $this->assertFalse($this->asset->isUsed());
+    }
+
+    public function testGetAssetMarkUsageOnAssetWhenSecondArgumentOfGetAssetIsTrue()
+    {
+        $this->initializePageWithAsset();
+
+        $this->page->getAsset('asset', true);
+
+        $this->assertTrue($this->asset->isUsed());
+    }
 }
