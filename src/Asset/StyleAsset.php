@@ -4,7 +4,7 @@ namespace Andaniel05\ComposedViews\Asset;
 
 use Andaniel05\ComposedViews\HtmlElement\HtmlElement;
 
-class UrlStyleAsset extends AbstractUrlAsset
+class StyleAsset extends AbstractUrlAsset
 {
     public function __construct(string $id, string $url, ?string $minimizedUrl = null, array $dependencies = [], array $groups = [])
     {

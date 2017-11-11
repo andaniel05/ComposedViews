@@ -3,15 +3,15 @@
 namespace Andaniel05\ComposedViews\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Andaniel05\ComposedViews\Asset\UrlStyleAsset;
+use Andaniel05\ComposedViews\Asset\ScriptAsset;
 
-class UrlStyleAssetTest extends TestCase
+class ScriptAssetTest extends TestCase
 {
     public function setUp()
     {
         $id = uniqid();
 
-        $this->asset = new UrlStyleAsset($id, '');
+        $this->asset = new ScriptAsset($id, '');
     }
 
     public function testConstructor()
@@ -22,14 +22,13 @@ class UrlStyleAssetTest extends TestCase
         $deps = range(0, rand(0, 10));
         $groups = range(0, rand(0, 10));
 
-        $asset = new UrlStyleAsset($id, $url, $minimizedUrl, $deps, $groups);
+        $asset = new ScriptAsset($id, $url, $minimizedUrl, $deps, $groups);
 
         $this->assertEquals($id, $asset->getId());
         $this->assertEquals($url, $asset->getUrl());
         $this->assertEquals($minimizedUrl, $asset->getMinimizedUrl());
         $this->assertEquals($deps, $asset->getDependencies());
         $this->assertArraySubset($groups, $asset->getGroups());
-
     }
 
     public function testHasUrlGroupByDefault()
@@ -37,18 +36,18 @@ class UrlStyleAssetTest extends TestCase
         $this->assertTrue($this->asset->inGroup('url'));
     }
 
-    public function testHasStylesGroupByDefault()
+    public function testHasScriptsGroupByDefault()
     {
-        $this->assertTrue($this->asset->inGroup('styles'));
+        $this->assertTrue($this->asset->inGroup('scripts'));
     }
 
     public function testHtml_RenderizeTheMinimizedUrlByDefault()
     {
         $minimizedUrl = uniqid();
-        $asset = new UrlStyleAsset('asset', '', $minimizedUrl);
+        $asset = new ScriptAsset('asset', '', $minimizedUrl);
 
         $this->assertEquals(
-            "<link href=\"$minimizedUrl\" />", $asset->html()
+            "<script src=\"$minimizedUrl\"></script>", $asset->html()
         );
     }
 
@@ -56,21 +55,21 @@ class UrlStyleAssetTest extends TestCase
     {
         $url = uniqid();
         $minimizedUrl = uniqid();
-        $asset = new UrlStyleAsset('asset', $url, $minimizedUrl);
+        $asset = new ScriptAsset('asset', $url, $minimizedUrl);
         $asset->setMinimized(false);
 
         $this->assertEquals(
-            "<link href=\"$url\" />", $asset->html()
+            "<script src=\"$url\"></script>", $asset->html()
         );
     }
 
-    public function testTheHtmlElementTagIsLink()
+    public function testTheHtmlElementTagIsScript()
     {
-        $this->assertEquals('link', $this->asset->getHtmlElement()->getTag());
+        $this->assertEquals('script', $this->asset->getHtmlElement()->getTag());
     }
 
-    public function testTheHtmlElementNotHasEndTag()
+    public function testTheHtmlElementHasEndTag()
     {
-        $this->assertNull($this->asset->getHtmlElement()->getEndTag());
+        $this->assertTrue($this->asset->getHtmlElement()->getEndTag());
     }
 }
