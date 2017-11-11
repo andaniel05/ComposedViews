@@ -3,16 +3,16 @@
 namespace Andaniel05\ComposedViews\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Andaniel05\ComposedViews\Asset\TagStyleAsset;
+use Andaniel05\ComposedViews\Asset\ContentStyleAsset;
 use MatthiasMullie\Minify\CSS as CSSMinimizer;
 
-class TagStyleAssetTest extends TestCase
+class ContentStyleAssetTest extends TestCase
 {
     public function setUp()
     {
         $id = uniqid();
 
-        $this->asset = new TagStyleAsset($id, '');
+        $this->asset = new ContentStyleAsset($id, '');
     }
 
     public function testConstructor()
@@ -22,7 +22,7 @@ class TagStyleAssetTest extends TestCase
         $deps = range(0, rand(0, 10));
         $groups = range(0, rand(0, 10));
 
-        $asset = new TagStyleAsset($id, $content, $deps, $groups);
+        $asset = new ContentStyleAsset($id, $content, $deps, $groups);
 
         $this->assertEquals($id, $asset->getId());
         $this->assertArraySubset($groups, $asset->getGroups());
@@ -30,9 +30,9 @@ class TagStyleAssetTest extends TestCase
         $this->assertEquals($content, $asset->getContent());
     }
 
-    public function testHasTagGroupByDefault()
+    public function testHasContentGroupByDefault()
     {
-        $this->assertTrue($this->asset->inGroup('tag'));
+        $this->assertTrue($this->asset->inGroup('content'));
     }
 
     public function testHasStylesGroupByDefault()
@@ -76,7 +76,7 @@ class TagStyleAssetTest extends TestCase
     public function testHtml_RenderizeTheMinimizedContentByDefault()
     {
         $minimizedContent = uniqid();
-        $asset = new TagStyleAsset('asset', '');
+        $asset = new ContentStyleAsset('asset', '');
         $asset->setMinimizedContent($minimizedContent);
 
         $this->assertXmlStringEqualsXmlString(
@@ -88,7 +88,7 @@ class TagStyleAssetTest extends TestCase
     {
         $content = uniqid();
         $minimizedContent = uniqid();
-        $asset = new TagStyleAsset('asset', $content);
+        $asset = new ContentStyleAsset('asset', $content);
         $asset->setMinimized(false);
         $asset->setMinimizedContent($minimizedContent);
 
@@ -105,7 +105,7 @@ class TagStyleAssetTest extends TestCase
     public function testTheContentOfHtmlElementIsEqualToResultOfGetMinimizedContentByDefault()
     {
         $content = uniqid();
-        $asset = $this->getMockBuilder(TagStyleAsset::class)
+        $asset = $this->getMockBuilder(ContentStyleAsset::class)
             ->disableOriginalConstructor()
             ->setMethods(['getMinimizedContent'])
             ->getMock();
@@ -121,7 +121,7 @@ class TagStyleAssetTest extends TestCase
     public function testTheContentOfHtmlElementIsEqualToResultOfGetContentWhenAssetIsNotMinimized()
     {
         $content = uniqid();
-        $asset = $this->getMockBuilder(TagStyleAsset::class)
+        $asset = $this->getMockBuilder(ContentStyleAsset::class)
             ->disableOriginalConstructor()
             ->setMethods(['getContent'])
             ->getMock();
