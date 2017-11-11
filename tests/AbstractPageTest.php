@@ -1293,4 +1293,32 @@ class AbstractPageTest extends TestCase
 
         $this->assertTrue($this->asset->isUsed());
     }
+
+    public function testThePageAssetsWinsOverTheComponentAssets()
+    {
+        $id = uniqid();
+
+        $componentAsset = $this->createMock(AbstractAsset::class);
+        $componentAsset->method('getId')->willReturn($id);
+
+        $component = $this->getMockBuilder(AbstractComponent::class)
+            ->setConstructorArgs(['component'])
+            ->setMethods(['assets'])
+            ->getMockForAbstractClass();
+        $component->method('assets')->willReturn([$componentAsset]);
+
+        $pageAsset = $this->createMock(AbstractAsset::class);
+        $pageAsset->method('getId')->willReturn($id);
+
+        $page = $this->getMockBuilder(AbstractPage::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['assets', 'sidebars'])
+            ->getMockForAbstractClass();
+        $page->method('assets')->willReturn([$pageAsset]);
+        $page->method('sidebars')->willReturn(['body']);
+        $page->__construct();
+        $page->appendComponent('body', $component);
+
+        $this->assertEquals($pageAsset, $page->getAsset($id));
+    }
 }
