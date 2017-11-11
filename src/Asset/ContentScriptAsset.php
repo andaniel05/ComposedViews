@@ -5,7 +5,7 @@ namespace Andaniel05\ComposedViews\Asset;
 use MatthiasMullie\Minify\JS as JSMinimizer;
 use Andaniel05\ComposedViews\HtmlElement\HtmlElement;
 
-class TagScriptAsset extends AbstractMinimizedAsset
+class ContentScriptAsset extends AbstractMinimizedAsset
 {
     use UpdateHtmlElementTagAssetTrait;
 
@@ -18,7 +18,7 @@ class TagScriptAsset extends AbstractMinimizedAsset
         parent::__construct($id, $dependencies, $groups, $element);
 
         $this->content = $content;
-        $this->addGroup('tag');
+        $this->addGroup('content');
         $this->addGroup('scripts');
     }
 

@@ -3,16 +3,16 @@
 namespace Andaniel05\ComposedViews\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Andaniel05\ComposedViews\Asset\TagScriptAsset;
+use Andaniel05\ComposedViews\Asset\ContentScriptAsset;
 use MatthiasMullie\Minify\JS as JSMinimizer;
 
-class TagScriptAssetTest extends TestCase
+class ContentScriptAssetTest extends TestCase
 {
     public function setUp()
     {
         $id = uniqid();
 
-        $this->asset = new TagScriptAsset($id, '');
+        $this->asset = new ContentScriptAsset($id, '');
     }
 
     public function testConstructor()
@@ -22,7 +22,7 @@ class TagScriptAssetTest extends TestCase
         $deps = range(0, rand(0, 10));
         $groups = range(0, rand(0, 10));
 
-        $asset = new TagScriptAsset($id, $content, $deps, $groups);
+        $asset = new ContentScriptAsset($id, $content, $deps, $groups);
 
         $this->assertEquals($id, $asset->getId());
         $this->assertEquals($content, $asset->getContent());
@@ -30,9 +30,9 @@ class TagScriptAssetTest extends TestCase
         $this->assertArraySubset($groups, $asset->getGroups());
     }
 
-    public function testHasTagGroupByDefault()
+    public function testHasContentGroupByDefault()
     {
-        $this->assertTrue($this->asset->inGroup('tag'));
+        $this->assertTrue($this->asset->inGroup('content'));
     }
 
     public function testHasScriptsGroupByDefault()
@@ -76,7 +76,7 @@ class TagScriptAssetTest extends TestCase
     public function testHtml_RenderizeTheMinimizedContentByDefault()
     {
         $minimizedContent = uniqid();
-        $asset = new TagScriptAsset('asset', '');
+        $asset = new ContentScriptAsset('asset', '');
         $asset->setMinimizedContent($minimizedContent);
 
         $this->assertEquals(
@@ -88,7 +88,7 @@ class TagScriptAssetTest extends TestCase
     {
         $content = uniqid();
         $minimizedContent = uniqid();
-        $asset = new TagScriptAsset('asset', $content);
+        $asset = new ContentScriptAsset('asset', $content);
         $asset->setMinimizedContent($minimizedContent);
         $asset->setMinimized(false);
 
@@ -105,7 +105,7 @@ class TagScriptAssetTest extends TestCase
     public function testTheContentOfHtmlElementIsEqualToResultOfGetMinimizedContentByDefault()
     {
         $content = uniqid();
-        $asset = $this->getMockBuilder(TagScriptAsset::class)
+        $asset = $this->getMockBuilder(ContentScriptAsset::class)
             ->disableOriginalConstructor()
             ->setMethods(['getMinimizedContent'])
             ->getMock();
@@ -121,7 +121,7 @@ class TagScriptAssetTest extends TestCase
     public function testTheContentOfHtmlElementIsEqualToResultOfGetContentWhenAssetIsNotMinimized()
     {
         $content = uniqid();
-        $asset = $this->getMockBuilder(TagScriptAsset::class)
+        $asset = $this->getMockBuilder(ContentScriptAsset::class)
             ->disableOriginalConstructor()
             ->setMethods(['getContent'])
             ->getMock();
