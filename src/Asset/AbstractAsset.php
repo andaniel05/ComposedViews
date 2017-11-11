@@ -15,12 +15,17 @@ abstract class AbstractAsset implements AssetInterface
     protected $used = false;
     protected $page;
 
-    public function __construct(string $id, array $dependencies = [], array $groups = [], HtmlElementInterface $element = null)
+    public function __construct(string $id, array $dependencies = [], $groups = [], HtmlElementInterface $element = null)
     {
         $this->id = $id;
         $this->dependencies = $dependencies;
-        $this->groups = $groups;
         $this->element = $element;
+
+        if (is_array($groups)) {
+            $this->groups = $groups;
+        } elseif (is_string($groups)) {
+            $this->groups = explode(' ', $groups);
+        }
 
         $this->updateHtmlElement();
     }

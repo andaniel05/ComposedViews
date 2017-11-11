@@ -1321,4 +1321,16 @@ class AbstractPageTest extends TestCase
 
         $this->assertEquals($pageAsset, $page->getAsset($id));
     }
+
+    public function testGetAssetsFilterAssetsFromSeveralGroups()
+    {
+        $group = uniqid();
+
+        $scriptAsset = new \Andaniel05\ComposedViews\Asset\ScriptAsset('asset', '');
+        $scriptAsset->addGroup($group);
+
+        $this->page->addAsset($scriptAsset);
+
+        $this->assertContains($scriptAsset, $this->page->getAssets("scripts $group"));
+    }
 }

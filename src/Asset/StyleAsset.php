@@ -13,7 +13,6 @@ class StyleAsset extends AbstractUrlAsset
 
         parent::__construct($id, $url, $minimizedUrl, $dependencies, $groups, $element);
 
-        $this->addGroup('url');
         $this->addGroup('styles');
     }
 

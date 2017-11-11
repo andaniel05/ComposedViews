@@ -154,7 +154,7 @@ abstract class AbstractPage implements PageInterface
         return $asset;
     }
 
-    public function getAssets(?string $group = null, bool $filterUnused = true, bool $markUsage = true): array
+    public function getAssets(?string $groups = null, bool $filterUnused = true, bool $markUsage = true): array
     {
         $result = [];
         $assets = $this->getOrderedAssets();
@@ -167,11 +167,24 @@ abstract class AbstractPage implements PageInterface
             });
         }
 
-        if ( ! $group) {
+        if ( ! $groups) {
             $result = $assets;
         } else {
+
+            $groupList = explode(' ', $groups);
+
             foreach ($assets as $id => $asset) {
-                if ($asset->inGroup($group)) {
+
+                $inGroups = true;
+
+                foreach ($groupList as $group) {
+                    if ( ! $asset->inGroup($group)) {
+                        $inGroups = false;
+                        break;
+                    }
+                }
+
+                if ($inGroups) {
                     $result[$id] = $asset;
                 }
             }
@@ -186,11 +199,11 @@ abstract class AbstractPage implements PageInterface
         return $result;
     }
 
-    public function renderAssets(?string $group = null, bool $filterUnused = true, bool $markUsage = true): string
+    public function renderAssets(?string $groups = null, bool $filterUnused = true, bool $markUsage = true): string
     {
         $result = '';
 
-        $assets = $this->getAssets($group, $filterUnused, $markUsage);
+        $assets = $this->getAssets($groups, $filterUnused, $markUsage);
         foreach ($assets as $asset) {
             $result .= $asset->html() . PHP_EOL;
         }

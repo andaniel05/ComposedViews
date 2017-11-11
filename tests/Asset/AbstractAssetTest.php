@@ -250,4 +250,17 @@ class AbstractAssetTest extends TestCase
 
         $asset->__construct('id', [], [], $dummyElement); // Act
     }
+
+    public function testGroupsMayBeSpecifiedWithAString()
+    {
+        $group1 = uniqid();
+        $group2 = uniqid();
+
+        $asset = $this->getMockForAbstractClass(
+            AbstractAsset::class, ['asset', [], "$group1 $group2"]
+        );
+
+        $this->assertTrue($asset->InGroup($group1));
+        $this->assertTrue($asset->InGroup($group2));
+    }
 }
