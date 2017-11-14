@@ -7,7 +7,7 @@ use Andaniel05\ComposedViews\Asset2\{StyleAsset, UriInterface};
 
 class StyleAssetTest extends TestCase
 {
-    use CommonTrait, StyleImportCommonTrait;
+    use CommonTrait, CommonStyleImportTrait;
 
     public function newInstance(array $args = [])
     {

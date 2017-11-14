@@ -4,7 +4,7 @@ namespace Andaniel05\ComposedViews\Tests\Asset2;
 
 use Andaniel05\ComposedViews\Asset2\UriInterface;
 
-trait StyleImportCommonTrait
+trait CommonStyleImportTrait
 {
     public function testIsInstanceOfUriInterface()
     {
