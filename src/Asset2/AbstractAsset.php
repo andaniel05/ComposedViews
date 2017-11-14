@@ -16,14 +16,14 @@ abstract class AbstractAsset extends HtmlElement implements AssetInterface
         return $this->id;
     }
 
-    public function getDependencies(): array
-    {
-        return $this->dependencies;
-    }
-
     public function getGroups(): array
     {
         return $this->groups;
+    }
+
+    public function setGroups(array $groups)
+    {
+        $this->groups = $groups;
     }
 
     public function hasGroup(string $group): bool
@@ -66,6 +66,16 @@ abstract class AbstractAsset extends HtmlElement implements AssetInterface
     public function setUsed(bool $used)
     {
         $this->used = $used;
+    }
+
+    public function getDependencies(): array
+    {
+        return $this->dependencies;
+    }
+
+    public function setDependencies(array $dependencies)
+    {
+        $this->dependencies = $dependencies;
     }
 
     public function addDependency(string $dependency)

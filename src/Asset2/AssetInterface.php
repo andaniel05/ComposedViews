@@ -8,6 +8,8 @@ interface AssetInterface
 
     public function getGroups(): array;
 
+    public function setGroups(array $groups);
+
     public function addGroup(string $group);
 
     public function hasGroup(string $group): bool;
@@ -15,6 +17,8 @@ interface AssetInterface
     public function deleteGroup(string $group);
 
     public function getDependencies(): array;
+
+    public function setDependencies(array $dependencies);
 
     public function addDependency(string $dependency);
 

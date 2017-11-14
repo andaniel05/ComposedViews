@@ -9,27 +9,28 @@ class ScriptAssetTest extends TestCase
 {
     public function setUp()
     {
-        $this->asset = $this->getInstance();
+        $this->asset = $this->newInstance();
     }
 
-    public function getInstance(array $args = [])
+    public function newInstance(array $args = [])
     {
         $defaults = [
-            'id'   => uniqid(),
-            'uri'  => uniqid(),
-            'deps' => uniqid(),
+            'id'     => uniqid(),
+            'uri'    => uniqid(),
+            'deps'   => uniqid(),
+            'groups' => uniqid(),
         ];
 
         $args = array_merge($defaults, $args);
         extract($args);
 
-        return new ScriptAsset($id, $uri, $deps);
+        return new ScriptAsset($id, $uri, $deps, $groups);
     }
 
     public function testGetIdReturnTheIdArgument()
     {
         $id = uniqid();
-        $asset = $this->getInstance(['id' => $id]);
+        $asset = $this->newInstance(['id' => $id]);
 
         $this->assertEquals($id, $asset->getId());
     }
@@ -38,7 +39,7 @@ class ScriptAssetTest extends TestCase
     {
         $dep1 = uniqid();
 
-        $asset = $this->getInstance(['deps' => $dep1]);
+        $asset = $this->newInstance(['deps' => $dep1]);
 
         $this->assertTrue($asset->hasDependency($dep1));
     }
@@ -61,7 +62,7 @@ class ScriptAssetTest extends TestCase
     public function testSrcAttributeIsEqualToUriArgument()
     {
         $uri = uniqid();
-        $asset = $this->getInstance(['uri' => $uri]);
+        $asset = $this->newInstance(['uri' => $uri]);
 
         $this->assertEquals($uri, $asset->getAttribute('src'));
     }
@@ -85,5 +86,13 @@ class ScriptAssetTest extends TestCase
     public function testIsInstanceOfUriInterface()
     {
         $this->assertInstanceOf(UriInterface::class, $this->asset);
+    }
+
+    public function testInsertGroupsFromGroupsArgument()
+    {
+        $groups = uniqid();
+        $asset = $this->newInstance(['groups' => $groups]);
+
+        $this->assertTrue($asset->hasGroup($groups));
     }
 }

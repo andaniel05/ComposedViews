@@ -234,4 +234,20 @@ class AbstractAssetTest extends TestCase
 
         $this->assertEquals([], $this->asset->getDependencies());
     }
+
+    public function testSetGroupsChangeTheGroupsAttribute()
+    {
+        $groups = range(0, rand(0, 5));
+        $this->asset->setGroups($groups);
+
+        $this->assertEquals($groups, $this->asset->getGroups());
+    }
+
+    public function testSetDependenciesChangeTheDependenciesAttribute()
+    {
+        $deps = range(0, rand(0, 5));
+        $this->asset->setDependencies($deps);
+
+        $this->assertEquals($deps, $this->asset->getDependencies());
+    }
 }
