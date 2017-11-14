@@ -7,10 +7,7 @@ use Andaniel05\ComposedViews\Asset2\{ScriptAsset, UriInterface};
 
 class ScriptAssetTest extends TestCase
 {
-    public function setUp()
-    {
-        $this->asset = $this->newInstance();
-    }
+    use CommonTrait;
 
     public function newInstance(array $args = [])
     {
@@ -25,23 +22,6 @@ class ScriptAssetTest extends TestCase
         extract($args);
 
         return new ScriptAsset($id, $uri, $deps, $groups);
-    }
-
-    public function testGetIdReturnTheIdArgument()
-    {
-        $id = uniqid();
-        $asset = $this->newInstance(['id' => $id]);
-
-        $this->assertEquals($id, $asset->getId());
-    }
-
-    public function testSetDependenciesFromDepsArgument()
-    {
-        $dep1 = uniqid();
-
-        $asset = $this->newInstance(['deps' => $dep1]);
-
-        $this->assertTrue($asset->hasDependency($dep1));
     }
 
     public function testTagIsEqualToScript()
@@ -86,13 +66,5 @@ class ScriptAssetTest extends TestCase
     public function testIsInstanceOfUriInterface()
     {
         $this->assertInstanceOf(UriInterface::class, $this->asset);
-    }
-
-    public function testInsertGroupsFromGroupsArgument()
-    {
-        $groups = uniqid();
-        $asset = $this->newInstance(['groups' => $groups]);
-
-        $this->assertTrue($asset->hasGroup($groups));
     }
 }

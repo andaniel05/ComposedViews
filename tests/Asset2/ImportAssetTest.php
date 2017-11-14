@@ -3,9 +3,9 @@
 namespace Andaniel05\ComposedViews\Tests\Asset2;
 
 use PHPUnit\Framework\TestCase;
-use Andaniel05\ComposedViews\Asset2\{StyleAsset, UriInterface};
+use Andaniel05\ComposedViews\Asset2\{ImportAsset, UriInterface};
 
-class StyleAssetTest extends TestCase
+class ImportAssetTest extends TestCase
 {
     use CommonTrait, StyleImportCommonTrait;
 
@@ -21,11 +21,16 @@ class StyleAssetTest extends TestCase
         $args = array_merge($defaults, $args);
         extract($args);
 
-        return new StyleAsset($id, $uri, $deps, $groups);
+        return new ImportAsset($id, $uri, $deps, $groups);
     }
 
-    public function testHasStylesGroup()
+    public function testHasRelImportAttribute()
     {
-        $this->assertTrue($this->asset->hasGroup('styles'));
+        $this->assertEquals('import', $this->asset->getAttribute('rel'));
+    }
+
+    public function testHasImportsGroup()
+    {
+        $this->assertTrue($this->asset->hasGroup('imports'));
     }
 }
