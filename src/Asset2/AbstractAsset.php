@@ -62,4 +62,41 @@ abstract class AbstractAsset extends HtmlElement implements AssetInterface
     {
         return $this->used;
     }
+
+    public function setUsed(bool $used)
+    {
+        $this->used = $used;
+    }
+
+    public function addDependency(string $dependency)
+    {
+        $deps = explode(' ', $dependency);
+        $this->dependencies = array_merge($this->dependencies, $deps);
+    }
+
+    public function hasDependency(string $dependency): bool
+    {
+        $deps = explode(' ', $dependency);
+        $result = true;
+
+        foreach ($deps as $dep) {
+            if ( ! in_array($dep, $this->dependencies)) {
+                $result = false;
+                break;
+            }
+        }
+
+        return $result;
+    }
+
+    public function deleteDependency(string $dependency)
+    {
+        $deps = explode(' ', $dependency);
+        foreach ($deps as $dep) {
+            $id = array_search($dep, $this->dependencies);
+            if (false !== $id) {
+                unset($this->dependencies[$id]);
+            }
+        }
+    }
 }

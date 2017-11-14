@@ -60,6 +60,14 @@ class AbstractAssetTest extends TestCase
         $this->assertFalse($this->asset->isUsed());
     }
 
+    public function testSetUsed()
+    {
+        $used = (bool) rand(0, 1);
+        $this->asset->setUsed($used);
+
+        $this->assertAttributeEquals($used, 'used', $this->asset);
+    }
+
     public function testHasNotDependenciesByDefault()
     {
         $this->assertEmpty($this->asset->getDependencies());
@@ -118,6 +126,15 @@ class AbstractAssetTest extends TestCase
         $this->assertTrue($this->asset->hasGroup($this->group2));
     }
 
+    public function testHasGroupReturnTrueIfCheckedGroupsAreInTheArray()
+    {
+        $this->addTwoGroups();
+
+        $this->assertTrue(
+            $this->asset->hasGroup("{$this->group1} {$this->group2}")
+        );
+    }
+
     public function testHasGroupReturnFalseIfAtLeastOneGroupIsNotInAsset()
     {
         $this->addTwoGroups();
@@ -137,5 +154,84 @@ class AbstractAssetTest extends TestCase
 
         $this->assertFalse($this->asset->hasGroup($this->group1));
         $this->assertFalse($this->asset->hasGroup($this->group2));
+    }
+
+    public function testAddDependencyInsertTheDepencendyInTheDependenciesArray()
+    {
+        $dependency = uniqid();
+        $this->asset->addDependency($dependency);
+
+        $this->assertAttributeContains($dependency, 'dependencies', $this->asset);
+    }
+
+    public function testHasDependencyReturnFalseWhenDependencyNotExists()
+    {
+        $this->assertFalse($this->asset->hasDependency(uniqid()));
+    }
+
+    public function testHasDependencyReturnTrueWhenDependencyIsInDependenciesArray()
+    {
+        $dep = uniqid();
+        setAttr([$dep], 'dependencies', $this->asset);
+
+        $this->assertTrue($this->asset->hasDependency($dep));
+    }
+
+    public function testDeleteDependencyDeleteTheValueFromDependencyArray()
+    {
+        $dep = uniqid();
+        setAttr([$dep], 'dependencies', $this->asset);
+
+        $this->asset->deleteDependency($dep);
+
+        $this->assertFalse($this->asset->hasDependency($dep));
+    }
+
+    public function testAddDepencencyCanAddSeveralDependencies()
+    {
+        $dep1 = uniqid();
+        $dep2 = uniqid();
+
+        $this->asset->addDependency("{$dep1} {$dep2}");
+
+        $this->assertTrue($this->asset->hasDependency($dep1));
+        $this->assertTrue($this->asset->hasDependency($dep2));
+    }
+
+    public function addTwoDependencies()
+    {
+        $this->dep1 = uniqid();
+        $this->dep2 = uniqid();
+
+        $this->asset->addDependency("{$this->dep1} {$this->dep2}");
+    }
+
+    public function testHasDependencyReturnTrueIfAllCheckedDepsAreRegistered()
+    {
+        $this->addTwoDependencies();
+
+        $this->assertTrue(
+            $this->asset->hasDependency("{$this->dep1} {$this->dep2}")
+        );
+    }
+
+    public function testHasDependencyReturnFalseIfAtLeatOneDepIsNotRegistered()
+    {
+        $this->addTwoDependencies();
+
+        $dep3 = uniqid();
+
+        $this->assertFalse(
+            $this->asset->hasDependency("$dep3 {$this->dep2}")
+        );
+    }
+
+    public function testDeleteDependencyCanDeleteSeveralDependencies()
+    {
+        $this->addTwoDependencies();
+
+        $this->asset->deleteDependency("{$this->dep1} {$this->dep2}");
+
+        $this->assertEquals([], $this->asset->getDependencies());
     }
 }
