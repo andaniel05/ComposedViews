@@ -50,8 +50,8 @@ abstract class AbstractAsset extends HtmlElement implements AssetInterface
     public function deleteGroup(string $group)
     {
         $groups = explode(' ', $group);
-        foreach ($groups as $g) {
-            $id = array_search($g, $this->groups);
+        foreach ($groups as $group) {
+            $id = array_search($group, $this->groups);
             if (false !== $id) {
                 unset($this->groups[$id]);
             }

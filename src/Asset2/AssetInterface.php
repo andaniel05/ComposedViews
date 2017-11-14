@@ -10,7 +10,7 @@ interface AssetInterface
 
     public function addGroup(string $group);
 
-    public function inGroup(string $group): bool;
+    public function hasGroup(string $group): bool;
 
     public function deleteGroup(string $group);
 
