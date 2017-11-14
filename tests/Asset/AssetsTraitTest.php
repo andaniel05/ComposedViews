@@ -42,8 +42,9 @@ class AssetsTraitTest extends TestCase
     public function testInitializeAssets_1()
     {
         $asset1Id = uniqid();
-        $asset1 = $this->getMockForAbstractClass(AbstractAsset::class);
-        setAttr($asset1Id, 'id', $asset1);
+        $asset1 = $this->getMockForAbstractClass(
+            AbstractAsset::class, [$asset1Id]
+        );
 
         $def = [$asset1];
         $trait = $this->getTrait($def);
@@ -55,8 +56,9 @@ class AssetsTraitTest extends TestCase
     public function testInitializeAssets_2()
     {
         $asset1Id = uniqid();
-        $asset1 = $this->getMockForAbstractClass(AbstractAsset::class);
-        setAttr($asset1Id, 'id', $asset1);
+        $asset1 = $this->getMockForAbstractClass(
+            AbstractAsset::class, [$asset1Id]
+        );
         $group1 = uniqid();
 
         $def = [$group1 => [$asset1]];
