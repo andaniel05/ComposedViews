@@ -1,6 +1,6 @@
 <?php
 
-namespace Andaniel05\ComposedViews\Tests\Asset2;
+namespace Andaniel05\ComposedViews\Tests\Asset;
 
 trait CommonTrait
 {

@@ -1,63 +1,36 @@
 <?php
 
-namespace Andaniel05\ComposedViews\Tests;
+namespace Andaniel05\ComposedViews\Tests\Asset;
 
 use PHPUnit\Framework\TestCase;
-use Andaniel05\ComposedViews\Asset\ImportAsset;
+use Andaniel05\ComposedViews\Asset\{ImportAsset, UriInterface};
 
 class ImportAssetTest extends TestCase
 {
-    public function setUp()
-    {
-        $id = uniqid();
+    use CommonTrait, CommonStyleImportTrait;
 
-        $this->asset = new ImportAsset($id, '');
+    public function newInstance(array $args = [])
+    {
+        $defaults = [
+            'id'     => uniqid(),
+            'uri'    => uniqid(),
+            'deps'   => uniqid(),
+            'groups' => uniqid(),
+        ];
+
+        $args = array_merge($defaults, $args);
+        extract($args);
+
+        return new ImportAsset($id, $uri, $deps, $groups);
     }
 
-    public function testConstructor()
+    public function testHasRelImportAttribute()
     {
-        $id = uniqid();
-        $url = uniqid();
-        $deps = range(0, rand(0, 10));
-        $groups = range(0, rand(0, 10));
-
-        $asset = new ImportAsset($id, $url, $deps, $groups);
-
-        $this->assertEquals($id, $asset->getId());
-        $this->assertEquals($url, $asset->getUrl());
-        $this->assertEquals($deps, $asset->getDependencies());
-        $this->assertArraySubset($groups, $asset->getGroups());
+        $this->assertEquals('import', $this->asset->getAttribute('rel'));
     }
 
-    public function testHasImportsGroupByDefault()
+    public function testHasImportsGroup()
     {
-        $this->assertTrue($this->asset->inGroup('imports'));
-    }
-
-    public function testTheHtmlElementTagIsLink()
-    {
-        $this->assertEquals('link', $this->asset->getHtmlElement()->getTag());
-    }
-
-    public function testTheHtmlElementNotHasEndTag()
-    {
-        $this->assertFalse($this->asset->getHtmlElement()->getEndTag());
-    }
-
-    public function testTheHtmlElementHasHrefAttributeWithValueEqualToUrlArgument()
-    {
-        $url = uniqid();
-        $asset = new ImportAsset('id', $url);
-
-        $this->assertEquals(
-            $url, $asset->getHtmlElement()->getAttribute('href')
-        );
-    }
-
-    public function testRelAttributeIsImport()
-    {
-        $this->assertEquals(
-            'import', $this->asset->getHtmlElement()->getAttribute('rel')
-        );
+        $this->assertTrue($this->asset->hasGroup('imports'));
     }
 }

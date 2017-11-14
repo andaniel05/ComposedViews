@@ -2,23 +2,24 @@
 
 namespace Andaniel05\ComposedViews\Asset;
 
-use Andaniel05\ComposedViews\HtmlElement\HtmlElement;
-
-class StyleAsset extends AbstractUrlAsset
+class StyleAsset extends AbstractAsset implements UriInterface
 {
-    public function __construct(string $id, string $url, ?string $minimizedUrl = null, array $dependencies = [], array $groups = [])
+    public function __construct(string $id, string $uri, string $dependencies = '', string $groups = '')
     {
-        $element = new HtmlElement('link');
-        $element->setEndTag(null);
+        $this->id = $id;
+        $this->addDependency($dependencies);
+        $this->addGroup("styles uri {$groups}");
 
-        parent::__construct($id, $url, $minimizedUrl, $dependencies, $groups, $element);
-
-        $this->addGroup('styles');
+        parent::__construct('link', ['href' => $uri], [], false);
     }
 
-    public function updateHtmlElement()
+    public function getUri(): string
     {
-        $href = $this->minimized ? $this->getMinimizedUrl() : $this->getUrl();
-        $this->element->setAttribute('href', $href);
+        return $this->getAttribute('href');
+    }
+
+    public function setUri(string $uri)
+    {
+        $this->setAttribute('href', $uri);
     }
 }

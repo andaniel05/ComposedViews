@@ -311,7 +311,7 @@ class AbstractPageTest extends TestCase
         $def = [
             'styles' => [
                 $this->getMockForAbstractClass(AbstractAsset::class, ['asset1']),
-                $this->getMockForAbstractClass(AbstractAsset::class, ['asset2']),
+                $this->getMockForAbstractClass(AbstractAsset::class, ['Asset']),
             ],
             'scripts' => [
                 $this->getMockForAbstractClass(AbstractAsset::class, ['asset3']),
@@ -490,13 +490,13 @@ class AbstractPageTest extends TestCase
             AbstractAsset::class, ['asset1', [], ['group1']]
         );
 
-        $asset2 = $this->getMockForAbstractClass(
-            AbstractAsset::class, ['asset2', [], ['group2']]
+        $Asset = $this->getMockForAbstractClass(
+            AbstractAsset::class, ['Asset', [], ['group2']]
         );
 
         return [
             [array('asset1' => $asset1)],
-            [array('asset2' => $asset2)]
+            [array('Asset' => $Asset)]
         ];
     }
 
@@ -558,11 +558,11 @@ class AbstractPageTest extends TestCase
         $this->asset1 = $this->getMockForAbstractClass(
             AbstractAsset::class, ['asset1', [], ['group']]
         );
-        $this->asset2 = $this->getMockForAbstractClass(
-            AbstractAsset::class, ['asset2', ['asset1'], ['group']]
+        $this->Asset = $this->getMockForAbstractClass(
+            AbstractAsset::class, ['Asset', ['asset1'], ['group']]
         );
         $this->asset3 = $this->getMockForAbstractClass(
-            AbstractAsset::class, ['asset3', ['asset2'], ['group']]
+            AbstractAsset::class, ['asset3', ['Asset'], ['group']]
         );
         $this->asset4 = $this->getMockForAbstractClass(
             AbstractAsset::class, ['asset4', ['asset3'], ['group']]
@@ -573,7 +573,7 @@ class AbstractPageTest extends TestCase
 
         $this->assets = [
             'asset1' => $this->asset1,
-            'asset2' => $this->asset2,
+            'Asset' => $this->Asset,
             'asset3' => $this->asset3,
             'asset4' => $this->asset4,
             'asset5' => $this->asset5,
@@ -587,7 +587,7 @@ class AbstractPageTest extends TestCase
         return [
             [[
                 'asset1' => $this->asset1,
-                'asset2' => $this->asset2,
+                'Asset' => $this->Asset,
                 'asset3' => $this->asset3,
                 'asset4' => $this->asset4,
                 'asset5' => $this->asset5,
@@ -597,13 +597,13 @@ class AbstractPageTest extends TestCase
                 'asset1' => $this->asset1,
                 'asset5' => $this->asset5,
                 'asset4' => $this->asset4,
-                'asset2' => $this->asset2,
+                'Asset' => $this->Asset,
             ]],
             [[
                 'asset5' => $this->asset5,
                 'asset4' => $this->asset4,
                 'asset3' => $this->asset3,
-                'asset2' => $this->asset2,
+                'Asset' => $this->Asset,
                 'asset1' => $this->asset1,
             ]],
         ];
@@ -625,7 +625,7 @@ class AbstractPageTest extends TestCase
         $keys = array_keys($page->getOrderedAssets());
 
         $this->assertEquals('asset1', $keys[0]);
-        $this->assertEquals('asset2', $keys[1]);
+        $this->assertEquals('Asset', $keys[1]);
         $this->assertEquals('asset3', $keys[2]);
         $this->assertEquals('asset4', $keys[3]);
         $this->assertEquals('asset5', $keys[4]);
@@ -635,7 +635,7 @@ class AbstractPageTest extends TestCase
     {
         $this->initializeAssetsForOrderingTest();
 
-        $this->asset2->setUsed(true);
+        $this->Asset->setUsed(true);
         $this->asset3->setUsed(true);
 
         $this->page = $this->getMockBuilder(AbstractPage::class)
@@ -664,7 +664,7 @@ class AbstractPageTest extends TestCase
 
         $expected = [
             'asset1' => $this->asset1,
-            'asset2' => $this->asset2,
+            'Asset' => $this->Asset,
             'asset3' => $this->asset3,
             'asset4' => $this->asset4,
             'asset5' => $this->asset5,
@@ -876,7 +876,7 @@ class AbstractPageTest extends TestCase
     public function testGetAssetsThrowAssetNotFoundExceptionWhenADependencyDoesNotFind()
     {
         $assets = [
-            $this->getMockForAbstractClass(AbstractAsset::class, ['asset1', ['asset2']])
+            $this->getMockForAbstractClass(AbstractAsset::class, ['asset1', ['Asset']])
         ];
 
         $page = $this->getMockBuilder(AbstractPage::class)
@@ -1139,11 +1139,11 @@ class AbstractPageTest extends TestCase
         $html1 = uniqid();
         $html2 = uniqid();
         $asset1 = $this->createMock(AbstractAsset::class, ['asset1']);
-        $asset2 = $this->createMock(AbstractAsset::class, ['asset2']);
-        $assets = [$asset1, $asset2];
+        $Asset = $this->createMock(AbstractAsset::class, ['Asset']);
+        $assets = [$asset1, $Asset];
 
         $asset1->method('html')->willReturn($html1);
-        $asset2->method('html')->willReturn($html2);
+        $Asset->method('html')->willReturn($html2);
 
         $page = $this->getMockBuilder(AbstractPage::class)
             ->setMethods(['getAssets'])

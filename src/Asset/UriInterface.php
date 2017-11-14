@@ -1,6 +1,6 @@
 <?php
 
-namespace Andaniel05\ComposedViews\Asset2;
+namespace Andaniel05\ComposedViews\Asset;
 
 interface UriInterface
 {

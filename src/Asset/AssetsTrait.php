@@ -25,7 +25,7 @@ trait AssetsTrait
                     $asset = $value;
 
                     if ( ! empty($groups)) {
-                        $asset->addGroups($groups);
+                        $asset->addGroup($groups);
                     }
 
                     $this->assets[$asset->getId()] = $asset;

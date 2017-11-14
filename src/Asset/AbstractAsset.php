@@ -2,33 +2,14 @@
 
 namespace Andaniel05\ComposedViews\Asset;
 
-use Andaniel05\ComposedViews\PageInterface;
-use Andaniel05\ComposedViews\HtmlElement\HtmlElementInterface;
+use Andaniel05\ComposedViews\HtmlElement\HtmlElement;
 
-abstract class AbstractAsset implements AssetInterface
+abstract class AbstractAsset extends HtmlElement implements AssetInterface
 {
     protected $id;
     protected $dependencies = [];
     protected $groups = [];
-    protected $element;
-    protected $content;
     protected $used = false;
-    protected $page;
-
-    public function __construct(string $id, array $dependencies = [], $groups = [], HtmlElementInterface $element = null)
-    {
-        $this->id = $id;
-        $this->dependencies = $dependencies;
-        $this->element = $element;
-
-        if (is_array($groups)) {
-            $this->groups = $groups;
-        } elseif (is_string($groups)) {
-            $this->groups = explode(' ', $groups);
-        }
-
-        $this->updateHtmlElement();
-    }
 
     public function getId(): string
     {
@@ -40,31 +21,18 @@ abstract class AbstractAsset implements AssetInterface
         return $this->groups;
     }
 
-    public function addGroup(string $group)
+    public function setGroups(array $groups)
     {
-        $this->groups[] = $group;
+        $this->groups = $groups;
     }
 
-    public function addGroups(string $groups)
+    public function hasGroup(string $group): bool
     {
-        $parts = explode(' ', $groups);
-        foreach ($parts as $group) {
-            $this->addGroup($group);
-        }
-    }
-
-    public function inGroup(string $group): bool
-    {
-        return in_array($group, $this->groups);
-    }
-
-    public function inGroups(string $groups): bool
-    {
+        $groups = explode(' ', $group);
         $result = true;
 
-        $parts = explode(' ', $groups);
-        foreach ($parts as $group) {
-            if ( ! $this->inGroup($group)) {
+        foreach ($groups as $g) {
+            if ( ! in_array($g, $this->groups)) {
                 $result = false;
                 break;
             }
@@ -73,47 +41,21 @@ abstract class AbstractAsset implements AssetInterface
         return $result;
     }
 
-    public function removeGroup(string $group)
+    public function addGroup(string $group)
     {
-        $id = array_search($group, $this->groups);
+        $groups = explode(' ', $group);
+        $this->groups = array_merge($this->groups, $groups);
+    }
 
-        if (false !== $id) {
-            unset($this->groups[$id]);
+    public function deleteGroup(string $group)
+    {
+        $groups = explode(' ', $group);
+        foreach ($groups as $group) {
+            $id = array_search($group, $this->groups);
+            if (false !== $id) {
+                unset($this->groups[$id]);
+            }
         }
-    }
-
-    public function getDependencies(): array
-    {
-        return $this->dependencies;
-    }
-
-    public function addDependency(string $dependency)
-    {
-        $this->dependencies[] = $dependency;
-    }
-
-    public function hasDependency(string $dependency): bool
-    {
-        return in_array($dependency, $this->dependencies);
-    }
-
-    public function removeDependency(string $dependency)
-    {
-        $id = array_search($dependency, $this->dependencies);
-
-        if (false !== $id) {
-            unset($this->dependencies[$id]);
-        }
-    }
-
-    public function getContent(): ?string
-    {
-        return $this->content;
-    }
-
-    public function setContent(?string $content)
-    {
-        $this->content = $content;
     }
 
     public function isUsed(): bool
@@ -126,32 +68,45 @@ abstract class AbstractAsset implements AssetInterface
         $this->used = $used;
     }
 
-    public function getPage(): ?PageInterface
+    public function getDependencies(): array
     {
-        return $this->page;
+        return $this->dependencies;
     }
 
-    public function setPage(?PageInterface $page)
+    public function setDependencies(array $dependencies)
     {
-        $this->page = $page;
+        $this->dependencies = $dependencies;
     }
 
-    public function getHtmlElement(): HtmlElementInterface
+    public function addDependency(string $dependency)
     {
-        return $this->element;
+        $deps = explode(' ', $dependency);
+        $this->dependencies = array_merge($this->dependencies, $deps);
     }
 
-    public function setHtmlElement(HtmlElementInterface $element)
+    public function hasDependency(string $dependency): bool
     {
-        $this->element = $element;
+        $deps = explode(' ', $dependency);
+        $result = true;
+
+        foreach ($deps as $dep) {
+            if ( ! in_array($dep, $this->dependencies)) {
+                $result = false;
+                break;
+            }
+        }
+
+        return $result;
     }
 
-    public function html(): ?string
+    public function deleteDependency(string $dependency)
     {
-        $this->updateHtmlElement();
-
-        return $this->element->html();
+        $deps = explode(' ', $dependency);
+        foreach ($deps as $dep) {
+            $id = array_search($dep, $this->dependencies);
+            if (false !== $id) {
+                unset($this->dependencies[$id]);
+            }
+        }
     }
-
-    abstract public function updateHtmlElement();
 }

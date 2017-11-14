@@ -1,266 +1,253 @@
 <?php
 
-namespace Andaniel05\ComposedViews\Tests;
+namespace Andaniel05\ComposedViews\Tests\Asset;
 
 use PHPUnit\Framework\TestCase;
-use Andaniel05\ComposedViews\AbstractPage;
-use Andaniel05\ComposedViews\Asset\AbstractAsset;
-use Andaniel05\ComposedViews\HtmlElement\HtmlElementInterface;
+use Andaniel05\ComposedViews\Asset\{AbstractAsset, AssetInterface};
+use Andaniel05\ComposedViews\HtmlElement\HtmlElement;
 
 class AbstractAssetTest extends TestCase
 {
     public function setUp()
     {
-        $id = uniqid();
-
-        $this->asset = $this->getMockForAbstractClass(AbstractAsset::class, [$id]);
+        $this->asset = $this->getMockForAbstractClass(AbstractAsset::class);
     }
 
-    public function testConstructor()
+    public function testIsInstanceOfAssetInterface()
+    {
+        $this->assertInstanceOf(AssetInterface::class, $this->asset);
+    }
+
+    public function testIsInstanceOfHtmlElement()
+    {
+        $this->assertInstanceOf(HtmlElement::class, $this->asset);
+    }
+
+    public function testGetId()
     {
         $id = uniqid();
-        $deps = range(0, rand(0, 10));
-        $groups = range(0, rand(0, 10));
+        setAttr($id, 'id', $this->asset);
 
-        $asset = $this->getMockForAbstractClass(
-            AbstractAsset::class, [$id, $deps, $groups]
-        );
-
-        $this->assertEquals($id, $asset->getId());
-        $this->assertEquals($deps, $asset->getDependencies());
-        $this->assertEquals($groups, $asset->getGroups());
+        $this->assertEquals($id, $this->asset->getId());
     }
 
-    public function testGetId_ReturnTheIdArgument()
+    public function testGetDependencies()
     {
-        $id = uniqid();
+        $dependencies = range(0, rand(0, 5));
+        setAttr($dependencies, 'dependencies', $this->asset);
 
-        $asset = $this->getMockForAbstractClass(AbstractAsset::class, [$id]);
-
-        $this->assertEquals($id, $asset->getId());
+        $this->assertEquals($dependencies, $this->asset->getDependencies());
     }
 
-    public function testGetGroups_ReturnAnEmptyArrayByDefault()
+    public function testGetGroups()
     {
-        $this->assertEquals([], $this->asset->getGroups());
+        $groups = range(0, rand(0, 5));
+        setAttr($groups, 'groups', $this->asset);
+
+        $this->assertEquals($groups, $this->asset->getGroups());
     }
 
-    public function testGetGroups_ReturnAnArrayWithAllInsertedGroups()
+    public function testIsUsedReturnTheUsedAttribute()
     {
-        $group = uniqid();
+        $used = (bool) rand(0, 1);
+        setAttr($used, 'used', $this->asset);
 
-        $this->asset->addGroup($group);
-
-        $this->assertContains($group, $this->asset->getGroups());
+        $this->assertEquals($used, $this->asset->isUsed());
     }
 
-    public function testInGroup_ReturnFalseIfAssetIsNotInGroup()
-    {
-        $group = uniqid();
-
-        $this->assertFalse($this->asset->inGroup($group));
-    }
-
-    public function testInGroup_ReturnTrueWhenAssetIsInGroup()
-    {
-        $group = uniqid();
-
-        $this->asset->addGroup($group);
-
-        $this->assertTrue($this->asset->inGroup($group));
-    }
-
-    public function testRemoveGroup_RemoveTheGroupFromTheAsset()
-    {
-        $group = uniqid();
-        $this->asset->addGroup($group);
-
-        $this->asset->removeGroup($group);
-
-        $this->assertEquals([], $this->asset->getGroups());
-    }
-
-    public function testGetDependencies_ReturnAnEmptyArrayByDefault()
-    {
-        $this->assertEquals([], $this->asset->getDependencies());
-    }
-
-    public function testGetDependencies_ReturnAnArrayWithAllDefinedDependencies()
-    {
-        $dependency = uniqid();
-        $this->asset->addDependency($dependency);
-
-        $this->assertContains($dependency, $this->asset->getDependencies());
-    }
-
-    public function testHasDependency_ReturnFalseIfAssetNotHasDefinedTheDependency()
-    {
-        $dependency = uniqid();
-
-        $this->assertFalse($this->asset->hasDependency($dependency));
-    }
-
-    public function testHasDependency_ReturnTrueIfAssetHasTheDependency()
-    {
-        $dependency = uniqid();
-
-        $this->asset->addDependency($dependency);
-
-        $this->assertTrue($this->asset->hasDependency($dependency));
-    }
-
-    public function testRemoveDependency()
-    {
-        $dependency = uniqid();
-        $this->asset->addDependency($dependency);
-
-        $this->asset->removeDependency($dependency);
-
-        $this->assertFalse($this->asset->hasDependency($dependency));
-    }
-
-    public function testGetContent_ReturnNullByDefault()
-    {
-        $this->assertNull($this->asset->getContent());
-    }
-
-    public function testGetContent_ReturnValueInsertedBySetContent()
-    {
-        $content = uniqid();
-        $this->asset->setContent($content);
-
-        $this->assertEquals($content, $this->asset->getContent());
-    }
-
-    public function testIsUsed_ReturnFalseByDefault()
+    public function testIsNotUsedByDefault()
     {
         $this->assertFalse($this->asset->isUsed());
     }
 
-    public function testIsUsed_ReturnInsertedValueBySetUsed()
+    public function testSetUsed()
     {
-        $this->asset->setUsed(true);
+        $used = (bool) rand(0, 1);
+        $this->asset->setUsed($used);
 
-        $this->assertTrue($this->asset->isUsed());
+        $this->assertAttributeEquals($used, 'used', $this->asset);
     }
 
-    public function testGetPage_ReturnNullByDefault()
+    public function testHasNotDependenciesByDefault()
     {
-        $this->assertNull($this->asset->getPage());
+        $this->assertEmpty($this->asset->getDependencies());
     }
 
-    public function testGetPage_ReturnPageInsertedBySetPage()
+    public function testAddGroupInsertTheGroupInTheGroupsArray()
     {
-        $page = $this->createMock(AbstractPage::class);
-        $this->asset->setPage($page);
+        $group = uniqid();
+        $this->asset->addGroup($group);
 
-        $this->assertEquals($page, $this->asset->getPage());
+        $this->assertAttributeContains($group, 'groups', $this->asset);
     }
 
-    public function testAddGroups_InsertSeveralGroups()
+    public function testHasNotGroupsByDefault()
     {
-        $group1 = uniqid();
-        $group2 = uniqid();
-
-        $this->asset->addGroups("$group1 $group2");
-
-        $this->assertTrue($this->asset->inGroup($group1));
-        $this->assertTrue($this->asset->inGroup($group2));
+        $this->assertEmpty($this->asset->getGroups());
     }
 
-    public function testInGroups_ReturnTrueWhenAssetIsInAllSpecifiedGroups()
+    public function testHasGroupReturnFalseWhenAssetHasNotTheGroup()
     {
-        $group1 = uniqid();
-        $group2 = uniqid();
-
-        $this->asset->addGroup($group1);
-        $this->asset->addGroup($group2);
-
-        $this->assertTrue($this->asset->inGroups("$group1 $group2"));
+        $group = uniqid();
+        $this->assertFalse($this->asset->hasGroup($group));
     }
 
-    public function testInGroups_ReturnFalseIfAssetIsNotInAllSpecifiedGroups()
+    public function testHasGroupReturnTrueWhenGroupsAttributeContainsTheGroup()
     {
-        $group1 = uniqid();
-        $group2 = uniqid();
+        $group = uniqid();
+        setAttr([$group], 'groups', $this->asset);
 
-        $this->asset->addGroup($group1);
-        $this->asset->addGroup($group2);
-
-        $this->assertFalse($this->asset->inGroups("$group1 group3"));
+        $this->assertTrue($this->asset->hasGroup($group));
     }
 
-    public function testGetHtmlElement_ReturnTheElementArgument()
+    public function testDeleteGroupDeleteTheGroupFromGroupsAttribute()
     {
-        $elem = $this->createMock(HtmlElementInterface::class);
+        $group = uniqid();
+        setAttr([$group], 'groups', $this->asset);
 
-        $asset = $this->getMockForAbstractClass(
-            AbstractAsset::class, ['id', [], [], $elem]
+        $this->asset->deleteGroup($group);
+
+        $this->assertAttributeNotContains($group, 'groups', $this->asset);
+    }
+
+    public function addTwoGroups()
+    {
+        $this->group1 = uniqid();
+        $this->group2 = uniqid();
+
+        $this->asset->addGroup("{$this->group1} {$this->group2}");
+    }
+
+    public function testAddGroupCanInsertSeveralGroups()
+    {
+        $this->addTwoGroups();
+
+        $this->assertTrue($this->asset->hasGroup($this->group1));
+        $this->assertTrue($this->asset->hasGroup($this->group2));
+    }
+
+    public function testHasGroupReturnTrueIfCheckedGroupsAreInTheArray()
+    {
+        $this->addTwoGroups();
+
+        $this->assertTrue(
+            $this->asset->hasGroup("{$this->group1} {$this->group2}")
         );
-
-        $this->assertEquals($elem, $asset->getHtmlElement());
     }
 
-    public function testGetHtmlElement_ReturnInsertedValueBySetHtmlElement()
+    public function testHasGroupReturnFalseIfAtLeastOneGroupIsNotInAsset()
     {
-        $elem = $this->createMock(HtmlElementInterface::class);
-        $asset = $this->getMockForAbstractClass(AbstractAsset::class, ['id', [], []]);
+        $this->addTwoGroups();
 
-        $asset->setHtmlElement($elem);
+        $group3 = uniqid();
 
-        $this->assertEquals($elem, $asset->getHtmlElement());
-    }
-
-    public function testHtml_InvokeUpdateHtmlElement()
-    {
-        $dummyElement = $this->createMock(HtmlElementInterface::class);
-
-        $asset = $this->getMockBuilder(AbstractAsset::class)
-            ->setConstructorArgs(['id', [], [], $dummyElement])
-            ->setMethods(['updateHtmlElement'])
-            ->getMockForAbstractClass();
-        $asset->expects($this->once())
-            ->method('updateHtmlElement');
-
-        $asset->html();
-    }
-
-    public function testHtml_ReturnResultOfHtmlFromHtmlElement()
-    {
-        $html = uniqid();
-        $elem = $this->createMock(HtmlElementInterface::class);
-        $elem->method('html')->willReturn($html);
-
-        $asset = $this->getMockForAbstractClass(
-            AbstractAsset::class, ['id', [], [], $elem]
+        $this->assertFalse(
+            $this->asset->hasGroup("$group3 {$this->group2}")
         );
-
-        $this->assertEquals($html, $asset->html());
     }
 
-    public function testUpdateHtmlElement_IsInvokedInTheConstructor()
+    public function testDeleteGroupCanDeleteSeveralGroups()
     {
-        $dummyElement = $this->createMock(HtmlElementInterface::class);
-        $asset = $this->getMockBuilder(AbstractAsset::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['updateHtmlElement'])
-            ->getMockForAbstractClass();
-        $asset->expects($this->once())
-            ->method('updateHtmlElement');
+        $this->addTwoGroups();
 
-        $asset->__construct('id', [], [], $dummyElement); // Act
+        $this->asset->deleteGroup("{$this->group1} {$this->group2}");
+
+        $this->assertFalse($this->asset->hasGroup($this->group1));
+        $this->assertFalse($this->asset->hasGroup($this->group2));
     }
 
-    public function testGroupsMayBeSpecifiedWithAString()
+    public function testAddDependencyInsertTheDepencendyInTheDependenciesArray()
     {
-        $group1 = uniqid();
-        $group2 = uniqid();
+        $dependency = uniqid();
+        $this->asset->addDependency($dependency);
 
-        $asset = $this->getMockForAbstractClass(
-            AbstractAsset::class, ['asset', [], "$group1 $group2"]
+        $this->assertAttributeContains($dependency, 'dependencies', $this->asset);
+    }
+
+    public function testHasDependencyReturnFalseWhenDependencyNotExists()
+    {
+        $this->assertFalse($this->asset->hasDependency(uniqid()));
+    }
+
+    public function testHasDependencyReturnTrueWhenDependencyIsInDependenciesArray()
+    {
+        $dep = uniqid();
+        setAttr([$dep], 'dependencies', $this->asset);
+
+        $this->assertTrue($this->asset->hasDependency($dep));
+    }
+
+    public function testDeleteDependencyDeleteTheValueFromDependencyArray()
+    {
+        $dep = uniqid();
+        setAttr([$dep], 'dependencies', $this->asset);
+
+        $this->asset->deleteDependency($dep);
+
+        $this->assertFalse($this->asset->hasDependency($dep));
+    }
+
+    public function testAddDepencencyCanAddSeveralDependencies()
+    {
+        $dep1 = uniqid();
+        $dep2 = uniqid();
+
+        $this->asset->addDependency("{$dep1} {$dep2}");
+
+        $this->assertTrue($this->asset->hasDependency($dep1));
+        $this->assertTrue($this->asset->hasDependency($dep2));
+    }
+
+    public function addTwoDependencies()
+    {
+        $this->dep1 = uniqid();
+        $this->dep2 = uniqid();
+
+        $this->asset->addDependency("{$this->dep1} {$this->dep2}");
+    }
+
+    public function testHasDependencyReturnTrueIfAllCheckedDepsAreRegistered()
+    {
+        $this->addTwoDependencies();
+
+        $this->assertTrue(
+            $this->asset->hasDependency("{$this->dep1} {$this->dep2}")
         );
+    }
 
-        $this->assertTrue($asset->InGroup($group1));
-        $this->assertTrue($asset->InGroup($group2));
+    public function testHasDependencyReturnFalseIfAtLeatOneDepIsNotRegistered()
+    {
+        $this->addTwoDependencies();
+
+        $dep3 = uniqid();
+
+        $this->assertFalse(
+            $this->asset->hasDependency("$dep3 {$this->dep2}")
+        );
+    }
+
+    public function testDeleteDependencyCanDeleteSeveralDependencies()
+    {
+        $this->addTwoDependencies();
+
+        $this->asset->deleteDependency("{$this->dep1} {$this->dep2}");
+
+        $this->assertEquals([], $this->asset->getDependencies());
+    }
+
+    public function testSetGroupsChangeTheGroupsAttribute()
+    {
+        $groups = range(0, rand(0, 5));
+        $this->asset->setGroups($groups);
+
+        $this->assertEquals($groups, $this->asset->getGroups());
+    }
+
+    public function testSetDependenciesChangeTheDependenciesAttribute()
+    {
+        $deps = range(0, rand(0, 5));
+        $this->asset->setDependencies($deps);
+
+        $this->assertEquals($deps, $this->asset->getDependencies());
     }
 }

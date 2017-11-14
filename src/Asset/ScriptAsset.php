@@ -2,22 +2,24 @@
 
 namespace Andaniel05\ComposedViews\Asset;
 
-use Andaniel05\ComposedViews\HtmlElement\HtmlElement;
-
-class ScriptAsset extends AbstractUrlAsset
+class ScriptAsset extends AbstractAsset implements UriInterface
 {
-    public function __construct(string $id, string $url, ?string $minimizedUrl = null, array $dependencies = [], array $groups = [])
+    public function __construct(string $id, string $uri, string $dependencies = '', string $groups = '')
     {
-        $element = new HtmlElement('script');
+        $this->id = $id;
+        $this->addDependency($dependencies);
+        $this->addGroup("scripts uri {$groups}");
 
-        parent::__construct($id, $url, $minimizedUrl, $dependencies, $groups, $element);
-
-        $this->addGroup('scripts');
+        parent::__construct('script', ['src' => $uri]);
     }
 
-    public function updateHtmlElement()
+    public function getUri(): string
     {
-        $src = $this->minimized ? $this->getMinimizedUrl() : $this->getUrl();
-        $this->element->setAttribute('src', $src);
+        return $this->getAttribute('src');
+    }
+
+    public function setUri(string $uri)
+    {
+        $this->setAttribute('src', $uri);
     }
 }

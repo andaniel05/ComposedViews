@@ -1,75 +1,70 @@
 <?php
 
-namespace Andaniel05\ComposedViews\Tests;
+namespace Andaniel05\ComposedViews\Tests\Asset;
 
 use PHPUnit\Framework\TestCase;
-use Andaniel05\ComposedViews\Asset\ScriptAsset;
+use Andaniel05\ComposedViews\Asset\{ScriptAsset, UriInterface};
 
 class ScriptAssetTest extends TestCase
 {
-    public function setUp()
-    {
-        $id = uniqid();
+    use CommonTrait;
 
-        $this->asset = new ScriptAsset($id, '');
+    public function newInstance(array $args = [])
+    {
+        $defaults = [
+            'id'     => uniqid(),
+            'uri'    => uniqid(),
+            'deps'   => uniqid(),
+            'groups' => uniqid(),
+        ];
+
+        $args = array_merge($defaults, $args);
+        extract($args);
+
+        return new ScriptAsset($id, $uri, $deps, $groups);
     }
 
-    public function testConstructor()
+    public function testTagIsEqualToScript()
     {
-        $id = uniqid();
-        $url = uniqid();
-        $minimizedUrl = uniqid();
-        $deps = range(0, rand(0, 10));
-        $groups = range(0, rand(0, 10));
-
-        $asset = new ScriptAsset($id, $url, $minimizedUrl, $deps, $groups);
-
-        $this->assertEquals($id, $asset->getId());
-        $this->assertEquals($url, $asset->getUrl());
-        $this->assertEquals($minimizedUrl, $asset->getMinimizedUrl());
-        $this->assertEquals($deps, $asset->getDependencies());
-        $this->assertArraySubset($groups, $asset->getGroups());
+        $this->assertEquals('script', $this->asset->getTag());
     }
 
-    public function testHasUrlGroupByDefault()
+    public function testHasScriptsGroup()
     {
-        $this->assertTrue($this->asset->inGroup('url'));
+        $this->assertTrue($this->asset->hasGroup('scripts'));
     }
 
-    public function testHasScriptsGroupByDefault()
+    public function testHasUriGroup()
     {
-        $this->assertTrue($this->asset->inGroup('scripts'));
+        $this->assertTrue($this->asset->hasGroup('uri'));
     }
 
-    public function testHtml_RenderizeTheMinimizedUrlByDefault()
+    public function testSrcAttributeIsEqualToUriArgument()
     {
-        $minimizedUrl = uniqid();
-        $asset = new ScriptAsset('asset', '', $minimizedUrl);
+        $uri = uniqid();
+        $asset = $this->newInstance(['uri' => $uri]);
 
-        $this->assertEquals(
-            "<script src=\"$minimizedUrl\"></script>", $asset->html()
-        );
+        $this->assertEquals($uri, $asset->getAttribute('src'));
     }
 
-    public function testHtml_RenderizeTheUrlWhenAssetHasNotMinimizedStatus()
+    public function testSetUriChangeTheSrcAttribute()
     {
-        $url = uniqid();
-        $minimizedUrl = uniqid();
-        $asset = new ScriptAsset('asset', $url, $minimizedUrl);
-        $asset->setMinimized(false);
+        $uri = uniqid();
+        $this->asset->setUri($uri);
 
-        $this->assertEquals(
-            "<script src=\"$url\"></script>", $asset->html()
-        );
+        $this->assertEquals($uri, $this->asset->getAttribute('src'));
     }
 
-    public function testTheHtmlElementTagIsScript()
+    public function testGetUriReturnResultOfSrcAttribute()
     {
-        $this->assertEquals('script', $this->asset->getHtmlElement()->getTag());
+        $uri = uniqid();
+        $this->asset->setAttribute('src', $uri);
+
+        $this->assertEquals($uri, $this->asset->getUri());
     }
 
-    public function testTheHtmlElementHasEndTag()
+    public function testIsInstanceOfUriInterface()
     {
-        $this->assertTrue($this->asset->getHtmlElement()->getEndTag());
+        $this->assertInstanceOf(UriInterface::class, $this->asset);
     }
 }

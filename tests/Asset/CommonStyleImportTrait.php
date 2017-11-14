@@ -1,8 +1,8 @@
 <?php
 
-namespace Andaniel05\ComposedViews\Tests\Asset2;
+namespace Andaniel05\ComposedViews\Tests\Asset;
 
-use Andaniel05\ComposedViews\Asset2\UriInterface;
+use Andaniel05\ComposedViews\Asset\UriInterface;
 
 trait CommonStyleImportTrait
 {
