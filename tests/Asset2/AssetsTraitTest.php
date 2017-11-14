@@ -1,9 +1,9 @@
 <?php
 
-namespace Andaniel05\ComposedViews\Tests\Asset;
+namespace Andaniel05\ComposedViews\Tests\Asset2;
 
 use PHPUnit\Framework\TestCase;
-use Andaniel05\ComposedViews\Asset\{AssetsTrait, AbstractAsset};
+use Andaniel05\ComposedViews\Asset2\{AssetsTrait, AbstractAsset};
 
 class AssetsTraitTest extends TestCase
 {
@@ -42,7 +42,8 @@ class AssetsTraitTest extends TestCase
     public function testInitializeAssets_1()
     {
         $asset1Id = uniqid();
-        $asset1 = $this->getMockForAbstractClass(AbstractAsset::class, [$asset1Id]);
+        $asset1 = $this->getMockForAbstractClass(AbstractAsset::class);
+        setAttr($asset1Id, 'id', $asset1);
 
         $def = [$asset1];
         $trait = $this->getTrait($def);
@@ -54,7 +55,8 @@ class AssetsTraitTest extends TestCase
     public function testInitializeAssets_2()
     {
         $asset1Id = uniqid();
-        $asset1 = $this->getMockForAbstractClass(AbstractAsset::class, [$asset1Id]);
+        $asset1 = $this->getMockForAbstractClass(AbstractAsset::class);
+        setAttr($asset1Id, 'id', $asset1);
         $group1 = uniqid();
 
         $def = [$group1 => [$asset1]];
@@ -62,13 +64,14 @@ class AssetsTraitTest extends TestCase
 
         $assets = $trait->getAssets();
         $this->assertEquals($asset1, $assets[$asset1Id]);
-        $this->assertTrue($asset1->inGroup($group1));
+        $this->assertTrue($asset1->hasGroup($group1));
     }
 
     public function testInitializeAssets_3()
     {
         $asset1Id = uniqid();
         $asset1 = $this->getMockForAbstractClass(AbstractAsset::class, [$asset1Id]);
+        setAttr($asset1Id, 'id', $asset1);
         $group1 = uniqid();
         $group2 = uniqid();
 
@@ -81,7 +84,7 @@ class AssetsTraitTest extends TestCase
 
         $assets = $trait->getAssets();
         $this->assertEquals($asset1, $assets[$asset1Id]);
-        $this->assertTrue($asset1->inGroup($group1));
-        $this->assertTrue($asset1->inGroup($group2));
+        $this->assertTrue($asset1->hasGroup($group1));
+        $this->assertTrue($asset1->hasGroup($group2));
     }
 }
