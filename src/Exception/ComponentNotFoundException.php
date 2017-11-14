@@ -6,6 +6,6 @@ class ComponentNotFoundException extends ComposedViewsException
 {
     public function __construct(string $componentId)
     {
-        parent::__construct("No se ha encontrado el componente de id igual a \"$componentId\"");
+        parent::__construct("Component '$componentId' not found.");
     }
 }

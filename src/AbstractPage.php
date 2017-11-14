@@ -170,21 +170,8 @@ abstract class AbstractPage implements PageInterface
         if ( ! $groups) {
             $result = $assets;
         } else {
-
-            $groupList = explode(' ', $groups);
-
             foreach ($assets as $id => $asset) {
-
-                $inGroups = true;
-
-                foreach ($groupList as $group) {
-                    if ( ! $asset->inGroup($group)) {
-                        $inGroups = false;
-                        break;
-                    }
-                }
-
-                if ($inGroups) {
+                if ($asset->hasGroup($groups)) {
                     $result[$id] = $asset;
                 }
             }

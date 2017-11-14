@@ -13,9 +13,9 @@ class StyleAssetTest extends TestCase
     {
         $defaults = [
             'id'     => uniqid(),
-            'uri'    => uniqid(),
-            'deps'   => uniqid(),
-            'groups' => uniqid(),
+            'uri'    => '',
+            'deps'   => '',
+            'groups' => '',
         ];
 
         $args = array_merge($defaults, $args);

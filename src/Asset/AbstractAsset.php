@@ -11,6 +11,15 @@ abstract class AbstractAsset extends HtmlElement implements AssetInterface
     protected $groups = [];
     protected $used = false;
 
+    public function __construct(string $id, array $dependencies = [], array $groups = [])
+    {
+        parent::__construct();
+
+        $this->id = $id;
+        $this->dependencies = $dependencies;
+        $this->groups = $groups;
+    }
+
     public function getId(): string
     {
         return $this->id;
@@ -43,7 +52,7 @@ abstract class AbstractAsset extends HtmlElement implements AssetInterface
 
     public function addGroup(string $group)
     {
-        $groups = explode(' ', $group);
+        $groups = explode(' ', trim($group));
         $this->groups = array_merge($this->groups, $groups);
     }
 

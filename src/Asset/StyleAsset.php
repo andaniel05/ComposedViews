@@ -6,11 +6,16 @@ class StyleAsset extends AbstractAsset implements UriInterface
 {
     public function __construct(string $id, string $uri, string $dependencies = '', string $groups = '')
     {
-        $this->id = $id;
-        $this->addDependency($dependencies);
-        $this->addGroup("styles uri {$groups}");
+        parent::__construct($id);
 
-        parent::__construct('link', ['href' => $uri], [], false);
+        if ($dependencies) {
+            $this->addDependency($dependencies);
+        }
+
+        $this->addGroup("styles uri {$groups}");
+        $this->setTag('link');
+        $this->setAttribute('href', $uri);
+        $this->setEndTag(false);
     }
 
     public function getUri(): string

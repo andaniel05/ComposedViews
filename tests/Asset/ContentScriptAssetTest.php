@@ -13,9 +13,9 @@ class ContentScriptAssetTest extends TestCase
     {
         $defaults = [
             'id'      => uniqid(),
-            'content' => uniqid(),
-            'deps'    => uniqid(),
-            'groups'  => uniqid(),
+            'content' => [],
+            'deps'    => '',
+            'groups'  => '',
         ];
 
         $args = array_merge($defaults, $args);

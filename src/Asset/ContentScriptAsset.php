@@ -6,11 +6,16 @@ class ContentScriptAsset extends AbstractAsset
 {
     public function __construct(string $id, $content, string $dependencies = '', string $groups = '')
     {
-        $this->id = $id;
-        $this->addDependency($dependencies);
+        parent::__construct($id);
+
+        if ($dependencies) {
+            $this->addDependency($dependencies);
+        }
+
         $this->addGroup("scripts content {$groups}");
+        $this->setTag('script');
 
         $content = is_array($content) ? $content : [$content];
-        parent::__construct('script', [], $content);
+        $this->content = $content;
     }
 }

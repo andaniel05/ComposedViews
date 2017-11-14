@@ -33,4 +33,14 @@ trait CommonTrait
 
         $this->assertTrue($asset->hasGroup($groups));
     }
+
+    public function testGetDependenciesReturnAnEmptyArrayByDefault()
+    {
+        $this->assertEquals([], $this->asset->getDependencies());
+    }
+
+    public function testGetGroupsReturnAnEmptyArrayByDefault()
+    {
+        $this->assertNotContains('', $this->asset->getGroups());
+    }
 }

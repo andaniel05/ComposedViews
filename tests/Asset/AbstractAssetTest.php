@@ -10,7 +10,9 @@ class AbstractAssetTest extends TestCase
 {
     public function setUp()
     {
-        $this->asset = $this->getMockForAbstractClass(AbstractAsset::class);
+        $this->asset = $this->getMockForAbstractClass(
+            AbstractAsset::class, [uniqid()]
+        );
     }
 
     public function testIsInstanceOfAssetInterface()
@@ -21,6 +23,26 @@ class AbstractAssetTest extends TestCase
     public function testIsInstanceOfHtmlElement()
     {
         $this->assertInstanceOf(HtmlElement::class, $this->asset);
+    }
+
+    public function testGetDependenciesReturnDependenciesArgument()
+    {
+        $dependencies = range(0, rand(0, 5));
+        $asset = $this->getMockForAbstractClass(
+            AbstractAsset::class, [uniqid(), $dependencies]
+        );
+
+        $this->assertEquals($dependencies, $asset->getDependencies());
+    }
+
+    public function testGetGroupsReturnGroupsArgument()
+    {
+        $groups = range(0, rand(0, 5));
+        $asset = $this->getMockForAbstractClass(
+            AbstractAsset::class, [uniqid(), [], $groups]
+        );
+
+        $this->assertEquals($groups, $asset->getGroups());
     }
 
     public function testGetId()
@@ -70,7 +92,7 @@ class AbstractAssetTest extends TestCase
 
     public function testHasNotDependenciesByDefault()
     {
-        $this->assertEmpty($this->asset->getDependencies());
+        $this->assertEquals([], $this->asset->getDependencies());
     }
 
     public function testAddGroupInsertTheGroupInTheGroupsArray()
