@@ -271,4 +271,34 @@ class HtmlElementTest extends TestCase
 
         $this->assertEquals([], $this->element->getContent());
     }
+
+    public function testSetContent()
+    {
+        $content = uniqid();
+
+        $this->element->setContent($content);
+
+        $this->assertAttributeEquals($content, 'content', $this->element);
+    }
+
+    public function testAddContentConvertToArrayTheContentAttributeWhenItIsAnString()
+    {
+        $content1 = uniqid();
+        $this->element->setContent($content1);
+
+        $content2 = uniqid();
+        $this->element->addContent($content2);
+
+        $content = $this->element->getContent();
+        $this->assertEquals($content1, $content[0]);
+        $this->assertEquals($content2, $content[1]);
+    }
+
+    public function testHtml_WhenContentIsAnString()
+    {
+        $content = uniqid();
+        $this->element->setContent($content);
+
+        $this->assertEquals("<div>{$content}</div>", $this->element->html());
+    }
 }

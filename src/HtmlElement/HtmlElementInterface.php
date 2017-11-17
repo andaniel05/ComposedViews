@@ -18,9 +18,9 @@ interface HtmlElementInterface extends HtmlInterface
 
     public function deleteAttribute(string $attribute);
 
-    public function getContent(): array;
+    public function getContent();
 
-    public function setContent(array $content);
+    public function setContent($content);
 
     public function addContent($content);
 
