@@ -21,6 +21,8 @@ interface PageInterface extends HtmlInterface
 
     public function getVar($var);
 
+    public function var($var);
+
     public function setVar($var, $value);
 
     public function getAllSidebars(): array;
@@ -32,6 +34,10 @@ interface PageInterface extends HtmlInterface
     public function getAsset(string $id): ?AssetInterface;
 
     public function renderAssets(?string $group = null, bool $filterUnused = true, bool $markUsage = true): string;
+
+    public function renderSidebar(string $sidebarId): string;
+
+    public function renderAsset(string $assetId): string;
 
     public function getOrderedAssets(): array;
 
@@ -50,16 +56,4 @@ interface PageInterface extends HtmlInterface
     public function appendComponent(string $parentId, ComponentInterface $component): void;
 
     public function on(string $eventName, callable $callback): void;
-
-    public function getTitle(): string;
-
-    public function setTitle(string $title);
-
-    public function getLang(): string;
-
-    public function setLang(string $lang);
-
-    public function getCharset(): string;
-
-    public function setCharset(string $charset);
 }

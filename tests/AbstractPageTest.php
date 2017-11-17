@@ -1283,4 +1283,60 @@ class AbstractPageTest extends TestCase
     {
         $this->assertSame('utf-8', $this->page->var('charset'));
     }
+
+    /**
+     * @expectedException Andaniel05\ComposedViews\Exception\ComponentNotFoundException
+     */
+    public function testRenderSidebarThrowComponentNotFoundException()
+    {
+        $this->page->renderSidebar(uniqid());
+    }
+
+    public function testRenderSidebarReturnHtmlViewOfTheSidebar()
+    {
+        $id = uniqid();
+        $html = uniqid();
+
+        $sidebar = $this->createMock(Sidebar::class);
+        $sidebar->method('getId')->willReturn($id);
+        $sidebar->method('html')->willReturn($html);
+
+        $page = $this->getMockBuilder(AbstractPage::class)
+            ->setMethods(['getSidebar'])
+            ->getMockForAbstractClass();
+        $page->expects($this->once())
+            ->method('getSidebar')
+            ->with($this->equalTo($id))
+            ->willReturn($sidebar);
+
+        $this->assertEquals($html, $page->renderSidebar($id));
+    }
+
+    /**
+     * @expectedException Andaniel05\ComposedViews\Exception\AssetNotFoundException
+     */
+    public function testRenderAssetThrowAssetNotFoundException()
+    {
+        $this->page->renderAsset(uniqid());
+    }
+
+    public function testRenderAssetReturnHtmlViewOfTheAsset()
+    {
+        $id = uniqid();
+        $html = uniqid();
+
+        $asset = $this->createMock(AbstractAsset::class);
+        $asset->method('getId')->willReturn($id);
+        $asset->method('html')->willReturn($html);
+
+        $page = $this->getMockBuilder(AbstractPage::class)
+            ->setMethods(['getAsset'])
+            ->getMockForAbstractClass();
+        $page->expects($this->once())
+            ->method('getAsset')
+            ->with($this->equalTo($id))
+            ->willReturn($asset);
+
+        $this->assertEquals($html, $page->renderAsset($id));
+    }
 }

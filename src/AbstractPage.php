@@ -204,6 +204,28 @@ abstract class AbstractPage implements PageInterface
         return $result;
     }
 
+    public function renderSidebar(string $sidebarId): string
+    {
+        $sidebar = $this->getSidebar($sidebarId);
+
+        if ($sidebar instanceof Sidebar) {
+            return $sidebar->html();
+        } else {
+            throw new ComponentNotFoundException($sidebarId);
+        }
+    }
+
+    public function renderAsset(string $assetId): string
+    {
+        $asset = $this->getAsset($assetId);
+
+        if ($asset instanceof AssetInterface) {
+            return $asset->html();
+        } else {
+            throw new AssetNotFoundException($assetId);
+        }
+    }
+
     public function getOrderedAssets(): array
     {
         $result = [];

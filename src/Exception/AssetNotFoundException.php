@@ -4,8 +4,8 @@ namespace Andaniel05\ComposedViews\Exception;
 
 class AssetNotFoundException extends ComposedViewsException
 {
-    public function __construct(string $assetId, string $dependency)
+    public function __construct(string $assetId)
     {
-        parent::__construct("Asset '$dependency' not found.");
+        parent::__construct("Asset '{$assetId}' not found.");
     }
 }
