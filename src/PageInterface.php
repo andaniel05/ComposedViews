@@ -3,7 +3,7 @@
 namespace Andaniel05\ComposedViews;
 
 use Andaniel05\ComposedViews\HtmlElement\HtmlInterface;
-use Andaniel05\ComposedViews\Component\ComponentInterface;
+use Andaniel05\ComposedViews\Component\{ComponentInterface, SidebarInterface};
 use Andaniel05\ComposedViews\Asset\AssetInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -27,7 +27,7 @@ interface PageInterface extends HtmlInterface
 
     public function getAllSidebars(): array;
 
-    public function getSidebar(string $id): ?ComponentInterface;
+    public function getSidebar(string $id): ?SidebarInterface;
 
     public function getAllAssets(): array;
 

@@ -6,7 +6,8 @@ use Andaniel05\ComposedViews\Event\FilterAssetsEvent;
 use Andaniel05\ComposedViews\Asset\{AssetsTrait, AssetInterface};
 use Andaniel05\ComposedViews\Traits\CloningTrait;
 use Andaniel05\ComposedViews\Exception\{AssetNotFoundException, ComponentNotFoundException};
-use Andaniel05\ComposedViews\Component\{ComponentInterface, Sidebar, ComponentTreeTrait};
+use Andaniel05\ComposedViews\Component\{ComponentInterface, Sidebar,
+    SidebarInterface, ComponentTreeTrait};
 use Symfony\Component\EventDispatcher\{EventDispatcherInterface, EventDispatcher};
 
 abstract class AbstractPage implements PageInterface
@@ -109,7 +110,7 @@ abstract class AbstractPage implements PageInterface
         return $this->components;
     }
 
-    public function getSidebar(string $id): ?ComponentInterface
+    public function getSidebar(string $id): ?SidebarInterface
     {
         return $this->components[$id] ?? null;
     }
@@ -208,7 +209,7 @@ abstract class AbstractPage implements PageInterface
     {
         $sidebar = $this->getSidebar($sidebarId);
 
-        if ($sidebar instanceof Sidebar) {
+        if ($sidebar instanceof SidebarInterface) {
             return $sidebar->html();
         } else {
             throw new ComponentNotFoundException($sidebarId);
