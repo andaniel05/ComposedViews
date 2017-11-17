@@ -15,11 +15,7 @@ class AbstractPageTest extends TestCase
     public function setUp()
     {
         $this->page = $this->getMockBuilder(AbstractPage::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['sidebars'])
             ->getMockForAbstractClass();
-        $this->page->method('sidebars')->willReturn(['body']);
-        $this->page->__construct();
     }
 
     public function testAssetsInitializationOnConstructor()
@@ -44,11 +40,6 @@ class AbstractPageTest extends TestCase
             ->method('initializeVars');
 
         $page->__construct();
-    }
-
-    public function testGetVarsReturnAnEmptyArrayByDefault()
-    {
-        $this->assertEquals([], $this->page->getAllVars());
     }
 
     public function provider1()
@@ -1172,87 +1163,6 @@ class AbstractPageTest extends TestCase
         $this->assertEquals($page, $page->getSidebar($sidebar)->getPage());
     }
 
-    public function testTitleAttributeIsEmptyByDefault()
-    {
-        $this->assertAttributeSame('', 'title', $this->page);
-    }
-
-    public function testGetTitle_ReturnTheTitleAttribute()
-    {
-        $title = uniqid();
-
-        $closure = function () use ($title) {
-            $this->title = $title;
-        };
-
-        $closure->call($this->page); // Act
-
-        $this->assertEquals($title, $this->page->getTitle());
-    }
-
-    public function testSetTitle_ChangeTheTitleAttribute()
-    {
-        $title = uniqid();
-
-        $this->page->setTitle($title); // Act
-
-        $this->assertAttributeEquals($title, 'title', $this->page);
-    }
-
-    public function testLangAttributeIsEnByDefault()
-    {
-        $this->assertAttributeEquals('en', 'lang', $this->page);
-    }
-
-    public function testGetLang_ReturnTheLangAttribute()
-    {
-        $lang = uniqid();
-
-        $closure = function () use ($lang) {
-            $this->lang = $lang;
-        };
-
-        $closure->call($this->page); // Act
-
-        $this->assertEquals($lang, $this->page->getLang());
-    }
-
-    public function testSetLang_ChangeTheLangAttribute()
-    {
-        $lang = uniqid();
-
-        $this->page->setLang($lang); // Act
-
-        $this->assertAttributeEquals($lang, 'lang', $this->page);
-    }
-
-    public function testCharsetAttributeIsUTF8ByDefault()
-    {
-        $this->assertAttributeEquals('utf-8', 'charset', $this->page);
-    }
-
-    public function testGetCharset_ReturnTheCharsetAttribute()
-    {
-        $charset = uniqid();
-
-        $closure = function () use ($charset) {
-            $this->charset = $charset;
-        };
-
-        $closure->call($this->page); // Act
-
-        $this->assertEquals($charset, $this->page->getCharset());
-    }
-
-    public function testSetCharset_ChangeTheCharsetAttribute()
-    {
-        $charset = uniqid();
-
-        $this->page->setCharset($charset); // Act
-
-        $this->assertAttributeEquals($charset, 'charset', $this->page);
-    }
-
     public function initializePageWithAsset()
     {
         $this->asset = $this->getMockForAbstractClass(
@@ -1332,5 +1242,45 @@ class AbstractPageTest extends TestCase
         $this->page->addAsset($scriptAsset);
 
         $this->assertContains($scriptAsset, $this->page->getAssets("scripts $group"));
+    }
+
+    public function testHasDefinedTheBodySidebarByDefault()
+    {
+        $this->assertInstanceOf(Sidebar::class, $this->page->getSidebar('body'));
+    }
+
+    public function testVarIsAliasToGetVar()
+    {
+        $varName = uniqid();
+        $value = uniqid();
+
+        $page = $this->getMockBuilder(AbstractPage::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['vars'])
+            ->getMockForAbstractClass();
+        $page->method('vars')->willReturn([$varName => $value]);
+        $page->__construct();
+
+        $this->assertEquals($value, $page->var($varName));
+    }
+
+    public function testVarReturnNullWhenVarNameNotExists()
+    {
+        $this->assertNull($this->page->var(uniqid()));
+    }
+
+    public function testTitleVarIsEmptyByDefault()
+    {
+        $this->assertSame('', $this->page->var('title'));
+    }
+
+    public function testLangVarIsEnByDefault()
+    {
+        $this->assertSame('en', $this->page->var('lang'));
+    }
+
+    public function testCharsetVarIsUtf8ByDefault()
+    {
+        $this->assertSame('utf-8', $this->page->var('charset'));
     }
 }

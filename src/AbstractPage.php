@@ -26,9 +26,6 @@ abstract class AbstractPage implements PageInterface
     protected $pageAssets = [];
     protected $dispatcher;
     protected $printed = false;
-    protected $title = '';
-    protected $lang = 'en';
-    protected $charset = 'utf-8';
 
     public function __construct(string $basePath = '', EventDispatcherInterface $dispatcher = null)
     {
@@ -47,7 +44,11 @@ abstract class AbstractPage implements PageInterface
 
     protected function vars(): array
     {
-        return [];
+        return [
+            'title'   => '',
+            'lang'    => 'en',
+            'charset' => 'utf-8',
+        ];
     }
 
     public function getAllVars(): array
@@ -56,6 +57,11 @@ abstract class AbstractPage implements PageInterface
     }
 
     public function getVar($var)
+    {
+        return $this->vars[$var] ?? null;
+    }
+
+    public function var($var)
     {
         return $this->vars[$var] ?? null;
     }
@@ -95,7 +101,7 @@ abstract class AbstractPage implements PageInterface
 
     protected function sidebars(): array
     {
-        return [];
+        return ['body'];
     }
 
     public function getAllSidebars(): array
@@ -286,35 +292,5 @@ abstract class AbstractPage implements PageInterface
     public function on(string $eventName, callable $callback): void
     {
         $this->dispatcher->addListener($eventName, $callback);
-    }
-
-    public function getTitle(): string
-    {
-        return $this->title;
-    }
-
-    public function setTitle(string $title)
-    {
-        $this->title = $title;
-    }
-
-    public function getLang(): string
-    {
-        return $this->lang;
-    }
-
-    public function setLang(string $lang)
-    {
-        $this->lang = $lang;
-    }
-
-    public function getCharset(): string
-    {
-        return $this->charset;
-    }
-
-    public function setCharset(string $charset)
-    {
-        $this->charset = $charset;
     }
 }
