@@ -15,6 +15,7 @@ class StyleAsset extends AbstractAsset implements UriInterface
         $this->addGroup("styles uri {$groups}");
         $this->setTag('link');
         $this->setAttribute('href', $uri);
+        $this->setAttribute('rel', 'stylesheet');
         $this->setEndTag(false);
     }
 

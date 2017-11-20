@@ -28,4 +28,9 @@ class StyleAssetTest extends TestCase
     {
         $this->assertTrue($this->asset->hasGroup('styles'));
     }
+
+    public function testHasRelAttributeEqualToStylesheet()
+    {
+        $this->assertEquals('stylesheet', $this->asset->getAttribute('rel'));
+    }
 }
