@@ -17,6 +17,8 @@ interface ComponentInterface extends HtmlInterface
 
     public function getId(): string;
 
+    public function setId(string $id);
+
     public function getParent(): ?ComponentInterface;
 
     public function setParent(?ComponentInterface $parent);

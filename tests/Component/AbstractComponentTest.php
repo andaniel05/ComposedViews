@@ -590,4 +590,16 @@ HTML;
 
         $component->__construct('component');
     }
+
+    public function testSetIdChangeTheComponentId()
+    {
+        $id = uniqid();
+        $component = $this->getMockForAbstractClass(
+            AbstractComponent::class, ['id']
+        );
+
+        $component->setId($id);
+
+        $this->assertEquals($id, $component->getId());
+    }
 }

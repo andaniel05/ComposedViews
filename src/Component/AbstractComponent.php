@@ -33,6 +33,11 @@ abstract class AbstractComponent implements ComponentInterface
         return $this->id;
     }
 
+    public function setId(string $id)
+    {
+        $this->id = $id;
+    }
+
     public function getParent(): ?ComponentInterface
     {
         return $this->parent;
