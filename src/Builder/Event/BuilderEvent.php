@@ -19,6 +19,11 @@ class BuilderEvent extends Event
         return $this->element;
     }
 
+    public function getNode(): \SimpleXMLElement
+    {
+        return $this->element;
+    }
+
     public function getEntity()
     {
         return $this->entity;

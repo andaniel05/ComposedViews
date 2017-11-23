@@ -30,4 +30,9 @@ class BuilderEventTest extends TestCase
 
         $this->assertEquals($entity, $this->event->getEntity());
     }
+
+    public function testGetNodeIsAliasToGetXMLElement()
+    {
+        $this->assertEquals($this->element, $this->event->getNode());
+    }
 }
