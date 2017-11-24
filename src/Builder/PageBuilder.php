@@ -10,9 +10,10 @@ class PageBuilder extends Builder
 
         $this->onTag('page', function ($event) {
             $element = $event->getXMLElement();
-            $class = (string) $element['class'];
+            $pageClass = (string) $element['class'];
+            $basePath = (string) $element['base-path'];
 
-            $page = new $class;
+            $page = new $pageClass($basePath);
             $event->setEntity($page);
         });
     }

@@ -17,4 +17,18 @@ class PageBuilderTest extends TestCase
 
         $this->assertInstanceOf(Page::class, $page);
     }
+
+    public function testBasePathAttribute()
+    {
+        $basePath = uniqid();
+        $xml = <<<XML
+<page class="Andaniel05\ComposedViews\Tests\Builder\Page"
+      base-path="{$basePath}"></page>
+XML;
+        $builder = new PageBuilder;
+
+        $page = $builder->build($xml);
+
+        $this->assertEquals($basePath, $page->basePath());
+    }
 }
