@@ -11,4 +11,6 @@ interface BuilderInterface
     public function getDispatcher(): EventDispatcherInterface;
 
     public function onTag(string $tag, callable $listener);
+
+    public function build(string $xml);
 }

@@ -3,6 +3,7 @@
 namespace Andaniel05\ComposedViews\Tests\Builder\Event;
 
 use PHPUnit\Framework\TestCase;
+use Andaniel05\ComposedViews\Builder\BuilderInterface;
 use Andaniel05\ComposedViews\Builder\Event\BuilderEvent;
 
 class BuilderEventTest extends TestCase
@@ -10,7 +11,8 @@ class BuilderEventTest extends TestCase
     public function setUp()
     {
         $this->element = new \SimpleXMLElement('<xml></xml>');
-        $this->event = new BuilderEvent($this->element);
+        $this->builder = $this->createMock(BuilderInterface::class);
+        $this->event = new BuilderEvent($this->element, $this->builder);
     }
 
     public function testGetXMLElementReturnArgument()
@@ -34,5 +36,10 @@ class BuilderEventTest extends TestCase
     public function testGetNodeIsAliasToGetXMLElement()
     {
         $this->assertEquals($this->element, $this->event->getNode());
+    }
+
+    public function testGetBuilderReturnBuilderArgument()
+    {
+        $this->assertEquals($this->builder, $this->event->getBuilder());
     }
 }

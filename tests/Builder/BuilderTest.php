@@ -24,4 +24,17 @@ class BuilderTest extends TestCase
             EventDispatcherInterface::class, $this->builder->getDispatcher()
         );
     }
+
+    public function testBuildReturnAnEntityCreatedByUserInsideTheEvent()
+    {
+        $tag = uniqid('tag');
+        $xml = "<{$tag}></{$tag}>";
+        $entity = new \stdClass;
+
+        $this->builder->onTag($tag, function ($event) use ($entity) {
+            $event->setEntity($entity);
+        });
+
+        $this->assertEquals($entity, $this->builder->build($xml));
+    }
 }
