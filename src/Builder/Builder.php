@@ -66,11 +66,24 @@ class Builder implements BuilderInterface
         $this->dispatcher->dispatch("{$tag}__tag", $event);
 
         $entity = $event->getEntity();
-        if ($entity) {
-            $this->dispatcher->dispatch('entity', $event);
-        }
 
-        $this->dispatcher->dispatch("{$tag}__population", $event);
+        if ($entity) {
+
+            $this->dispatcher->dispatch('entity', $event);
+
+            if ($this->dispatcher->hasListeners("{$tag}__population")) {
+                $this->dispatcher->dispatch("{$tag}__population", $event);
+            } else {
+
+                foreach ($element->children() as $childElement) {
+                    $child = $this->build($childElement->asXML());
+                    if ($child instanceof ComponentInterface) {
+                        $entity->addChild($child);
+                    }
+                }
+
+            }
+        }
 
         return $event->getEntity();
     }

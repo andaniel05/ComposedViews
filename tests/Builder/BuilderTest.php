@@ -148,4 +148,36 @@ class BuilderTest extends TestCase
 
         $this->assertStringStartsWith('comp', $component->getId());
     }
+
+    public function testBuiltComponentesHasNestedChildren()
+    {
+        $xml = <<<XML
+<component id="parent">
+    <component id="child"></component>
+</component>
+XML;
+
+        $parent = $this->builder->build($xml);
+        $child = $parent->getChild('child');
+
+        $this->assertEquals($parent, $child->getParent());
+    }
+
+    public function testBuiltComponentesHasNestedChildren1()
+    {
+        $xml = <<<XML
+<component id="parent">
+    <component id="child1">
+        <component id="child2"></component>
+    </component>
+</component>
+XML;
+
+        $parent = $this->builder->build($xml);
+        $child1 = $parent->getChild('child1');
+        $child2 = $child1->getChild('child2');
+
+        $this->assertEquals($parent, $child1->getParent());
+        $this->assertEquals($child1, $child2->getParent());
+    }
 }
