@@ -8,12 +8,16 @@ use Andaniel05\ComposedViews\AbstractPage;
 
 class PageBuilderTest extends TestCase
 {
+    public function setUp()
+    {
+        $this->builder = new PageBuilder;
+    }
+
     public function testCreateAnPageInstanceOfClassAttribute()
     {
         $xml = '<page class="Andaniel05\ComposedViews\Tests\Builder\Page"></page>';
-        $builder = new PageBuilder;
 
-        $page = $builder->build($xml);
+        $page = $this->builder->build($xml);
 
         $this->assertInstanceOf(Page::class, $page);
     }
@@ -25,10 +29,27 @@ class PageBuilderTest extends TestCase
 <page class="Andaniel05\ComposedViews\Tests\Builder\Page"
       base-path="{$basePath}"></page>
 XML;
-        $builder = new PageBuilder;
-
-        $page = $builder->build($xml);
+        $page = $this->builder->build($xml);
 
         $this->assertEquals($basePath, $page->basePath());
+    }
+
+    public function providerInvalidClass()
+    {
+        return [
+            ['<page></page>'],
+            ['<page class=""></page>'],
+            ['<page class="'.uniqid().'"></page>'],
+            ['<page class="'.\stdClass::class.'"></page>'],
+        ];
+    }
+
+    /**
+     * @dataProvider providerInvalidClass
+     * @expectedException Andaniel05\ComposedViews\Builder\Exception\InvalidPageClassException
+     */
+    public function testThrowLostClassAttributeException($xml)
+    {
+        $this->builder->build($xml);
     }
 }

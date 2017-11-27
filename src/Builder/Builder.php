@@ -4,6 +4,7 @@ namespace Andaniel05\ComposedViews\Builder;
 
 use Symfony\Component\EventDispatcher\{EventDispatcherInterface, EventDispatcher};
 use Andaniel05\ComposedViews\Builder\Event\BuilderEvent;
+use Andaniel05\ComposedViews\Component\ComponentInterface;
 
 class Builder implements BuilderInterface
 {
@@ -12,6 +13,23 @@ class Builder implements BuilderInterface
     public function __construct()
     {
         $this->dispatcher = new EventDispatcher;
+
+        $this->onEntity(function ($event) {
+
+            $component = $event->getEntity();
+            if ( ! $component instanceOf ComponentInterface) {
+                return;
+            }
+
+            $element = $event->getXMLElement();
+
+            $id = (string) $element['id'];
+            if ( ! $id) {
+                $id = uniqid('comp');
+            }
+
+            $component->setId($id);
+        });
     }
 
     public function setDispatcher(EventDispatcherInterface $dispatcher)
@@ -26,15 +44,33 @@ class Builder implements BuilderInterface
 
     public function onTag(string $tag, callable $listener)
     {
-        $this->dispatcher->addListener($tag, $listener);
+        $this->dispatcher->addListener("{$tag}__tag", $listener);
+    }
+
+    public function onTagPopulation(string $tag, callable $listener)
+    {
+        $this->dispatcher->addListener("{$tag}__population", $listener);
+    }
+
+    public function onEntity(callable $listener)
+    {
+        $this->dispatcher->addListener('entity', $listener);
     }
 
     public function build(string $xml)
     {
         $element = new \SimpleXMLElement($xml);
-        $event = new BuilderEvent($element, $this);
+        $tag = $element->getName();
 
-        $this->dispatcher->dispatch($element->getName(), $event);
+        $event = new BuilderEvent($element, $this);
+        $this->dispatcher->dispatch("{$tag}__tag", $event);
+
+        $entity = $event->getEntity();
+        if ($entity) {
+            $this->dispatcher->dispatch('entity', $event);
+        }
+
+        $this->dispatcher->dispatch("{$tag}__population", $event);
 
         return $event->getEntity();
     }
