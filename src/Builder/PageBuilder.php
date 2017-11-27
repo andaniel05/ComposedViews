@@ -4,6 +4,7 @@ namespace Andaniel05\ComposedViews\Builder;
 
 use Andaniel05\ComposedViews\PageInterface;
 use Andaniel05\ComposedViews\Builder\Event\BuilderEvent;
+use Andaniel05\ComposedViews\Component\ComponentInterface;
 
 class PageBuilder extends Builder
 {
@@ -12,6 +13,7 @@ class PageBuilder extends Builder
         parent::__construct();
 
         $this->onTag('page', [$this, 'onPageTag']);
+        $this->onTagPopulation('page', [$this, 'onPageTagPopulation']);
     }
 
     public function onPageTag(BuilderEvent $event)
@@ -31,5 +33,29 @@ class PageBuilder extends Builder
         }
 
         $event->setEntity($page);
+    }
+
+    public function onPageTagPopulation(BuilderEvent $event)
+    {
+        $page = $event->getEntity();
+        if ( ! $page instanceOf PageInterface) {
+            return;
+        }
+
+        $element = $event->getXMLElement();
+        foreach ($element->sidebar as $sidebarElement) {
+            $sidebarId = (string) $sidebarElement['id'];
+            if ($sidebarId) {
+                $sidebar = $page->getSidebar($sidebarId);
+                if ($sidebar instanceOf ComponentInterface) {
+                    foreach ($sidebarElement->children() as $childrenElement) {
+                        $child = $this->build($childrenElement->asXML());
+                        if ($child instanceOf ComponentInterface) {
+                            $sidebar->addChild($child);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
