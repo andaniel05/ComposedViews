@@ -180,4 +180,19 @@ XML;
         $this->assertEquals($parent, $child1->getParent());
         $this->assertEquals($child1, $child2->getParent());
     }
+
+    public function testTheLogicOfPopulationMayBeChanged()
+    {
+        $this->builder->onTagPopulation('component', function ($event) {});
+        $xml = <<<XML
+<component id="parent">
+    <component id="child1">
+        <component id="child2"></component>
+    </component>
+</component>
+XML;
+
+        $parent = $this->builder->build($xml);
+        $this->assertEmpty($parent->getChildren());
+    }
 }
