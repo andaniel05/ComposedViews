@@ -43,6 +43,8 @@ interface PageInterface extends HtmlInterface
 
     public function basePath(string $assetUri = ''): string;
 
+    public function setBasePath(string $basePath);
+
     public function addAsset(AssetInterface $asset): void;
 
     public function setDispatcher(EventDispatcherInterface $dispatcher): void;

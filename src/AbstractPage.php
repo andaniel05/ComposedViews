@@ -273,6 +273,11 @@ abstract class AbstractPage implements PageInterface
         return $this->basePath . $assetUri;
     }
 
+    public function setBasePath(string $basePath)
+    {
+        $this->basePath = $basePath;
+    }
+
     public function addAsset(AssetInterface $asset): void
     {
         $this->pageAssets[$asset->getId()] = $asset;

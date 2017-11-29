@@ -1339,4 +1339,12 @@ class AbstractPageTest extends TestCase
 
         $this->assertEquals($html, $page->renderAsset($id));
     }
+
+    public function testSetBasePath()
+    {
+        $basePath = uniqid();
+        $this->page->setBasePath($basePath);
+
+        $this->assertEquals($basePath, $this->page->basePath());
+    }
 }
