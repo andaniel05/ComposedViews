@@ -3,7 +3,8 @@
 namespace Andaniel05\ComposedViews\Tests\Asset;
 
 use PHPUnit\Framework\TestCase;
-use Andaniel05\ComposedViews\Asset\{AbstractAsset, AssetInterface};
+use Andaniel05\ComposedViews\Asset\AbstractAsset;
+use Andaniel05\ComposedViews\Asset\AssetInterface;
 use Andaniel05\ComposedViews\HtmlElement\HtmlElement;
 
 class AbstractAssetTest extends TestCase
@@ -11,7 +12,8 @@ class AbstractAssetTest extends TestCase
     public function setUp()
     {
         $this->asset = $this->getMockForAbstractClass(
-            AbstractAsset::class, [uniqid()]
+            AbstractAsset::class,
+            [uniqid()]
         );
     }
 
@@ -29,7 +31,8 @@ class AbstractAssetTest extends TestCase
     {
         $dependencies = range(0, rand(0, 5));
         $asset = $this->getMockForAbstractClass(
-            AbstractAsset::class, [uniqid(), $dependencies]
+            AbstractAsset::class,
+            [uniqid(), $dependencies]
         );
 
         $this->assertEquals($dependencies, $asset->getDependencies());
@@ -39,7 +42,8 @@ class AbstractAssetTest extends TestCase
     {
         $groups = range(0, rand(0, 5));
         $asset = $this->getMockForAbstractClass(
-            AbstractAsset::class, [uniqid(), [], $groups]
+            AbstractAsset::class,
+            [uniqid(), [], $groups]
         );
 
         $this->assertEquals($groups, $asset->getGroups());

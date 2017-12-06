@@ -20,16 +20,14 @@ trait AssetsTrait
     {
         $loadAssets = function (array $assets, string $groups = '') use (&$loadAssets) {
             foreach ($assets as $key => $value) {
-                if ($value instanceOf AssetInterface) {
-
+                if ($value instanceof AssetInterface) {
                     $asset = $value;
 
-                    if ( ! empty($groups)) {
+                    if (! empty($groups)) {
                         $asset->addGroup($groups);
                     }
 
                     $this->assets[$asset->getId()] = $asset;
-
                 } elseif (is_string($key) && is_array($value)) {
                     $loadAssets($value, $groups . " $key");
                 }

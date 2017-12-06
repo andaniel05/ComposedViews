@@ -2,9 +2,12 @@
 
 namespace Andaniel05\ComposedViews\Tests\Component;
 
-use Andaniel05\ComposedViews\{AbstractPage, PageEvents};
-use Andaniel05\ComposedViews\Event\{BeforeInsertionEvent, AfterInsertionEvent,
-    BeforeDeletionEvent, AfterDeletionEvent};
+use Andaniel05\ComposedViews\AbstractPage;
+use Andaniel05\ComposedViews\PageEvents;
+use Andaniel05\ComposedViews\Event\BeforeInsertionEvent;
+use Andaniel05\ComposedViews\Event\AfterInsertionEvent;
+use Andaniel05\ComposedViews\Event\BeforeDeletionEvent;
+use Andaniel05\ComposedViews\Event\AfterDeletionEvent;
 use Andaniel05\ComposedViews\Component\AbstractComponent;
 use PHPUnit\Framework\TestCase;
 
@@ -96,12 +99,13 @@ class AbstractComponentTest extends TestCase
         $component1->method('html')->willReturn($component1Html);
 
         $component2 = $this->getMockForAbstractClass(
-            AbstractComponent::class, ['component2']
+            AbstractComponent::class,
+            ['component2']
         );
 
         $component2->addChild($component1);
 
-            $expected = <<<HTML
+        $expected = <<<HTML
 <div class="cv-component cv-component1" id="cv-component1">
     $component1Html
 </div>
@@ -498,19 +502,24 @@ HTML;
     public function createAuxComponents()
     {
         $this->comp1 = $this->getMockForAbstractClass(
-            AbstractComponent::class, ['comp1']
+            AbstractComponent::class,
+            ['comp1']
         );
         $this->comp2 = $this->getMockForAbstractClass(
-            AbstractComponent::class, ['comp2']
+            AbstractComponent::class,
+            ['comp2']
         );
         $this->comp3 = $this->getMockForAbstractClass(
-            AbstractComponent::class, ['comp3']
+            AbstractComponent::class,
+            ['comp3']
         );
         $this->comp4 = $this->getMockForAbstractClass(
-            AbstractComponent::class, ['comp4']
+            AbstractComponent::class,
+            ['comp4']
         );
         $this->comp5 = $this->getMockForAbstractClass(
-            AbstractComponent::class, ['comp5']
+            AbstractComponent::class,
+            ['comp5']
         );
     }
 
@@ -595,7 +604,8 @@ HTML;
     {
         $id = uniqid();
         $component = $this->getMockForAbstractClass(
-            AbstractComponent::class, ['id']
+            AbstractComponent::class,
+            ['id']
         );
 
         $component->setId($id);

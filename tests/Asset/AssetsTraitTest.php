@@ -3,7 +3,8 @@
 namespace Andaniel05\ComposedViews\Tests\Asset;
 
 use PHPUnit\Framework\TestCase;
-use Andaniel05\ComposedViews\Asset\{AssetsTrait, AbstractAsset};
+use Andaniel05\ComposedViews\Asset\AssetsTrait;
+use Andaniel05\ComposedViews\Asset\AbstractAsset;
 
 class AssetsTraitTest extends TestCase
 {
@@ -24,7 +25,8 @@ class AssetsTraitTest extends TestCase
             ->method('assets')->willReturn($assets);
 
         $initializeAssetsMethod = new \ReflectionMethod(
-            get_class($trait), 'initializeAssets'
+            get_class($trait),
+            'initializeAssets'
         );
         $initializeAssetsMethod->setAccessible(true);
         $initializeAssetsMethod->invoke($trait);
@@ -43,7 +45,8 @@ class AssetsTraitTest extends TestCase
     {
         $asset1Id = uniqid();
         $asset1 = $this->getMockForAbstractClass(
-            AbstractAsset::class, [$asset1Id]
+            AbstractAsset::class,
+            [$asset1Id]
         );
 
         $def = [$asset1];
@@ -57,7 +60,8 @@ class AssetsTraitTest extends TestCase
     {
         $asset1Id = uniqid();
         $asset1 = $this->getMockForAbstractClass(
-            AbstractAsset::class, [$asset1Id]
+            AbstractAsset::class,
+            [$asset1Id]
         );
         $group1 = uniqid();
 

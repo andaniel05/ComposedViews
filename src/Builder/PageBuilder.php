@@ -22,13 +22,13 @@ class PageBuilder extends Builder
         $pageClass = (string) $element['class'];
         $basePath = (string) $element['base-path'];
 
-        if ( ! class_exists($pageClass)) {
+        if (! class_exists($pageClass)) {
             throw new Exception\InvalidPageClassException;
         }
 
         $page = new $pageClass($basePath);
 
-        if ( ! $page instanceof PageInterface) {
+        if (! $page instanceof PageInterface) {
             throw new Exception\InvalidPageClassException;
         }
 
@@ -38,7 +38,7 @@ class PageBuilder extends Builder
     public function onPageTagPopulation(BuilderEvent $event)
     {
         $page = $event->getEntity();
-        if ( ! $page instanceOf PageInterface) {
+        if (! $page instanceof PageInterface) {
             return;
         }
 
@@ -47,10 +47,10 @@ class PageBuilder extends Builder
             $sidebarId = (string) $sidebarElement['id'];
             if ($sidebarId) {
                 $sidebar = $page->getSidebar($sidebarId);
-                if ($sidebar instanceOf ComponentInterface) {
+                if ($sidebar instanceof ComponentInterface) {
                     foreach ($sidebarElement->children() as $childrenElement) {
                         $child = $this->build($childrenElement->asXML());
-                        if ($child instanceOf ComponentInterface) {
+                        if ($child instanceof ComponentInterface) {
                             $sidebar->addChild($child);
                         }
                     }

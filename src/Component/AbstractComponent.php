@@ -2,10 +2,13 @@
 
 namespace Andaniel05\ComposedViews\Component;
 
-use Andaniel05\ComposedViews\{PageInterface, PageEvents};
+use Andaniel05\ComposedViews\PageInterface;
+use Andaniel05\ComposedViews\PageEvents;
 use Andaniel05\ComposedViews\Asset\AssetsTrait;
-use Andaniel05\ComposedViews\Event\{BeforeInsertionEvent, AfterInsertionEvent,
-    BeforeDeletionEvent, AfterDeletionEvent};
+use Andaniel05\ComposedViews\Event\BeforeInsertionEvent;
+use Andaniel05\ComposedViews\Event\AfterInsertionEvent;
+use Andaniel05\ComposedViews\Event\BeforeDeletionEvent;
+use Andaniel05\ComposedViews\Event\AfterDeletionEvent;
 use Andaniel05\ComposedViews\Traits\CloningTrait;
 
 abstract class AbstractComponent implements ComponentInterface
@@ -77,8 +80,7 @@ HTML;
 
     public function addChild(ComponentInterface $component)
     {
-        if ($this->page instanceOf PageInterface) {
-
+        if ($this->page instanceof PageInterface) {
             $beforeInsertionEvent = new BeforeInsertionEvent($this, $component);
             $this->page->getDispatcher()->dispatch(PageEvents::BEFORE_INSERTION, $beforeInsertionEvent);
 
@@ -90,7 +92,7 @@ HTML;
         $this->components[$component->getId()] = $component;
         $component->setParent($this);
 
-        if ($this->page instanceOf PageInterface) {
+        if ($this->page instanceof PageInterface) {
             $afterInsertionEvent = new AfterInsertionEvent($this, $component);
             $this->page->getDispatcher()->dispatch(PageEvents::AFTER_INSERTION, $afterInsertionEvent);
         }
@@ -100,11 +102,9 @@ HTML;
     {
         $component = $this->components[$id] ?? null;
         if ($component) {
-
             $drop = true;
 
-            if ($this->page instanceOf PageInterface) {
-
+            if ($this->page instanceof PageInterface) {
                 $beforeDeletionEvent = new BeforeDeletionEvent($this, $component);
                 $this->page->getDispatcher()->dispatch(PageEvents::BEFORE_DELETION, $beforeDeletionEvent);
 
@@ -114,14 +114,13 @@ HTML;
             }
 
             if ($drop) {
-
                 if ($notifyChild) {
                     $component->setParent(null);
                 }
 
                 unset($this->components[$id]);
 
-                if ($this->page instanceOf PageInterface) {
+                if ($this->page instanceof PageInterface) {
                     $afterDeletionEvent = new AfterDeletionEvent($this, $component);
                     $this->page->getDispatcher()->dispatch(PageEvents::AFTER_DELETION, $afterDeletionEvent);
                 }

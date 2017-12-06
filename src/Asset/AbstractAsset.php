@@ -41,7 +41,7 @@ abstract class AbstractAsset extends HtmlElement implements AssetInterface
         $result = true;
 
         foreach ($groups as $g) {
-            if ( ! in_array($g, $this->groups)) {
+            if (! in_array($g, $this->groups)) {
                 $result = false;
                 break;
             }
@@ -99,7 +99,7 @@ abstract class AbstractAsset extends HtmlElement implements AssetInterface
         $result = true;
 
         foreach ($deps as $dep) {
-            if ( ! in_array($dep, $this->dependencies)) {
+            if (! in_array($dep, $this->dependencies)) {
                 $result = false;
                 break;
             }

@@ -8,8 +8,7 @@ trait ComponentTreeTrait
 
     public function traverse(): iterable
     {
-        $generator = function (array $components) use (&$generator)
-        {
+        $generator = function (array $components) use (&$generator) {
             foreach ($components as $component) {
                 yield $component;
                 yield from $generator($component->getChildren());
@@ -26,7 +25,6 @@ trait ComponentTreeTrait
         $idList = preg_split('/\s+/', $id);
 
         if (1 == count($idList)) {
-
             foreach ($this->traverse() as $component) {
                 if ($id == $component->getId()) {
                     return $component;
@@ -40,7 +38,6 @@ trait ComponentTreeTrait
 
         $container = $this;
         for ($i = 0; $i < count($idList); $i++) {
-
             $componentId = $idList[$i];
             $component = $container->getComponent($componentId);
 

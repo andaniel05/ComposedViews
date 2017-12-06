@@ -3,7 +3,8 @@
 namespace Andaniel05\ComposedViews;
 
 use Andaniel05\ComposedViews\HtmlElement\HtmlInterface;
-use Andaniel05\ComposedViews\Component\{ComponentInterface, SidebarInterface};
+use Andaniel05\ComposedViews\Component\ComponentInterface;
+use Andaniel05\ComposedViews\Component\SidebarInterface;
 use Andaniel05\ComposedViews\Asset\AssetInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 

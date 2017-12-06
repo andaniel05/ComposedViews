@@ -2,13 +2,15 @@
 
 namespace Andaniel05\ComposedViews\Tests;
 
-use Andaniel05\ComposedViews\{AbstractPage, PageEvents};
+use Andaniel05\ComposedViews\AbstractPage;
+use Andaniel05\ComposedViews\PageEvents;
 use Andaniel05\ComposedViews\Event\FilterAssetsEvent;
-use Andaniel05\ComposedViews\Component\{AbstractComponent, Sidebar};
+use Andaniel05\ComposedViews\Component\AbstractComponent;
+use Andaniel05\ComposedViews\Component\Sidebar;
 use Andaniel05\ComposedViews\Asset\AbstractAsset;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\EventDispatcher\{EventDispatcherInterface,
-    EventDispatcher};
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class AbstractPageTest extends TestCase
 {
@@ -322,22 +324,28 @@ class AbstractPageTest extends TestCase
     public function initializeAssetDummies()
     {
         $this->bootstrapCss = $this->getMockForAbstractClass(
-            AbstractAsset::class, ['bootstrap-css', [], ['styles']]
+            AbstractAsset::class,
+            ['bootstrap-css', [], ['styles']]
         );
         $this->styles = $this->getMockForAbstractClass(
-            AbstractAsset::class, ['styles', [], ['styles']]
+            AbstractAsset::class,
+            ['styles', [], ['styles']]
         );
         $this->jquery = $this->getMockForAbstractClass(
-            AbstractAsset::class, ['jquery', [], ['scripts']]
+            AbstractAsset::class,
+            ['jquery', [], ['scripts']]
         );
         $this->bootstrapJs = $this->getMockForAbstractClass(
-            AbstractAsset::class, ['bootstrap-js', [], ['scripts']]
+            AbstractAsset::class,
+            ['bootstrap-js', [], ['scripts']]
         );
         $this->scripts = $this->getMockForAbstractClass(
-            AbstractAsset::class, ['scripts', [], ['scripts']]
+            AbstractAsset::class,
+            ['scripts', [], ['scripts']]
         );
         $this->customJs = $this->getMockForAbstractClass(
-            AbstractAsset::class, ['custom-js', [], ['scripts']]
+            AbstractAsset::class,
+            ['custom-js', [], ['scripts']]
         );
 
         $this->assets = [
@@ -478,11 +486,13 @@ class AbstractPageTest extends TestCase
     public function provider4()
     {
         $asset1 = $this->getMockForAbstractClass(
-            AbstractAsset::class, ['asset1', [], ['group1']]
+            AbstractAsset::class,
+            ['asset1', [], ['group1']]
         );
 
         $Asset = $this->getMockForAbstractClass(
-            AbstractAsset::class, ['Asset', [], ['group2']]
+            AbstractAsset::class,
+            ['Asset', [], ['group2']]
         );
 
         return [
@@ -547,19 +557,24 @@ class AbstractPageTest extends TestCase
     public function initializeAssetsForOrderingTest()
     {
         $this->asset1 = $this->getMockForAbstractClass(
-            AbstractAsset::class, ['asset1', [], ['group']]
+            AbstractAsset::class,
+            ['asset1', [], ['group']]
         );
         $this->Asset = $this->getMockForAbstractClass(
-            AbstractAsset::class, ['Asset', ['asset1'], ['group']]
+            AbstractAsset::class,
+            ['Asset', ['asset1'], ['group']]
         );
         $this->asset3 = $this->getMockForAbstractClass(
-            AbstractAsset::class, ['asset3', ['Asset'], ['group']]
+            AbstractAsset::class,
+            ['asset3', ['Asset'], ['group']]
         );
         $this->asset4 = $this->getMockForAbstractClass(
-            AbstractAsset::class, ['asset4', ['asset3'], ['group']]
+            AbstractAsset::class,
+            ['asset4', ['asset3'], ['group']]
         );
         $this->asset5 = $this->getMockForAbstractClass(
-            AbstractAsset::class, ['asset5', ['asset4'], ['group']]
+            AbstractAsset::class,
+            ['asset5', ['asset4'], ['group']]
         );
 
         $this->assets = [
@@ -885,7 +900,8 @@ class AbstractPageTest extends TestCase
         $page = $this->getMockForAbstractClass(AbstractPage::class);
 
         $this->assertInstanceOf(
-            EventDispatcherInterface::class, $page->getDispatcher()
+            EventDispatcherInterface::class,
+            $page->getDispatcher()
         );
     }
 
@@ -912,7 +928,8 @@ class AbstractPageTest extends TestCase
     public function testPageFilterAssetsEvent()
     {
         $jquery = $this->getMockForAbstractClass(
-            AbstractAsset::class, ['jquery', [], ['script']]
+            AbstractAsset::class,
+            ['jquery', [], ['script']]
         );
         $assets = ['jquery' => $jquery];
 
@@ -937,11 +954,13 @@ class AbstractPageTest extends TestCase
     public function testGetAssets_OnlyMarkUsageOnAssetsFromSameGroup()
     {
         $style1 = $this->getMockForAbstractClass(
-            AbstractAsset::class, ['style1', [], ['styles']]
+            AbstractAsset::class,
+            ['style1', [], ['styles']]
         );
 
         $script1 = $this->getMockForAbstractClass(
-            AbstractAsset::class, ['script1', [], ['scripts']]
+            AbstractAsset::class,
+            ['script1', [], ['scripts']]
         );
 
         $this->page->addAsset($style1);
@@ -1053,7 +1072,8 @@ class AbstractPageTest extends TestCase
     public function testAppendComponent_RegisterTheAppInTheComponent()
     {
         $component = $this->getMockForAbstractClass(
-            AbstractComponent::class, ['component1']
+            AbstractComponent::class,
+            ['component1']
         );
 
         $this->page->appendComponent('body', $component);
@@ -1064,7 +1084,8 @@ class AbstractPageTest extends TestCase
     public function testOn_IsShortcutToAddListenerOnDispatcher()
     {
         $eventName = uniqid('event');
-        $callback = function () {};
+        $callback = function () {
+        };
 
         $dispatcher = $this->getMockBuilder(EventDispatcherInterface::class)
             ->setMethods(['addListener'])
@@ -1166,7 +1187,8 @@ class AbstractPageTest extends TestCase
     public function initializePageWithAsset()
     {
         $this->asset = $this->getMockForAbstractClass(
-            AbstractAsset::class, ['asset']
+            AbstractAsset::class,
+            ['asset']
         );
 
         $this->page = $this->getMockBuilder(AbstractPage::class)

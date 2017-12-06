@@ -34,7 +34,7 @@ class HtmlElement implements HtmlElementInterface
             foreach ($this->content as $key => $value) {
                 if (is_scalar($value)) {
                     $content .= $value;
-                } elseif ($value instanceOf HtmlElementInterface) {
+                } elseif ($value instanceof HtmlElementInterface) {
                     $content .= $value->html();
                 }
             }

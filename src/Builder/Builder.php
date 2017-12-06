@@ -2,7 +2,8 @@
 
 namespace Andaniel05\ComposedViews\Builder;
 
-use Symfony\Component\EventDispatcher\{EventDispatcherInterface, EventDispatcher};
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Andaniel05\ComposedViews\Builder\Event\BuilderEvent;
 use Andaniel05\ComposedViews\Component\ComponentInterface;
 
@@ -15,16 +16,15 @@ class Builder implements BuilderInterface
         $this->dispatcher = new EventDispatcher;
 
         $this->onEntity(function ($event) {
-
             $component = $event->getEntity();
-            if ( ! $component instanceOf ComponentInterface) {
+            if (! $component instanceof ComponentInterface) {
                 return;
             }
 
             $element = $event->getXMLElement();
 
             $id = (string) $element['id'];
-            if ( ! $id) {
+            if (! $id) {
                 $id = uniqid('comp');
             }
 
@@ -68,20 +68,17 @@ class Builder implements BuilderInterface
         $entity = $event->getEntity();
 
         if ($entity) {
-
             $this->dispatcher->dispatch('entity', $event);
 
             if ($this->dispatcher->hasListeners("{$tag}__population")) {
                 $this->dispatcher->dispatch("{$tag}__population", $event);
             } else {
-
                 foreach ($element->children() as $childElement) {
                     $child = $this->build($childElement->asXML());
                     if ($child instanceof ComponentInterface) {
                         $entity->addChild($child);
                     }
                 }
-
             }
         }
 

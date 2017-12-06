@@ -3,7 +3,8 @@
 namespace Andaniel05\ComposedViews\Tests\HtmlElement;
 
 use PHPUnit\Framework\TestCase;
-use Andaniel05\ComposedViews\HtmlElement\{HtmlElement, HtmlElementInterface};
+use Andaniel05\ComposedViews\HtmlElement\HtmlElement;
+use Andaniel05\ComposedViews\HtmlElement\HtmlElementInterface;
 
 class HtmlElementTest extends TestCase
 {
@@ -140,7 +141,8 @@ class HtmlElementTest extends TestCase
         $this->element->setAttribute($attr, $value);
 
         $this->assertArraySubset(
-            [$attr => $value], $this->element->getAttributes()
+            [$attr => $value],
+            $this->element->getAttributes()
         );
     }
 

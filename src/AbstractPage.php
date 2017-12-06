@@ -3,12 +3,17 @@
 namespace Andaniel05\ComposedViews;
 
 use Andaniel05\ComposedViews\Event\FilterAssetsEvent;
-use Andaniel05\ComposedViews\Asset\{AssetsTrait, AssetInterface};
+use Andaniel05\ComposedViews\Asset\AssetsTrait;
+use Andaniel05\ComposedViews\Asset\AssetInterface;
 use Andaniel05\ComposedViews\Traits\CloningTrait;
-use Andaniel05\ComposedViews\Exception\{AssetNotFoundException, ComponentNotFoundException};
-use Andaniel05\ComposedViews\Component\{ComponentInterface, Sidebar,
-    SidebarInterface, ComponentTreeTrait};
-use Symfony\Component\EventDispatcher\{EventDispatcherInterface, EventDispatcher};
+use Andaniel05\ComposedViews\Exception\AssetNotFoundException;
+use Andaniel05\ComposedViews\Exception\ComponentNotFoundException;
+use Andaniel05\ComposedViews\Component\ComponentInterface;
+use Andaniel05\ComposedViews\Component\Sidebar;
+use Andaniel05\ComposedViews\Component\SidebarInterface;
+use Andaniel05\ComposedViews\Component\ComponentTreeTrait;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 abstract class AbstractPage implements PageInterface
 {
@@ -77,20 +82,17 @@ abstract class AbstractPage implements PageInterface
     protected function initializeSidebars(): void
     {
         foreach ($this->sidebars() as $key => $value) {
-
             $sidebar = null;
 
             if (is_integer($key) && is_string($value)) {
                 $sidebar = new Sidebar($value);
             } elseif (is_string($key) && is_array($value)) {
-
                 $sidebar = new Sidebar($key);
                 foreach ($value as $component) {
-                    if ($component instanceOf ComponentInterface) {
+                    if ($component instanceof ComponentInterface) {
                         $sidebar->addChild($component);
                     }
                 }
-
             }
 
             if ($sidebar) {
@@ -120,8 +122,7 @@ abstract class AbstractPage implements PageInterface
         $assets = [];
 
         foreach ($components as $component) {
-
-            if ($component instanceOf ComponentInterface) {
+            if ($component instanceof ComponentInterface) {
                 $assets = array_merge(
                     $assets,
                     $this->getAssetsFromComponents($component->getChildren())
@@ -174,7 +175,7 @@ abstract class AbstractPage implements PageInterface
             });
         }
 
-        if ( ! $groups) {
+        if (! $groups) {
             $result = $assets;
         } else {
             foreach ($assets as $id => $asset) {
@@ -232,12 +233,11 @@ abstract class AbstractPage implements PageInterface
         $result = [];
         $assets = $this->getAllAssets();
 
-        $putAssetInOrder = function ($asset) use (&$result, &$assets, &$putAssetInOrder)
-        {
+        $putAssetInOrder = function ($asset) use (&$result, &$assets, &$putAssetInOrder) {
             foreach ($asset->getDependencies() as $depId) {
                 $dep = $assets[$depId] ?? null;
 
-                if ( ! $dep) {
+                if (! $dep) {
                     throw new AssetNotFoundException($asset->getId(), $depId);
                 }
 
@@ -309,7 +309,7 @@ abstract class AbstractPage implements PageInterface
     {
         $parent = $this->components[$parentId] ?? $this->getComponent($parentId);
 
-        if ( ! $parent) {
+        if (! $parent) {
             throw new ComponentNotFoundException($parentId);
         }
 

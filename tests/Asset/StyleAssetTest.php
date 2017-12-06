@@ -3,7 +3,8 @@
 namespace Andaniel05\ComposedViews\Tests\Asset;
 
 use PHPUnit\Framework\TestCase;
-use Andaniel05\ComposedViews\Asset\{StyleAsset, UriInterface};
+use Andaniel05\ComposedViews\Asset\StyleAsset;
+use Andaniel05\ComposedViews\Asset\UriInterface;
 
 class StyleAssetTest extends TestCase
 {

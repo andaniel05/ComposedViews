@@ -2,7 +2,8 @@
 
 namespace Andaniel05\ComposedViews\Tests\Component;
 
-use Andaniel05\ComposedViews\Component\{AbstractComponent, ComponentTreeTrait};
+use Andaniel05\ComposedViews\Component\AbstractComponent;
+use Andaniel05\ComposedViews\Component\ComponentTreeTrait;
 use PHPUnit\Framework\TestCase;
 
 class ComponentTreeTraitTest extends TestCase
@@ -12,19 +13,24 @@ class ComponentTreeTraitTest extends TestCase
         $this->trait = $this->getMockForTrait(ComponentTreeTrait::class);
 
         $this->comp1 = $this->getMockForAbstractClass(
-            AbstractComponent::class, ['comp1']
+            AbstractComponent::class,
+            ['comp1']
         );
         $this->comp2 = $this->getMockForAbstractClass(
-            AbstractComponent::class, ['comp2']
+            AbstractComponent::class,
+            ['comp2']
         );
         $this->comp3 = $this->getMockForAbstractClass(
-            AbstractComponent::class, ['comp3']
+            AbstractComponent::class,
+            ['comp3']
         );
         $this->comp4 = $this->getMockForAbstractClass(
-            AbstractComponent::class, ['comp4']
+            AbstractComponent::class,
+            ['comp4']
         );
         $this->comp5 = $this->getMockForAbstractClass(
-            AbstractComponent::class, ['comp5']
+            AbstractComponent::class,
+            ['comp5']
         );
     }
 

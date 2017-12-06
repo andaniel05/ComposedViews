@@ -3,8 +3,10 @@
 namespace Andaniel05\ComposedViews\Tests\Builder;
 
 use PHPUnit\Framework\TestCase;
-use Andaniel05\ComposedViews\Builder\{BuilderInterface, Builder};
-use Symfony\Component\EventDispatcher\{EventDispatcherInterface, EventDispatcher};
+use Andaniel05\ComposedViews\Builder\BuilderInterface;
+use Andaniel05\ComposedViews\Builder\Builder;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class BuilderTest extends TestCase
 {
@@ -25,7 +27,8 @@ class BuilderTest extends TestCase
     public function testHasAnDispatcherByDefault()
     {
         $this->assertInstanceOf(
-            EventDispatcherInterface::class, $this->builder->getDispatcher()
+            EventDispatcherInterface::class,
+            $this->builder->getDispatcher()
         );
     }
 
@@ -69,7 +72,8 @@ class BuilderTest extends TestCase
         $xml = "<{$tag}></{$tag}>";
         $executed = false;
 
-        $this->builder->onTag($tag, function ($event) {});
+        $this->builder->onTag($tag, function ($event) {
+        });
 
         $this->builder->onEntity(function ($event) use (&$executed) {
             $executed = true;
@@ -183,7 +187,8 @@ XML;
 
     public function testTheLogicOfPopulationMayBeChanged()
     {
-        $this->builder->onTagPopulation('component', function ($event) {});
+        $this->builder->onTagPopulation('component', function ($event) {
+        });
         $xml = <<<XML
 <component id="parent">
     <component id="child1">
