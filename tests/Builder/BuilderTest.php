@@ -8,6 +8,9 @@ use Andaniel05\ComposedViews\Builder\Builder;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
+/**
+ * @author Andy Daniel Navarro Taño <andaniel05@gmail.com>
+ */
 class BuilderTest extends TestCase
 {
     public function setUp()

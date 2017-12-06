@@ -5,6 +5,9 @@ namespace Andaniel05\ComposedViews\Component;
 use Andaniel05\ComposedViews\PageInterface;
 use Andaniel05\ComposedViews\HtmlElement\HtmlInterface;
 
+/**
+ * @author Andy Daniel Navarro Taño <andaniel05@gmail.com>
+ */
 interface ComponentInterface extends HtmlInterface
 {
     public function getAssets(): array;

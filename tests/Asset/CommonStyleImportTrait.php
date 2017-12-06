@@ -4,6 +4,9 @@ namespace Andaniel05\ComposedViews\Tests\Asset;
 
 use Andaniel05\ComposedViews\Asset\UriInterface;
 
+/**
+ * @author Andy Daniel Navarro Taño <andaniel05@gmail.com>
+ */
 trait CommonStyleImportTrait
 {
     public function testIsInstanceOfUriInterface()

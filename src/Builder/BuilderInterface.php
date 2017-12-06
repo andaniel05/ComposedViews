@@ -4,6 +4,9 @@ namespace Andaniel05\ComposedViews\Builder;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
+/**
+ * @author Andy Daniel Navarro Taño <andaniel05@gmail.com>
+ */
 interface BuilderInterface
 {
     public function setDispatcher(EventDispatcherInterface $dispatcher);

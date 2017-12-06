@@ -6,6 +6,9 @@ use Andaniel05\ComposedViews\Component\AbstractComponent;
 use Andaniel05\ComposedViews\Component\ComponentTreeTrait;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @author Andy Daniel Navarro Taño <andaniel05@gmail.com>
+ */
 class ComponentTreeTraitTest extends TestCase
 {
     public function setUp()

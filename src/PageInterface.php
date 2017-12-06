@@ -8,6 +8,9 @@ use Andaniel05\ComposedViews\Component\SidebarInterface;
 use Andaniel05\ComposedViews\Asset\AssetInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
+/**
+ * @author Andy Daniel Navarro Taño <andaniel05@gmail.com>
+ */
 interface PageInterface extends HtmlInterface
 {
     public function clone();

@@ -6,6 +6,9 @@ use PHPUnit\Framework\TestCase;
 use Andaniel05\ComposedViews\Builder\PageBuilder;
 use Andaniel05\ComposedViews\AbstractPage;
 
+/**
+ * @author Andy Daniel Navarro Taño <andaniel05@gmail.com>
+ */
 class PageBuilderTest extends TestCase
 {
     public function setUp()

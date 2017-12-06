@@ -6,6 +6,9 @@ use PHPUnit\Framework\TestCase;
 use Andaniel05\ComposedViews\Builder\BuilderInterface;
 use Andaniel05\ComposedViews\Builder\Event\BuilderEvent;
 
+/**
+ * @author Andy Daniel Navarro Taño <andaniel05@gmail.com>
+ */
 class BuilderEventTest extends TestCase
 {
     public function setUp()

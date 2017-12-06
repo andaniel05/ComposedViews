@@ -11,6 +11,9 @@ use Andaniel05\ComposedViews\Event\AfterDeletionEvent;
 use Andaniel05\ComposedViews\Component\AbstractComponent;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @author Andy Daniel Navarro Taño <andaniel05@gmail.com>
+ */
 class AbstractComponentTest extends TestCase
 {
     public function setUp()

@@ -7,6 +7,9 @@ use Andaniel05\ComposedViews\Asset\AbstractAsset;
 use Andaniel05\ComposedViews\Asset\AssetInterface;
 use Andaniel05\ComposedViews\HtmlElement\HtmlElement;
 
+/**
+ * @author Andy Daniel Navarro Taño <andaniel05@gmail.com>
+ */
 class AbstractAssetTest extends TestCase
 {
     public function setUp()

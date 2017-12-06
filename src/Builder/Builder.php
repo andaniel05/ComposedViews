@@ -8,6 +8,9 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 use Andaniel05\ComposedViews\Builder\Event\BuilderEvent;
 use Andaniel05\ComposedViews\Component\ComponentInterface;
 
+/**
+ * @author Andy Daniel Navarro Taño <andaniel05@gmail.com>
+ */
 class Builder implements BuilderInterface
 {
     protected $dispatcher;

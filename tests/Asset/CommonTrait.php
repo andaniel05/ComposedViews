@@ -2,6 +2,9 @@
 
 namespace Andaniel05\ComposedViews\Tests\Asset;
 
+/**
+ * @author Andy Daniel Navarro Taño <andaniel05@gmail.com>
+ */
 trait CommonTrait
 {
     public function setUp()

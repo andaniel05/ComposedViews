@@ -6,6 +6,9 @@ namespace Andaniel05\ComposedViews\Builder\Event;
 use Symfony\Component\EventDispatcher\Event;
 use Andaniel05\ComposedViews\Builder\BuilderInterface;
 
+/**
+ * @author Andy Daniel Navarro Taño <andaniel05@gmail.com>
+ */
 class BuilderEvent extends Event
 {
     protected $element;

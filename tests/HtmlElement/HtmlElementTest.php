@@ -6,6 +6,9 @@ use PHPUnit\Framework\TestCase;
 use Andaniel05\ComposedViews\HtmlElement\HtmlElement;
 use Andaniel05\ComposedViews\HtmlElement\HtmlElementInterface;
 
+/**
+ * @author Andy Daniel Navarro Taño <andaniel05@gmail.com>
+ */
 class HtmlElementTest extends TestCase
 {
     public function setUp()

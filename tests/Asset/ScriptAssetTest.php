@@ -6,6 +6,9 @@ use PHPUnit\Framework\TestCase;
 use Andaniel05\ComposedViews\Asset\ScriptAsset;
 use Andaniel05\ComposedViews\Asset\UriInterface;
 
+/**
+ * @author Andy Daniel Navarro Taño <andaniel05@gmail.com>
+ */
 class ScriptAssetTest extends TestCase
 {
     use CommonTrait;

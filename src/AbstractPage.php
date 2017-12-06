@@ -16,6 +16,9 @@ use Andaniel05\ComposedViews\Component\ComponentTreeTrait;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
+/**
+ * @author Andy Daniel Navarro Taño <andaniel05@gmail.com>
+ */
 abstract class AbstractPage implements PageInterface
 {
     use CloningTrait;

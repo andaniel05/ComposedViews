@@ -6,6 +6,9 @@ use PHPUnit\Framework\TestCase;
 use Andaniel05\ComposedViews\Asset\AssetsTrait;
 use Andaniel05\ComposedViews\Asset\AbstractAsset;
 
+/**
+ * @author Andy Daniel Navarro Taño <andaniel05@gmail.com>
+ */
 class AssetsTraitTest extends TestCase
 {
     public function testGetAssetsReturnAnEmptyArrayByDefault()

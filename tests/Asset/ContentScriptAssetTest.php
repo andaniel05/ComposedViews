@@ -5,6 +5,9 @@ namespace Andaniel05\ComposedViews\Tests\Asset;
 use PHPUnit\Framework\TestCase;
 use Andaniel05\ComposedViews\Asset\ContentScriptAsset;
 
+/**
+ * @author Andy Daniel Navarro Taño <andaniel05@gmail.com>
+ */
 class ContentScriptAssetTest extends TestCase
 {
     use CommonTrait;

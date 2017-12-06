@@ -5,6 +5,9 @@ namespace Andaniel05\ComposedViews\Event;
 
 use Symfony\Component\EventDispatcher\Event;
 
+/**
+ * @author Andy Daniel Navarro Taño <andaniel05@gmail.com>
+ */
 class FilterAssetsEvent extends Event
 {
     protected $assets;

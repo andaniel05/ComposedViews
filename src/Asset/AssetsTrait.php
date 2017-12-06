@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace Andaniel05\ComposedViews\Asset;
 
+/**
+ * @author Andy Daniel Navarro Taño <andaniel05@gmail.com>
+ */
 trait AssetsTrait
 {
     protected $assets = [];

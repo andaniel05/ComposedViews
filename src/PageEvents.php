@@ -2,6 +2,9 @@
 
 namespace Andaniel05\ComposedViews;
 
+/**
+ * @author Andy Daniel Navarro Taño <andaniel05@gmail.com>
+ */
 final class PageEvents
 {
     const FILTER_ASSETS = 'page.filter_assets';

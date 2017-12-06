@@ -12,6 +12,9 @@ use Andaniel05\ComposedViews\Event\BeforeDeletionEvent;
 use Andaniel05\ComposedViews\Event\AfterDeletionEvent;
 use Andaniel05\ComposedViews\Traits\CloningTrait;
 
+/**
+ * @author Andy Daniel Navarro Taño <andaniel05@gmail.com>
+ */
 abstract class AbstractComponent implements ComponentInterface
 {
     use AssetsTrait;

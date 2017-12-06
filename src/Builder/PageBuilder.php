@@ -7,6 +7,9 @@ use Andaniel05\ComposedViews\PageInterface;
 use Andaniel05\ComposedViews\Builder\Event\BuilderEvent;
 use Andaniel05\ComposedViews\Component\ComponentInterface;
 
+/**
+ * @author Andy Daniel Navarro Taño <andaniel05@gmail.com>
+ */
 class PageBuilder extends Builder
 {
     public function __construct()

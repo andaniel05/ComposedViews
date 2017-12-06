@@ -5,6 +5,9 @@ namespace Andaniel05\ComposedViews\Asset;
 
 use Andaniel05\ComposedViews\HtmlElement\HtmlElement;
 
+/**
+ * @author Andy Daniel Navarro Taño <andaniel05@gmail.com>
+ */
 abstract class AbstractAsset extends HtmlElement implements AssetInterface
 {
     protected $id;

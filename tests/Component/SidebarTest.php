@@ -6,6 +6,9 @@ use Andaniel05\ComposedViews\Component\AbstractComponent;
 use Andaniel05\ComposedViews\Component\Sidebar;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @author Andy Daniel Navarro Taño <andaniel05@gmail.com>
+ */
 class SidebarTest extends TestCase
 {
     public function testGetIdReturnIdArgument()
