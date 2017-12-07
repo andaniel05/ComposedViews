@@ -62,4 +62,15 @@ class PageBuilder extends Builder
             }
         }
     }
+
+    public function buildPage(string $xml)
+    {
+        $page = $this->build($xml);
+
+        if (! $page instanceof PageInterface) {
+            throw new Exception\InvalidPageException;
+        }
+
+        return $page;
+    }
 }

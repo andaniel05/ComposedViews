@@ -4,6 +4,7 @@ namespace Andaniel05\ComposedViews\Tests\Builder;
 
 use PHPUnit\Framework\TestCase;
 use Andaniel05\ComposedViews\Builder\PageBuilder;
+use Andaniel05\ComposedViews\PageInterface;
 use Andaniel05\ComposedViews\AbstractPage;
 
 /**
@@ -112,5 +113,30 @@ XML;
         $this->assertEquals($page->sidebar2, $page->component4->getParent());
         $this->assertEquals($page->component4, $page->component5->getParent());
         $this->assertEquals($page->component5, $page->component6->getParent());
+    }
+
+    public function testBuildPageReturnResultOfBuildMethod()
+    {
+        $page = $this->createMock(PageInterface::class);
+        $xml = uniqid();
+
+        $builder = $this->getMockBuilder(PageBuilder::class)
+            ->setMethods(['build'])
+            ->getMock();
+        $builder->expects($this->once())
+            ->method('build')
+            ->with($this->equalTo($xml))
+            ->willReturn($page);
+
+        $this->assertEquals($page, $builder->buildPage($xml));
+    }
+
+    /**
+     * @expectedException Andaniel05\ComposedViews\Builder\Exception\InvalidPageException
+     */
+    public function testBuildPageThrowInvalidPageExceptionIfBuildResultIsNotAnInstanceOfPageInterface()
+    {
+        $xml = '<component></component>';
+        $this->builder->buildPage($xml);
     }
 }
