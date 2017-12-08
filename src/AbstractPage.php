@@ -201,7 +201,7 @@ abstract class AbstractPage implements PageInterface
             }
         }
 
-        foreach ($this->filterAssetsUri() as $assetId => $uri) {
+        foreach ($this->filterAssetsUri() as $id => $uri) {
             $asset = $result[$id] ?? null;
             if ($asset instanceof UriInterface) {
                 $asset->setUri($uri);
