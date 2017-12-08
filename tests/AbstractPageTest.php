@@ -1346,6 +1346,13 @@ class AbstractPageTest extends TestCase
         $this->page->renderAsset(uniqid());
     }
 
+    public function testRenderAssetDoNotThrowAssetNotFoundExceptionIfRequiredArgumentIsFalse()
+    {
+        $this->assertEmpty(
+            $this->page->renderAsset(uniqid(), false)
+        );
+    }
+
     public function testRenderAssetReturnHtmlViewOfTheAsset()
     {
         $id = uniqid();

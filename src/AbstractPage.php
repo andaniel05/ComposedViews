@@ -234,14 +234,18 @@ abstract class AbstractPage implements PageInterface
         }
     }
 
-    public function renderAsset(string $assetId): string
+    public function renderAsset(string $assetId, bool $required = true): string
     {
         $asset = $this->getAsset($assetId);
 
         if ($asset instanceof AssetInterface) {
             return $asset->html();
         } else {
-            throw new AssetNotFoundException($assetId);
+            if ($required) {
+                throw new AssetNotFoundException($assetId);
+            } else {
+                return '';
+            }
         }
     }
 
