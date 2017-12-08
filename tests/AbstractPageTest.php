@@ -8,6 +8,7 @@ use Andaniel05\ComposedViews\Event\FilterAssetsEvent;
 use Andaniel05\ComposedViews\Component\AbstractComponent;
 use Andaniel05\ComposedViews\Component\Sidebar;
 use Andaniel05\ComposedViews\Asset\AbstractAsset;
+use Andaniel05\ComposedViews\Asset\ScriptAsset;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -1371,5 +1372,22 @@ class AbstractPageTest extends TestCase
         $this->page->setBasePath($basePath);
 
         $this->assertEquals($basePath, $this->page->basePath());
+    }
+
+    public function testFilterAssetsUriMethod()
+    {
+        $assetId = uniqid('asset');
+        $asset = new ScriptAsset($assetId, uniqid('uri'));
+        $uri = uniqid('uri');
+
+        $page = $this->getMockBuilder(AbstractPage::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getAllAssets', 'filterAssetsUri'])
+            ->getMockForAbstractClass();
+        $page->method('getAllAssets')->willReturn([$assetId => $asset]);
+        $page->method('filterAssetsUri')->willReturn([$assetId => $uri]);
+        $page->__construct();
+
+        $this->assertEquals($uri, $page->getAssets()[$assetId]->getUri());
     }
 }

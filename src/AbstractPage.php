@@ -6,6 +6,7 @@ namespace Andaniel05\ComposedViews;
 use Andaniel05\ComposedViews\Event\FilterAssetsEvent;
 use Andaniel05\ComposedViews\Asset\AssetsTrait;
 use Andaniel05\ComposedViews\Asset\AssetInterface;
+use Andaniel05\ComposedViews\Asset\UriInterface;
 use Andaniel05\ComposedViews\Traits\CloningTrait;
 use Andaniel05\ComposedViews\Exception\AssetNotFoundException;
 use Andaniel05\ComposedViews\Exception\ComponentNotFoundException;
@@ -45,6 +46,11 @@ abstract class AbstractPage implements PageInterface
 
         $this->basePath = $basePath;
         $this->dispatcher = $dispatcher ?? new EventDispatcher();
+    }
+
+    protected function filterAssetsUri(): array
+    {
+        return [];
     }
 
     protected function initializeVars(): void
@@ -192,6 +198,13 @@ abstract class AbstractPage implements PageInterface
         if ($markUsage) {
             foreach ($result as $id => $asset) {
                 $asset->setUsed(true);
+            }
+        }
+
+        foreach ($this->filterAssetsUri() as $assetId => $uri) {
+            $asset = $result[$id] ?? null;
+            if ($asset instanceof UriInterface) {
+                $asset->setUri($uri);
             }
         }
 
