@@ -41,7 +41,7 @@ interface PageInterface extends HtmlInterface
 
     public function renderSidebar(string $sidebarId): string;
 
-    public function renderAsset(string $assetId, bool $required = true): string;
+    public function renderAsset(string $assetId, bool $required = true, bool $markUsage = true): string;
 
     public function getOrderedAssets(): array;
 

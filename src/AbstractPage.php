@@ -234,11 +234,15 @@ abstract class AbstractPage implements PageInterface
         }
     }
 
-    public function renderAsset(string $assetId, bool $required = true): string
+    public function renderAsset(string $assetId, bool $required = true, bool $markUsage = true): string
     {
         $asset = $this->getAsset($assetId);
 
         if ($asset instanceof AssetInterface) {
+            if ($markUsage) {
+                $asset->setUsed(true);
+            }
+
             return $asset->html();
         } else {
             if ($required) {

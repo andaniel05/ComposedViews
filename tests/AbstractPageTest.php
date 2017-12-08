@@ -1373,6 +1373,42 @@ class AbstractPageTest extends TestCase
         $this->assertEquals($html, $page->renderAsset($id));
     }
 
+    public function testRenderAssetMarkUsageByDefault()
+    {
+        $id = uniqid('asset');
+        $asset = $this->getMockForAbstractClass(AbstractAsset::class, [$id]);
+
+        $page = $this->getMockBuilder(AbstractPage::class)
+            ->setMethods(['getAsset'])
+            ->getMockForAbstractClass();
+        $page->expects($this->once())
+            ->method('getAsset')
+            ->with($this->equalTo($id))
+            ->willReturn($asset);
+
+        $page->renderAsset($id);
+
+        $this->assertTrue($asset->isUsed());
+    }
+
+    public function testRenderAssetDoNotMarkUsageIfMarkUsageArgumentIsFalse()
+    {
+        $id = uniqid('asset');
+        $asset = $this->getMockForAbstractClass(AbstractAsset::class, [$id]);
+
+        $page = $this->getMockBuilder(AbstractPage::class)
+            ->setMethods(['getAsset'])
+            ->getMockForAbstractClass();
+        $page->expects($this->once())
+            ->method('getAsset')
+            ->with($this->equalTo($id))
+            ->willReturn($asset);
+
+        $page->renderAsset($id, true, false);
+
+        $this->assertFalse($asset->isUsed());
+    }
+
     public function testSetBasePath()
     {
         $basePath = uniqid();
