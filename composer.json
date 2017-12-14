@@ -8,7 +8,7 @@
         }
     ],
     "require": {
-        "php": ">=7.1.0",
+        "php": ">=7.1.1",
         "myclabs/deep-copy": "^1.5",
         "symfony/event-dispatcher": "^3.2"
     },
