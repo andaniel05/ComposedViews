@@ -20,15 +20,23 @@ class SidebarTest extends TestCase
         $this->assertEquals($sidebarId, $sidebar->getId());
     }
 
-    public function testHtml_ReturnTheRenderizeChildrenResult()
+    public function testTheHtmlHasAContainer()
     {
-        $html = uniqid();
+        $id = uniqid();
+        $childrenHtml = uniqid();
         $sidebar = $this->getMockBuilder(Sidebar::class)
-            ->setConstructorArgs(['sidebar'])
+            ->setConstructorArgs([$id])
             ->setMethods(['renderizeChildren'])
             ->getMock();
-        $sidebar->method('renderizeChildren')->willReturn($html);
+        $sidebar->method('renderizeChildren')->willReturn($childrenHtml);
 
-        $this->assertEquals($html, $sidebar->html());
+        $expectedXML = <<<XML
+<div id="cv-sidebar-{$id}" class="cv-sidebar cv-sidebar-{$id}">
+    {$childrenHtml}
+</div>
+XML;
+        $this->assertXmlStringEqualsXmlString(
+            $expectedXML, $sidebar->html()
+        );
     }
 }

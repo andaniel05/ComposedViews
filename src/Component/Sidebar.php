@@ -10,6 +10,10 @@ class Sidebar extends AbstractComponent implements SidebarInterface
 {
     public function html(): ?string
     {
-        return $this->renderizeChildren();
+        return <<<HTML
+<div id="cv-sidebar-{$this->id}" class="cv-sidebar cv-sidebar-{$this->id}">
+    {$this->renderizeChildren()}
+</div>
+HTML;
     }
 }
