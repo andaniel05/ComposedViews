@@ -48,7 +48,7 @@ abstract class AbstractPage implements PageInterface
         $this->dispatcher = $dispatcher ?? new EventDispatcher();
     }
 
-    protected function filterAssetsUri(): array
+    protected function rewriteUri(): array
     {
         return [];
     }
@@ -201,7 +201,7 @@ abstract class AbstractPage implements PageInterface
             }
         }
 
-        foreach ($this->filterAssetsUri() as $id => $uri) {
+        foreach ($this->rewriteUri() as $id => $uri) {
             $asset = $result[$id] ?? null;
             if ($asset instanceof UriInterface) {
                 $asset->setUri($uri);

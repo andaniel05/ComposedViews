@@ -1417,7 +1417,7 @@ class AbstractPageTest extends TestCase
         $this->assertEquals($basePath, $this->page->basePath());
     }
 
-    public function testFilterAssetsUriMethod()
+    public function testRewriteUriMethod()
     {
         $assetId = uniqid('asset');
         $asset = new ScriptAsset($assetId, uniqid('uri'));
@@ -1425,10 +1425,10 @@ class AbstractPageTest extends TestCase
 
         $page = $this->getMockBuilder(AbstractPage::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getAllAssets', 'filterAssetsUri'])
+            ->setMethods(['getAllAssets', 'rewriteUri'])
             ->getMockForAbstractClass();
         $page->method('getAllAssets')->willReturn([$assetId => $asset]);
-        $page->method('filterAssetsUri')->willReturn([$assetId => $uri]);
+        $page->method('rewriteUri')->willReturn([$assetId => $uri]);
         $page->__construct();
 
         $this->assertEquals($uri, $page->getAssets()[$assetId]->getUri());
