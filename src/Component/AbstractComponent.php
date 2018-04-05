@@ -50,9 +50,13 @@ abstract class AbstractComponent implements ComponentInterface
         return $this->parent;
     }
 
-    public function setParent(?ComponentInterface $parent)
+    public function setParent(?ComponentInterface $parent, bool $addChild = true)
     {
         $this->parent = $parent;
+
+        if ($parent instanceof ComponentInterface && $addChild) {
+            $parent->addChild($this, false);
+        }
     }
 
     public function detach(): void
@@ -82,7 +86,7 @@ HTML;
         return $this->components;
     }
 
-    public function addChild(ComponentInterface $component)
+    public function addChild(ComponentInterface $component, bool $setParent = true)
     {
         if ($this->page instanceof PageInterface) {
             $beforeInsertionEvent = new BeforeInsertionEvent($this, $component);
@@ -94,7 +98,10 @@ HTML;
         }
 
         $this->components[$component->getId()] = $component;
-        $component->setParent($this);
+
+        if ($setParent) {
+            $component->setParent($this, false);
+        }
 
         if ($this->page instanceof PageInterface) {
             $afterInsertionEvent = new AfterInsertionEvent($this, $component);

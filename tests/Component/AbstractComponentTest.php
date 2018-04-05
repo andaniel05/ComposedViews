@@ -615,4 +615,46 @@ HTML;
 
         $this->assertEquals($id, $component->getId());
     }
+
+    public function testSetParentRegisterTheComponentAsChildOfTheParent()
+    {
+        $parent = $this->getMockForAbstractClass(
+            AbstractComponent::class, ['parent']
+        );
+        $child = $this->getMockForAbstractClass(
+            AbstractComponent::class, ['child']
+        );
+
+        $child->setParent($parent);
+
+        $this->assertEquals($child, $parent->getComponent('child'));
+    }
+
+    public function testSetParentNotRegisterTheComponentAsChildOfTheParentWhenSecondArgumentIsFalse()
+    {
+        $parent = $this->getMockForAbstractClass(
+            AbstractComponent::class, ['parent']
+        );
+        $child = $this->getMockForAbstractClass(
+            AbstractComponent::class, ['child']
+        );
+
+        $child->setParent($parent, false);
+
+        $this->assertNull($parent->getComponent('child'));
+    }
+
+    public function testAddChildDoNotRegisterTheParentOnTheChildWhenSecondArgumentIsFalse()
+    {
+        $parent = $this->getMockForAbstractClass(
+            AbstractComponent::class, ['parent']
+        );
+        $child = $this->getMockForAbstractClass(
+            AbstractComponent::class, ['child']
+        );
+
+        $parent->addChild($child, false);
+
+        $this->assertNull($child->getParent());
+    }
 }
