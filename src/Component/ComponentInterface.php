@@ -24,7 +24,7 @@ interface ComponentInterface extends HtmlInterface
 
     public function getParent(): ?ComponentInterface;
 
-    public function setParent(?ComponentInterface $parent);
+    public function setParent(?ComponentInterface $parent, bool $addChild = true);
 
     public function detach(): void;
 
@@ -32,7 +32,7 @@ interface ComponentInterface extends HtmlInterface
 
     public function getChildren(): array;
 
-    public function addChild(ComponentInterface $component);
+    public function addChild(ComponentInterface $component, bool $setParent = true);
 
     public function dropChild(string $id, bool $notifyChild = true);
 
